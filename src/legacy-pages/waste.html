@@ -1,0 +1,2233 @@
+<div class="page-container">
+    <!--banner區域-->
+    <header class="top-banner">
+      <div class="top-banner-content">
+        <div class="banner-main-row">
+          <div class="hamburger" id="hamburgerBtn" role="button" tabindex="0" aria-label="開啟側邊選單" aria-expanded="false"
+            aria-controls="sideMenuDrawer">
+            <div class="hamburger-line"></div>
+            <div class="hamburger-line"></div>
+            <div class="hamburger-line"></div>
+          </div>
+
+          <div class="banner-brand-stack">
+            <img src="images/EIMP-banner.png" class="banner-logo" alt="EIMP 新北市環境資訊監控平台" />
+
+            <div class="banner-wrap" aria-hidden="true">
+              <img src="images/EIMP-banner-line-left.png" class="left-line" alt="" />
+              <div class="banner-text">
+                <h1>規劃介面</h1>
+              </div>
+              <img src="images/EIMP-banner-line-right.png" class="right-img" alt="" />
+            </div>
+          </div>
+        </div>
+
+        <nav class="banner-topic-nav" aria-label="主題切換">
+          <a class="hex-btn hex-btn-air " href="air.html">空</a>
+          <a class="hex-btn hex-btn-water " href="water.html">水</a>
+          <a class="hex-btn hex-btn-waste is-active" href="waste.html">廢</a>
+          <a class="hex-btn hex-btn-noise " href="noise.html">噪</a>
+        </nav>
+      </div>
+
+    </header>
+
+    <!-- 左側滑入選單（覆蓋整個畫面，含 banner） -->
+    <div id="sideMenuOverlay" class="side-menu-overlay" aria-hidden="true"></div>
+
+    <aside id="sideMenuDrawer" class="side-menu-drawer" aria-hidden="true">
+      <div class="side-menu-user">
+        <div class="side-menu-user-avatar" aria-hidden="true"></div>
+        <div class="side-menu-user-name" id="sideMenuUserName">林OO</div>
+      </div>
+
+      <div class="side-menu-divider" aria-hidden="true"></div>
+
+      <nav class="side-menu-nav" aria-label="使用者選單">
+        <button type="button" class="side-menu-item" id="profileMenuBtn" style="font-size: 20px;">變更基本資料</button>
+        <button type="button" class="side-menu-item" id="accountManageMenuBtn"
+          style="font-size: 20px; display: none;">帳號管理</button>
+        <button type="button" class="side-menu-item decision-menu-item" id="decisionMenuBtn"
+          style="font-size: 20px; display: none;" onclick="location.href='decision.html'">決策</button>
+        <button type="button" class="side-menu-item" id="logoutMenuBtn" style="font-size: 20px;">登出</button>
+      </nav>
+
+      <div class="side-menu-footer">
+        <div class="side-menu-footer-title">新北市環境資訊監控平台</div>
+        <div class="side-menu-footer-text">- 承辦窗口：(02)2953-2111#3062</div>
+        <div class="side-menu-footer-text">- 系統客服：(02)2361-1999#452</div>
+        <div class="side-menu-footer-copy">Copyright © 2025 新北市政府環境保護局</div>
+      </div>
+    </aside>
+
+
+    <section id="profileDrawerPanel" class="profile-drawer-panel" aria-hidden="true">
+      <div class="profile-drawer-shell">
+        <div class="profile-drawer-close-mask" id="profileCloseMask" aria-hidden="true"></div>
+
+        <div class="profile-drawer-content">
+          <button type="button" class="profile-drawer-close-btn" id="profileCloseBtn" aria-label="關閉基本資料視窗">
+            <span></span>
+            <span></span>
+          </button>
+
+          <div class="profile-drawer-page">
+            <div class="profile-title-row">
+              <h1 class="profile-page-title">變更基本資料</h1>
+              <button type="button" id="switchAccountBtn" class="profile-switch-link">切換帳號身分</button>
+            </div>
+
+            <div class="profile-card">
+              <div class="profile-form-grid">
+                <div class="profile-form-left">
+                  <div class="profile-field-row">
+                    <label class="profile-label profile-required" for="accountInput">帳號</label>
+                    <input id="accountInput" class="profile-input profile-input-readonly" type="text" value="EIMPtest"
+                      readonly />
+                  </div>
+
+                  <div class="profile-field-row">
+                    <label class="profile-label profile-required" for="companyInput">申請單位</label>
+                    <input id="companyInput" class="profile-input profile-input-readonly" type="text" value="第一稽查分隊"
+                      readonly />
+                  </div>
+
+                  <div class="profile-field-row">
+                    <label class="profile-label profile-required" for="nameInput">申請人姓名</label>
+                    <input id="nameInput" class="profile-input profile-input-editable" type="text" value="林OO" />
+                  </div>
+
+                  <div class="profile-field-row">
+                    <label class="profile-label profile-required" for="jobTitleInput">職稱</label>
+                    <input id="jobTitleInput" class="profile-input profile-input-editable" type="text" value="職稱測試01" />
+                  </div>
+
+                  <div class="profile-field-row">
+                    <label class="profile-label profile-required" for="phoneInput">連絡電話</label>
+                    <input id="phoneInput" class="profile-input profile-input-editable" type="text" value="12345678" />
+                  </div>
+
+                  <div class="profile-field-row">
+                    <label class="profile-label profile-required" for="emailInput">E-mail</label>
+                    <input id="emailInput" class="profile-input profile-input-editable" type="email"
+                      value="nswoa562401@eri.com.tw" />
+                  </div>
+
+                  <div class="profile-action-row">
+                    <button type="button" class="profile-pill-btn" id="saveProfileBtn">儲存變更</button>
+                  </div>
+                </div>
+
+                <div class="profile-password-card">
+                  <h2 class="profile-password-title">變更密碼</h2>
+
+                  <div class="profile-field-row profile-password-row">
+                    <label class="profile-label profile-required" for="oldPasswordInput">舊密碼</label>
+                    <div class="profile-password-input-wrap">
+                      <input id="oldPasswordInput" class="profile-input profile-input-editable profile-password-input"
+                        type="password" placeholder="請輸入舊密碼" />
+                      <button type="button" class="password-toggle-btn" data-target="oldPasswordInput"
+                        aria-label="顯示或隱藏舊密碼">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                          <path d="M3 3l18 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                          <path d="M10.58 10.58a2 2 0 102.83 2.83" stroke="currentColor" stroke-width="1.8"
+                            stroke-linecap="round" />
+                          <path
+                            d="M9.88 5.09A10.94 10.94 0 0112 4c5.23 0 9.27 3.44 10.5 8-1.01 3.73-3.89 6.65-7.49 7.71M6.5 6.67C4.54 8 3.26 9.84 2.5 12c.52 1.93 1.53 3.69 2.93 5.12A10.94 10.94 0 0012 20c1.27 0 2.49-.22 3.62-.62"
+                            stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="profile-field-row profile-password-row">
+                    <label class="profile-label profile-required" for="newPasswordInput">新密碼</label>
+                    <div class="profile-password-input-wrap">
+                      <input id="newPasswordInput" class="profile-input profile-input-editable profile-password-input"
+                        type="password" placeholder="請輸入新密碼" />
+                      <button type="button" class="password-toggle-btn" data-target="newPasswordInput"
+                        aria-label="顯示或隱藏新密碼">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                          <path d="M3 3l18 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                          <path d="M10.58 10.58a2 2 0 102.83 2.83" stroke="currentColor" stroke-width="1.8"
+                            stroke-linecap="round" />
+                          <path
+                            d="M9.88 5.09A10.94 10.94 0 0112 4c5.23 0 9.27 3.44 10.5 8-1.01 3.73-3.89 6.65-7.49 7.71M6.5 6.67C4.54 8 3.26 9.84 2.5 12c.52 1.93 1.53 3.69 2.93 5.12A10.94 10.94 0 0012 20c1.27 0 2.49-.22 3.62-.62"
+                            stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="profile-password-action">
+                    <button type="button" class="profile-pill-btn" id="changePasswordBtn">密碼變更</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-drawer-page account-manage-page" id="accountManageListPage" hidden>
+            <h1 class="profile-page-title">帳號管理</h1>
+
+            <div class="account-manage-toolbar">
+              <div class="account-manage-search-wrap">
+                <input id="accountManageSearchInput" class="account-manage-search-input" type="text"
+                  placeholder="搜尋：帳號、姓名、單位......" />
+                <button type="button" class="account-manage-search-btn" id="accountManageSearchBtn">搜尋</button>
+              </div>
+              <button type="button" class="account-manage-add-btn" id="accountManageAddBtn">＋ 新增帳號</button>
+            </div>
+
+            <div class="account-manage-table-card">
+              <table class="account-manage-table">
+                <thead>
+                  <tr>
+                    <th>序</th>
+                    <th>帳號</th>
+                    <th>所屬單位</th>
+                    <th>姓名</th>
+                    <th>log紀錄</th>
+                    <th>管理</th>
+                  </tr>
+                </thead>
+                <tbody id="accountManageTableBody"></tbody>
+              </table>
+            </div>
+
+            <div class="account-manage-pagination">
+              <button type="button" class="account-manage-page-arrow">◀</button>
+              <span class="account-manage-page-index">1</span>
+              <button type="button" class="account-manage-page-arrow">▶</button>
+            </div>
+          </div>
+
+          <div class="profile-drawer-page account-manage-page" id="accountManageDetailPage" hidden>
+            <h1 class="profile-page-title">帳號管理</h1>
+
+            <div class="account-detail-card">
+              <div class="account-detail-grid">
+                <div class="account-detail-form">
+                  <div class="account-detail-field-row">
+                    <label class="account-detail-label account-detail-required" for="manageAccountInput">帳號</label>
+                    <input id="manageAccountInput" class="account-detail-input account-detail-input-readonly"
+                      type="text" readonly />
+                  </div>
+
+                  <div class="account-detail-field-row">
+                    <label class="account-detail-label account-detail-required" for="manageCompanyInput">申請單位</label>
+                    <input id="manageCompanyInput" class="account-detail-input" type="text" readonly />
+                  </div>
+
+                  <div class="account-detail-field-row">
+                    <label class="account-detail-label account-detail-required" for="manageNameInput">申請人姓名</label>
+                    <input id="manageNameInput" class="account-detail-input" type="text" readonly />
+                  </div>
+
+                  <div class="account-detail-field-row">
+                    <label class="account-detail-label account-detail-required" for="manageJobInput">職稱</label>
+                    <input id="manageJobInput" class="account-detail-input" type="text" readonly />
+                  </div>
+
+                  <div class="account-detail-field-row">
+                    <label class="account-detail-label account-detail-required" for="managePhoneInput">連絡電話</label>
+                    <input id="managePhoneInput" class="account-detail-input" type="text" readonly />
+                  </div>
+
+                  <div class="account-detail-field-row">
+                    <label class="account-detail-label account-detail-required" for="manageEmailInput">E-mail</label>
+                    <input id="manageEmailInput" class="account-detail-input" type="email" readonly />
+                  </div>
+                </div>
+
+                <div class="account-detail-side">
+                  <div class="account-detail-permission-card">
+                    <div class="account-detail-permission-title">權限設定</div>
+
+                    <label class="account-detail-check-row">
+                      <span class="account-detail-check-label">帳號權限</span>
+                      <span class="account-detail-check-control">
+                        <input id="manageAdminCheckbox" type="checkbox" disabled />
+                        <span>管理者</span>
+                      </span>
+                    </label>
+
+                    <label class="account-detail-check-row">
+                      <span class="account-detail-check-label">帳號狀態</span>
+                      <span class="account-detail-check-control">
+                        <input id="manageEnabledCheckbox" type="checkbox" disabled />
+                        <span>啟用</span>
+                      </span>
+                    </label>
+                  </div>
+
+                  <div class="account-detail-action-row">
+                    <button type="button" class="account-detail-back-btn" id="accountDetailBackBtn">回上一頁</button>
+                    <button type="button" class="account-detail-save-btn" id="accountDetailSaveBtn">儲存變更</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!--儀表板區域-->
+    <main class="main-layout">
+      <section class="left-column">
+        <!-- 空氣污染陳情 -->
+        <article class="panel air-panel">
+          <div class="panel-header">
+            <div class="panel-icon-left">
+              <div class="panel-circle">
+                <img src="images/card-circle.png" alt="Panel Icon" />
+              </div>
+              <div class="panel-title-text">
+                <h2 class="panel-title">非法棄置點資料</h2>
+              </div>
+            </div>
+            <div class="panel-icon-right">
+              <img src="images/card-bar.png" alt="More" />
+            </div>
+          </div>
+
+          <!--<div class="panel-body">
+              <div class="panel-body-row">
+                <span class="panel-body-title">時間</span>
+                <span class="panel-body-title">狀態</span>
+                <span class="panel-body-address">地址</span>
+              </div>
+              <hr style="border-color: #497782" />
+              <div id="airCasesContainer"></div>
+            </div>-->
+        </article>
+
+        <!-- 火災報案 -->
+        <article class="panel fire-panel">
+          <div class="panel-header">
+            <div class="panel-icon-left">
+              <div class="panel-circle">
+                <img src="images/card-circle.png" alt="Panel Icon" />
+              </div>
+              <div class="panel-title-text">
+                <h2 class="panel-title">案件重點進度</h2>
+              </div>
+            </div>
+            <div class="panel-icon-right">
+              <img src="images/card-bar.png" alt="More" />
+            </div>
+          </div>
+
+          <!--<div class="panel-body">
+              <div class="panel-body-row">
+                <span class="panel-body-title">時間</span>
+                <span class="panel-body-title">類型</span>
+                <span class="panel-body-address">地址</span>
+              </div>
+              <hr style="border-color: #497782" />
+              <div id="fireCasesContainer"></div>
+            </div>-->
+        </article>
+
+        <!-- AQI -->
+        <article class="panel panel-large">
+          <div class="panel-header">
+            <div class="panel-icon-left">
+              <div class="panel-circle">
+                <img src="images/card-circle.png" alt="Panel Icon" />
+              </div>
+              <div class="panel-title-text">
+                <h2 class="panel-title">廢棄物數量變化</h2>
+              </div>
+            </div>
+            <div class="panel-icon-right">
+              <img src="images/card-bar.png" alt="More" />
+            </div>
+          </div>
+
+          <div class="panel-body" style="text-align: center; font-size: 16px">
+            請選擇廢棄物點位
+          </div>
+        </article>
+
+
+        <section aria-hidden="true" class="business-detail-panel" id="businessDetailPanel">
+          <div class="permit-modal">
+            <div class="permit-header">
+              <div class="permit-title" id="businessDetailTitle">新北市○○股份有限公司</div>
+              <button aria-label="關閉事業詳細資料" class="permit-close" id="businessDetailCloseBtn" type="button">×</button>
+            </div>
+            <div class="permit-meta">
+              <span class="permit-meta-label">資料：</span>
+              <div class="permit-select">
+                <select id="businessPermitTypeSelect">
+                  <option value="water">水污染許可資料</option>
+                  <option value="toxic">毒化物許可資料</option>
+                  <!--<option value="CEMS">CEMS</option>-->
+                  <!--<option value="CWMS">CWMS</option>-->
+                </select>
+              </div>
+              <span class="permit-meta-label" style="padding-left: 20px;">事業類型：</span>
+              <span class="permit-meta-label" data-field="businessLabel" style="font-size: 14px;"></span>
+            </div>
+            <div class="permit-separator"></div>
+            <div class="permit-body">
+              <div class="accordion-wrapper" id="businessWaterAccordion"></div>
+              <template id="businessWaterTemplateGeneral">
+                <div class="accordion-item active">
+                  <button class="accordion-header">壹、申請項目<span class="note">（本表不列入核准登記事項）</span></button>
+                  <div class="accordion-content">
+                    <div class="form-card">
+                      <div class="form-row form-row-header">
+                        <div class="form-cell">一、共同申請者</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">名稱</div>
+                        <div class="form-cell" data-field="otherBusinessName" style="flex: 2.1;">-</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">管制編號</div>
+                        <div class="form-cell" data-field="otherControlNo" style="flex: 2.1;">-</div>
+                      </div>
+                      <div class="form-row form-row-header">
+                        <div class="form-cell">二、許可證</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">申請類別</div>
+                        <div class="form-cell" style="flex: 2.1;">
+                          <div class="check-line">
+                            <label class="check-item"><span class="check-box"></span>水污染防治措施計畫</label>
+                            <label class="check-item"><span class="check-box checked"></span>簡易排放許可文件</label>
+                            <label class="check-item"><span class="check-box"></span>土壤處理許可證</label>
+                            <label class="check-item"><span class="check-box"></span>排放地面水體許可證</label>
+                            <label class="check-item"><span class="check-box"></span>貯留許可文件</label>
+                            <!--<label class="check-item"><span class="check-box"></span>稀釋許可文件</label>-->
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">許可證字號</div>
+                        <div class="form-cell" data-field="waterPermitNo" style="flex: 2.1;">-</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">有效時間</div>
+                        <div class="form-cell" data-field="permitTime" style="flex: 2.1;">-</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">申請時間</div>
+                        <div class="form-cell" data-field="applyTime" style="flex: 2.1;">-</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">廢(污)水產生與水污染防治措施流向示意圖</div>
+                        <div class="form-cell" style="flex: 2.1;"><a href="/廢(污)水產生與水污染防治措施流向示意圖.pdf"
+                            target="_blank">另開視窗</a></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                  <button class="accordion-header">貳、基本資料表</button>
+                  <div class="accordion-content">
+                    <div class="form-card basic-card">
+                      <div class="form-row form-row-header">
+                        <div class="form-cell">一、事業或污水下水道系統名稱及地址或座落位置</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">名稱</div>
+                        <div class="form-cell" data-field="businessName" style="flex: 2.1;">-</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">管制編號</div>
+                        <div class="form-cell" style="flex: 2.1;">-</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">座落位置地址</div>
+                        <div class="form-cell" data-field="address" style="flex: 2.1;">-</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">座落位置地號</div>
+                        <div class="form-cell" data-field="landNo" style="flex: 2.1;">-</div>
+                      </div>
+                      <div class="form-row coord-row">
+                        <div class="form-cell label2">大門口座標(TWD97)</div>
+                        <div class="form-cell value-block multiline" style="flex: 2.1;">
+                          <div class="value-line">東向座標：<span data-field="gateTwdX">-</span></div>
+                          <div class="value-line">北向座標：<span data-field="gateTwdY">-</span></div>
+                        </div>
+                      </div>
+                      <div class="form-row coord-row">
+                        <div class="form-cell label2">大門口座標(WGS84)</div>
+                        <div class="form-cell value-block multiline" style="flex: 2.1;">
+                          <div class="value-line">緯度：<span data-field="lat">-</span></div>
+                          <div class="value-line">經度：<span data-field="lng">-</span></div>
+                        </div>
+                      </div>
+                      <div class="form-row coord-row">
+                        <div class="form-cell label2">放流口座標(TWD97)</div>
+                        <div class="form-cell value-block multiline" style="flex: 2.1;">
+                          <div class="value-line">排放地面水體放流口編號：<span data-field="outletCode">D01</span></div>
+                          <div class="value-line">東向座標：<span data-field="outletTwdX">-</span></div>
+                          <div class="value-line">北向座標：<span data-field="outletTwdY">-</span></div>
+                        </div>
+                      </div>
+                      <div class="form-row coord-row">
+                        <div class="form-cell label2">放流口座標(WGS84)</div>
+                        <div class="form-cell value-block multiline" style="flex: 2.1;">
+                          <div class="value-line">排放地面水體放流口編號：<span data-field="outletCodeWgs">D01</span></div>
+                          <div class="value-line">緯度：<span data-field="outletLat">-</span></div>
+                          <div class="value-line">經度：<span data-field="outletLng">-</span></div>
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">是否位於工業區</div>
+                        <div class="form-cell" style="flex: 2.1;">
+                          <label class="check-item"><span class="check-box"></span>是，工業區代碼：</label>
+                          <label class="check-item"><span class="check-box checked"></span>否</label>
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">事業或污水下水道系統別代碼</div>
+                        <div class="form-cell" style="flex-direction: column; display: block; flex: 2.1;">
+                          <div class="value-line">主業別：</div>
+                          <div class="value-line">子業別：</div>
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">主計處行業別代碼</div>
+                        <div class="form-cell" style="flex: 2.1;">-</div>
+                      </div>
+                      <div class="form-row form-row-header">
+                        <div class="form-cell">二、主管機關或目的事業主管機關核發之相關許可、登記、執照或其他證明文件</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">統一編號</div>
+                        <div class="form-cell" data-field="inspectManageNo" style="flex: 2.1;">-</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">工廠登記證號</div>
+                        <div class="form-cell" data-field="factoryLicenseNo" style="flex: 2.1;">-</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">牧場登記證號</div>
+                        <div class="form-cell" data-field="factoryLicenseNo" style="flex: 2.1;">-</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                  <button class="accordion-header">參、水污染防治措施資料</button>
+                  <div class="accordion-content">
+                    <div class="form-card water-card">
+                      <div class="form-row form-row-header">
+                        <div class="form-cell">一、用水來源種類</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2"></div>
+                        <div class="form-cell label2" style="flex: 2.1;">核准量(立方公尺/每日)</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2" style="flex-direction: column;">(一)總用水量<br />
+                          <span style="font-size: 12px;"> =(二)+(三)+(四)+(五)+(六)</span>
+                        </div>
+                        <div class="form-cell" style="flex: 2.1; justify-content: center;">-</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">(二)自來水</div>
+                        <div class="form-cell" style="flex: 2.1; justify-content: center;">-</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">(三)地下水</div>
+                        <div class="form-cell" style="flex: 2.1; justify-content: center;">-</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">(四)河湖海水</div>
+                        <div class="form-cell" style="flex: 2.1; justify-content: center;">-</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">(五)再生水</div>
+                        <div class="form-cell" style="flex: 2.1; justify-content: center;">-</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">(六)其他</div>
+                        <div class="form-cell" style="flex: 2.1; justify-content: center;">-</div>
+                      </div>
+                      <div class="form-row form-row-header">
+                        <div class="form-cell">二、生產或服務規模資料</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">類別</div>
+                        <div class="form-cell label2">名稱</div>
+                        <div class="form-cell label2">核准量</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell center">原料量</div>
+                        <div class="form-cell">[050002]天然氣</div>
+                        <div class="form-cell" style="justify-content: center;">-</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell center">原料量</div>
+                        <div class="form-cell">[180240]硬脂酸鎂</div>
+                        <div class="form-cell" style="justify-content: center;">-</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell center">產品量</div>
+                        <div class="form-cell">[200034]西藥膠囊劑</div>
+                        <div class="form-cell" style="justify-content: center;">-</div>
+                      </div>
+                      <div class="form-row form-row-header">
+                        <div class="form-cell">三、原廢(污)水水量、水質資料</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">原廢(污)水編號</div>
+                        <div class="form-cell" style="flex: 2.1;">-</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">原廢(污)水來源</div>
+                        <div class="form-cell" style="flex: 2.1; flex-direction: column; display: block;">
+                          <div class="check-item" style="padding-bottom: 0.5em;"><span
+                              class="check-box checked"></span>作業廢水</div>
+                          <div style="font-size: 12px;">
+                            依水污染防治措施及檢測申報管理辦法第49條之9規定應分流收集處理者，需勾選下列廢水類別：
+                          </div>
+                          <div style="text-indent: 2em; padding-top: 1em; font-size: 12px;">
+                            1.晶圓製造及半導體製造業、光電材料及元件製造業及印刷電路板製造業：
+                          </div>
+                          <div class="check-line" style="margin-left: 2em;">
+                            <label class="check-item2" style="font-size: 12px;"><span
+                                class="check-box"></span>研磨或切割廢水</label>
+                            <label class="check-item2" style="font-size: 12px;"><span
+                                class="check-box"></span>氟系(含氟)廢水</label>
+                            <label class="check-item2" style="font-size: 12px;"><span
+                                class="check-box"></span>氫氧化四甲基胺(TMAH)有機廢水</label>
+                            <label class="check-item2" style="font-size: 12px;"><span
+                                class="check-box"></span>氰系(含氰)廢水</label>
+                            <label class="check-item2" style="font-size: 12px;"><span
+                                class="check-box"></span>鉻系(含鉻)廢水</label>
+                            <label class="check-item2" style="font-size: 12px;"><span
+                                class="check-box"></span>銅系(含銅)廢水</label>
+                            <label class="check-item2" style="font-size: 12px;"><span
+                                class="check-box"></span>其他：</label>
+                          </div>
+                          <div style="text-indent: 2em; padding-top: 1em; font-size: 12px;">2.電鍍業及金屬表面處理業：</div>
+                          <div class="check-line" style="margin-left: 2em;">
+                            <label class="check-item2" style="font-size: 12px;"><span
+                                class="check-box"></span>氰系(含氰)廢水</label>
+                            <label class="check-item2" style="font-size: 12px;"><span
+                                class="check-box"></span>鉻系(含鉻)廢水</label>
+                            <label class="check-item2" style="font-size: 12px;"><span
+                                class="check-box"></span>其他：</label>
+                          </div>
+                          <div style="padding-top: 1em; font-size: 12px;">
+                            其他非水污染防治措施及檢測申報管理辦法第49條之9規定對象，自行分流收集處理者，須勾選下列廢水類別：
+                          </div>
+                          <div class="check-line" style="margin-left: 2em;">
+                            <label class="check-item2" style="font-size: 12px;"><span
+                                class="check-box"></span>研磨或切割廢水</label>
+                            <label class="check-item2" style="font-size: 12px;"><span
+                                class="check-box"></span>氟系(含氟)廢水</label>
+                            <label class="check-item2" style="font-size: 12px;"><span
+                                class="check-box"></span>氫氧化四甲基胺(TMAH)有機廢水</label>
+                            <label class="check-item2" style="font-size: 12px;"><span
+                                class="check-box"></span>氰系(含氰)廢水</label>
+                            <label class="check-item2" style="font-size: 12px;"><span
+                                class="check-box"></span>鉻系(含鉻)廢水</label>
+                            <label class="check-item2" style="font-size: 12px;"><span
+                                class="check-box"></span>銅系(含銅)廢水</label>
+                            <label class="check-item2" style="font-size: 12px;"><span
+                                class="check-box"></span>其他：</label>
+                          </div>
+                          <div class="check-item" style="padding-top: 0.5em;"><span class="check-box"></span>洩放廢水</div>
+                          <div class="check-item" style="padding-top: 0.5em;"><span class="check-box"></span>未接觸冷卻水
+                          </div>
+                          <div class="check-item" style="padding-top: 0.5em;"><span class="check-box"></span>逕流廢水</div>
+                          <div class="check-item" style="padding-top: 0.5em;"><span class="check-box"></span>污水</div>
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">原廢(污)水產生之每日最大量</div>
+                        <div class="form-cell-combine">
+                          <div class="form-cell label2">核准量</div>
+                          <div class="form-cell" style="justify-content: center;">-</div>
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">水質項目</div>
+                        <div class="form-cell label2" style="flex: 2.1;">數值</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell center">水溫(攝氏)</div>
+                        <div class="form-cell center" style="flex: 2.1;">15~ 35</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell center">pH值</div>
+                        <div class="form-cell center" style="flex: 2.1;">6~ 9</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell center">生化需氧量(mg/L)</div>
+                        <div class="form-cell center" style="flex: 2.1;">220</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell center">化學需氧量(mg/L)</div>
+                        <div class="form-cell center" style="flex: 2.1;">450</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell center">懸浮固體(mg/L) </div>
+                        <div class="form-cell center" style="flex: 2.1;">280</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell center">大腸桿菌群CFU/100ML </div>
+                        <div class="form-cell center" style="flex: 2.1;">50000000</div>
+                      </div>
+                      <div class="form-row form-row-header">
+                        <div class="form-cell">四、以餘裕量受託處理資料</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2" style="justify-content: left;">(一)收受來源相關資料</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">名稱</div>
+                        <div class="form-cell" style="justify-content: center; flex: 2.1;">-</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">管制編號</div>
+                        <div class="form-cell" style="justify-content: center; flex: 2.1;">-</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">事業或系統別代碼</div>
+                        <div class="form-cell" style="justify-content: center; flex: 2.1;">-</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">來源代碼</div>
+                        <div class="form-cell" style="justify-content: center; flex: 2.1;">-</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">核准量<br />(立方公尺/每日)</div>
+                        <div class="form-cell" style="flex: 2.1; justify-content: center;">-</div>
+                      </div>
+                      <div class="form-row form-row-header">
+                        <div class="form-cell">五、貯留廢(污)水來源及水量</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">貯留來源水流編號</div>
+                        <div class="form-cell label2" style="flex: 2.1;">核准量(立方公尺/日)</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell center">-</div>
+                        <div class="form-cell center" style="flex: 2.1;">-</div>
+                      </div>
+                      <div class="form-row form-row-header">
+                        <div class="form-cell">六、海洋放流管線資料</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">放水水量</div>
+                        <div class="form-cell label2" style="flex: 2.1;">核准量(立方公尺/日)</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell center">-</div>
+                        <div class="form-cell center" style="flex: 2.1;">-</div>
+                      </div>
+                      <div class="form-row form-row-header">
+                        <div class="form-cell">七、排放地面水體放流口資料表</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">配置設施</div>
+                        <div class="form-cell-combine">
+                          <div class="form-cell label2">放流口編號(不含逕流廢水放流口)</div>
+                          <div class="form-cell" style="justify-content: center;">-</div>
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">排放情形及最終排放之承受水體</div>
+                        <div class="form-cell-combine">
+                          <div class="form-cell label2">承受水體名稱</div>
+                          <div class="form-cell" style="justify-content: center;">-</div>
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2" style="justify-content: left;">(一)較放流水標準加嚴之水質項目與限值</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">水質項目</div>
+                        <div class="form-cell label2">限值</div>
+                        <div class="form-cell label2">單位</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell center">-</div>
+                        <div class="form-cell center">-</div>
+                        <div class="form-cell center">-</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell label2">排放水量<br />(立方公尺/每日)</div>
+                        <div class="form-cell label2" style="flex: 2.1;">核准量</div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-cell center">-</div>
+                        <div class="form-cell center" style="flex: 2.1;">-</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </template>
+            </div>
+
+            <template id="businessWaterTemplateLivestock">
+              <div class="accordion-item active">
+                <button class="accordion-header">壹、申請項目<span class="note">（本表不列入核准登記事項）</span></button>
+                <div class="accordion-content">
+                  <div class="form-card">
+                    <div class="form-row form-row-header">
+                      <div class="form-cell">一、聯絡人及方式</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">姓名</div>
+                      <div class="form-cell" data-field="leaderName" style="flex: 2.1;">-</div>
+                    </div>
+                    <div class="form-row form-row-header">
+                      <div class="form-cell">二、許可證</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">申請類別</div>
+                      <div class="form-cell" style="flex: 2.1;">
+                        <div class="check-line">
+                          <label class="check-item"><span class="check-box"></span>水污染防治措施計畫</label>
+                          <label class="check-item"><span class="check-box checked"></span>簡易排放許可文件</label>
+                          <label class="check-item"><span class="check-box"></span>土壤處理許可證</label>
+                          <label class="check-item"><span class="check-box"></span>排放地面水體許可證</label>
+                          <label class="check-item"><span class="check-box"></span>貯留許可文件</label>
+                          <label class="check-item"><span class="check-box"></span>稀釋許可文件</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">許可證字號</div>
+                      <div class="form-cell" data-field="waterPermitNo" style="flex: 2.1;">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">有效時間</div>
+                      <div class="form-cell" data-field="permitTime" style="flex: 2.1;">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">申請時間</div>
+                      <div class="form-cell" data-field="applyTime" style="flex: 2.1;">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">採樣位置示意圖</div>
+                      <div class="form-cell" style="flex: 2.1;"><a href="/採樣位置示意圖.pdf" target="_blank">另開視窗</a></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <button class="accordion-header">貳、基本資料表</button>
+                <div class="accordion-content">
+                  <div class="form-card basic-card">
+                    <div class="form-row form-row-header">
+                      <div class="form-cell">一、事業名稱及地址或座落位置</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">名稱</div>
+                      <div class="form-cell" data-field="businessName" style="flex: 2.1;">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">管制編號</div>
+                      <div class="form-cell" data-field="controlNo" style="flex: 2.1;">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">座落位置地址</div>
+                      <div class="form-cell" data-field="address" style="flex: 2.1;">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">座落位置地號</div>
+                      <div class="form-cell" data-field="landNo" style="flex: 2.1;">-</div>
+                    </div>
+                    <div class="form-row coord-row">
+                      <div class="form-cell label2">大門口座標(TWD97)</div>
+                      <div class="form-cell value-block multiline" style="flex: 2.1;">
+                        <div class="value-line">東向座標：<span data-field="gateTwdX">-</span></div>
+                        <div class="value-line">北向座標：<span data-field="gateTwdY">-</span></div>
+                      </div>
+                    </div>
+                    <div class="form-row coord-row">
+                      <div class="form-cell label2">大門口座標(WGS84)</div>
+                      <div class="form-cell value-block multiline" style="flex: 2.1;">
+                        <div class="value-line">緯度：<span data-field="lat">-</span></div>
+                        <div class="value-line">經度：<span data-field="lng">-</span></div>
+                      </div>
+                    </div>
+                    <div class="form-row coord-row">
+                      <div class="form-cell label2">放流口座標(TWD97)</div>
+                      <div class="form-cell value-block multiline" style="flex: 2.1;">
+                        <div class="value-line">擬流廢水放流口：<span data-field="outletCode">D01</span></div>
+                        <div class="value-line">東向座標：<span data-field="outletTwdX">-</span></div>
+                        <div class="value-line">北向座標：<span data-field="outletTwdY">-</span></div>
+                      </div>
+                    </div>
+                    <div class="form-row coord-row">
+                      <div class="form-cell label2">放流口座標(WGS84)</div>
+                      <div class="form-cell value-block multiline" style="flex: 2.1;">
+                        <div class="value-line">擬流廢水放流口：<span data-field="outletCodeWgs">D01</span></div>
+                        <div class="value-line">緯度：<span data-field="outletLat">-</span></div>
+                        <div class="value-line">經度：<span data-field="outletLng">-</span></div>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">事業別</div>
+                      <div class="form-cell" data-field="businessCategory" style="flex: 2.1;">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">主計處行業別</div>
+                      <div class="form-cell" data-field="industryName" style="flex: 2.1;">-</div>
+                    </div>
+                    <div class="form-row form-row-header">
+                      <div class="form-cell">二、主管機關或目的事業主管機關核發之相關許可、登記、執照或其他證明文件</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">統一編號</div>
+                      <div class="form-cell" data-field="inspectManageNo" style="flex: 2.1;">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">牧場或禽畜飼養登記證號</div>
+                      <div class="form-cell" data-field="stockNo" style="flex: 2.1;">-</div>
+                    </div>
+                    <!--<div class="form-row">
+                          <div class="form-cell label">其他證明文件字號</div>
+                          <div class="form-cell" id="detailotherLincenseNo">-</div>
+                        </div>-->
+                    <!--<div class="form-row form-row-header">
+                          <div class="form-cell">三、許可證</div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-cell label">許可證字號</div>
+                          <div class="form-cell" data-field="inspectManageNo">-</div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-cell label">有效時間</div>
+                          <div class="form-cell" data-field="factoryLicenseNo">-</div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-cell label">申請時間</div>
+                          <div class="form-cell" data-field="regulatedType">-</div>
+                        </div>-->
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <button class="accordion-header">參、水污染防治措施資料</button>
+                <div class="accordion-content">
+                  <div class="form-card water-card">
+                    <!--<div class="form-row form-row-title">
+                          <div class="form-cell">※ 水污染許可資料摘要</div>
+                        </div>-->
+                    <div class="form-row form-row-header">
+                      <div class="form-cell">一、每日最大飼養量</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">飼養種類</div>
+                      <div class="form-cell" style="flex: 2.1;">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">申請量</div>
+                      <div class="form-cell" data-field="applyCount" style="flex: 2.1;">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">核准量</div>
+                      <div class="form-cell" data-field="permitCount" style="flex: 2.1;">-</div>
+                    </div>
+                    <div class="form-row form-row-header">
+                      <div class="form-cell">二、每日最大廢(污)水生產量(立方公尺/日)</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2"></div>
+                      <div class="form-cell span-label">以設計值80%申請<br />(立方公尺/日)</div>
+                      <div class="form-cell span-label">核准量</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">(一)自行產生之總(污)水量</div>
+                      <div class="form-cell center">8.8</div>
+                      <div class="form-cell center">8.8</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">(二)受妥處理之總廢(污)水量</div>
+                      <div class="form-cell center">-</div>
+                      <div class="form-cell center">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">(三)集運處理小型畜牧場之畜牧糞尿總量</div>
+                      <div class="form-cell center">-</div>
+                      <div class="form-cell center">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">(四)合計=(一)+(二)+(三)</div>
+                      <div class="form-cell center">8.8</div>
+                      <div class="form-cell center">8.8</div>
+                    </div>
+                    <div class="form-row form-row-header">
+                      <div class="form-cell">三、畜牧廢水資源化處理措施</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell"><label class="check-item2" style="font-weight: 600px;"><span
+                            class="check-box"></span>新設飼養豬隻或牛隻之畜牧業</label></div>
+                      <div class="form-cell-combine">
+                        <div class="box-column">
+                          <div class="form-cell center" style="font-size: 14px;">既設飼養豬隻或牛隻之畜牧業</div>
+                          <div class="form-row">
+                            <div class="form-cell center" style="font-size: 14px;">第一階段</div>
+                            <div class="form-cell center" style="font-size: 14px;">第二階段</div>
+                          </div>
+                          <div class="form-row">
+                            <div class="form-cell center"><label class="check-item2"><span
+                                  class="check-box checked"></span>豬2000頭以上或牛500頭以上(111年)</label></div>
+                            <div class="form-cell center"><label class="check-item2"><span
+                                  class="check-box"></span>豬2000頭以上或牛500頭以上(116年)</label></div>
+                          </div>
+                          <div class="form-row">
+                            <div class="form-cell center"><label class="check-item2"><span
+                                  class="check-box"></span>豬20~2000頭或牛40~500頭(114年)</label></div>
+                            <div class="form-cell center"><label class="check-item2"><span
+                                  class="check-box"></span>豬20~2000頭或牛40~500頭(118年)</label></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2" style="font-size: 14px; justify-content: left;">(一)應符合畜牧廢水資源化處理比率(%)
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell center" style="font-size: 14px;">10%</div>
+                      <div class="form-cell center" style="font-size: 14px;">5%</div>
+                      <div class="form-cell center" style="font-size: 14px;">10%</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2" style="font-size: 14px; justify-content: left;">(二)應符合畜牧廢水資源化處理廢污水量
+                        <span>(立方公尺/每日)</span>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell center" style="font-size: 14px;">0.88</div>
+                      <div class="form-cell center" style="font-size: 14px;">0.44</div>
+                      <div class="form-cell center" style="font-size: 14px;">0.88</div>
+                    </div>
+                    <div class="form-row form-row-header">
+                      <div class="form-cell">四、回收、貯留、委託水量</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2" style="font-size: 14px;"></div>
+                      <div class="form-cell label2" style="font-size: 14px;">每日最大量<br />(立方公尺/每日)</div>
+                      <div class="form-cell label2" style="font-size: 14px;">核准量<br />(立方公尺/每日)</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2" style="font-size: 14px;">(一)貯留水量合計</div>
+                      <div class="form-cell center" style="font-size: 14px;">-</div>
+                      <div class="form-cell center" style="font-size: 14px;">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2" style="font-size: 14px;">(二)回收水量合計</div>
+                      <div class="form-cell center" style="font-size: 14px;">-</div>
+                      <div class="form-cell center" style="font-size: 14px;">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2" style="font-size: 14px;">(三)委託處理水量合計</div>
+                      <div class="form-cell center" style="font-size: 14px;">-</div>
+                      <div class="form-cell center" style="font-size: 14px;">-</div>
+                    </div>
+                    <div class="form-row form-row-header">
+                      <div class="form-cell">五、原廢(污)水水質</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2" style="font-size: 14px;">水溫(攝氏)</div>
+                      <div class="form-cell center" style="font-size: 14px; flex: 2.1;">20~35</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2" style="font-size: 14px;">pH值</div>
+                      <div class="form-cell center" style="font-size: 14px; flex: 2.1;">6~9</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2" style="font-size: 14px;">生化需氧量(mg/L)</div>
+                      <div class="form-cell center" style="font-size: 14px; flex: 2.1;">5000</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2" style="font-size: 14px;">化學需氧量(mg/L)</div>
+                      <div class="form-cell center" style="font-size: 14px; flex: 2.1;">12000</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2" style="font-size: 14px;">懸浮固體(mg/L)</div>
+                      <div class="form-cell center" style="font-size: 14px; flex: 2.1;">9000</div>
+                    </div>
+                    <div class="form-row form-row-header">
+                      <div class="form-cell">六、廢(污)水處理及流向(設置廢(污)水(前)處理設施者應填寫)</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2" style="font-size: 14px; flex:2.2;">單位名稱</div>
+                      <div class="form-cell label2" style="font-size: 14px;">代碼</div>
+                      <div class="form-cell label2" style="font-size: 14px;">數量</div>
+                      <div class="form-cell label2" style="font-size: 14px;">停留時間(hr)</div>
+                      <div class="form-cell label2" style="font-size: 14px;">單位序號</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell center" style="font-size: 14px; flex:2.2; flex-direction: column;">
+                        調勻站<br /><span style="font-size: 12px;">(廢水調整池)</span></div>
+                      <div class="form-cell center" style="font-size: 14px;">106</div>
+                      <div class="form-cell center" style="font-size: 14px;">1</div>
+                      <div class="form-cell center" style="font-size: 14px;">12</div>
+                      <div class="form-cell center" style="font-size: 14px;">1</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell center" style="font-size: 14px; flex:2.2;">固液分離裝置</div>
+                      <div class="form-cell center" style="font-size: 14px;">113</div>
+                      <div class="form-cell center" style="font-size: 14px;">1</div>
+                      <div class="form-cell center" style="font-size: 14px;">-</div>
+                      <div class="form-cell center" style="font-size: 14px;">2</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell center" style="font-size: 14px; flex:2.2; flex-direction: column;">
+                        傳統厭氣池<br />
+                        <label class="check-item2" style="font-size: 12px;">
+                          <span class="check-box"></span>沼氣收集袋座</label>
+                        <label class="check-item2" style="font-size: 12px;">
+                          <span class="check-box checked"></span>沼氣貯存槽座</label>
+                      </div>
+                      <div class="form-cell center" style="font-size: 14px;">211</div>
+                      <div class="form-cell center" style="font-size: 14px;">3</div>
+                      <div class="form-cell center" style="font-size: 14px;">242</div>
+                      <div class="form-cell center" style="font-size: 14px;">3~5</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell center" style="font-size: 14px; flex-direction: column; flex:2.2;">活性污泥池
+                        <br />
+                        <span style="font-size: 12px;">(活性污泥曝氣池)<br />(操作參數SV30:25)</span>
+                      </div>
+                      <div class="form-cell center" style="font-size: 14px;">211</div>
+                      <div class="form-cell center" style="font-size: 14px;">3</div>
+                      <div class="form-cell center" style="font-size: 14px;">242</div>
+                      <div class="form-cell center" style="font-size: 14px;">3~5</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell center" style="font-size: 14px; flex:2.2;">最終沉澱池(槽)</div>
+                      <div class="form-cell center" style="font-size: 14px;">208</div>
+                      <div class="form-cell center" style="font-size: 14px;">2</div>
+                      <div class="form-cell center" style="font-size: 14px;">28</div>
+                      <div class="form-cell center" style="font-size: 14px;">6.7</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell center" style="font-size: 14px; flex:2.2;">污泥曬乾床</div>
+                      <div class="form-cell center" style="font-size: 14px;">507</div>
+                      <div class="form-cell center" style="font-size: 14px;">1</div>
+                      <div class="form-cell center" style="font-size: 14px;">2</div>
+                      <div class="form-cell center" style="font-size: 14px;">9</div>
+                    </div>
+                    <div class="form-row form-row-header">
+                      <div class="form-cell">七、放流口編號</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2" style="font-size: 14px;">承受水體名稱</div>
+                      <div class="form-cell center" style="font-size: 14px; flex: 2.1;">大漢溪</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">灌溉使用渠道</div>
+                      <div class="form-cell-combine">
+                        <div class="box-column">
+                          <div class="form-row">
+                            <div class="form-cell label2" style="font-size: 14px;">渠道名稱</div>
+                            <div class="form-cell center" style="font-size: 14px; flex: 2.1;">[9999]其他</div>
+                          </div>
+                          <div class="form-row">
+                            <div class="form-cell label2" style="font-size: 14px;">核准字號</div>
+                            <div class="form-cell center" style="font-size: 14px; flex: 2.1;">新農水管字12345678910號</div>
+                          </div>
+                          <div class="form-row">
+                            <div class="form-cell label2" style="font-size: 14px;">核發日期</div>
+                            <div class="form-cell center" style="font-size: 14px; flex: 2.1;">109年1月23號</div>
+                          </div>
+                          <div class="form-row">
+                            <div class="form-cell label2" style="font-size: 14px;">有效期限</div>
+                            <div class="form-cell center" style="font-size: 14px; flex: 2.1;">114年1月23號</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!--<div class="form-row">
+                          <div class="form-cell label2" style="font-size: 14px;">環評影響評估書件登載之承受水體</div>
+                          <div class="form-cell center" style="font-size: 14px; flex: 2.1;">大漢溪</div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-cell center">
+                            <label class="check-item2">
+                              <span class="check-box"></span>屬總量管制之承受水體
+                            </label>
+                          </div>
+                        </div>-->
+                    <div class="form-row">
+                      <div class="form-cell label2" style="font-size: 14px;">適用放流水標準行業別</div>
+                      <div class="form-cell center" style="font-size: 14px; flex: 2.1;">[402]畜牧業(草食性動物)</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2" style="font-size: 14px; flex-direction: column;">
+                        是否24小時連續排放<br /><br />
+                        <label class="check-item2"><span class="check-box"></span>是</label>
+                        <label class="check-item2"><span class="check-box checked"></span>否</label>
+                      </div>
+                      <div class="form-cell"
+                        style="font-size: 14px; flex: 2.1; flex-direction: column; align-items: flex-start;">
+                        <div class="check-item2" style="align-items: first baseline; text-align: left; "><span
+                            class="check-box checked"></span>固定時間排放<br />
+                          每天共排放O小時<br />
+                          每次排放間隔時間X小時<br />
+                          最常排放時段00:00~07:00
+                        </div>
+                        <div class="check-item2"
+                          style="align-items: first baseline; text-align: left; margin-top: 2px;"><span
+                            class="check-box"></span>非固定時間排放<br />
+                          控制操作說明：<br />
+                          本場每日最常於0:00~07:00不定時排放
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2" style="flex-direction: column;">每日最大排放水量
+                        <span style="font-size: 12px;">(立方公尺/每日)</span>
+                      </div>
+                      <div class="form-cell-combine">
+                        <div class="box-column">
+                          <div class="form-row">
+                            <div class="form-cell label2" style="font-size: 14px;">申請量以設計值80%申請</div>
+                            <div class="form-cell center" style="font-size: 14px; flex: 2.1;">8.8</div>
+                          </div>
+                          <div class="form-row">
+                            <div class="form-cell label2" style="font-size: 14px;">環境影響評估書件之排放水量</div>
+                            <div class="form-cell center" style="font-size: 14px; flex: 2.1;">-</div>
+                          </div>
+                          <div class="form-row">
+                            <div class="form-cell label2" style="font-size: 14px;">核准量</div>
+                            <div class="form-cell center" style="font-size: 14px; flex: 2.1;">8.8</div>
+                          </div>
+                          <div class="form-row">
+                            <div class="form-cell label2" style="font-size: 14px;">核准依據</div>
+                            <div class="form-cell center" style="font-size: 14px; flex: 2.1;">
+                              <div class="form-cell"
+                                style="font-size: 14px; flex: 2.1; flex-direction: column; align-items: flex-start;">
+                                <div class="check-item2" style="align-items: first baseline; text-align: left; "><span
+                                    class="check-box checked"></span>依審查辦法第38條第1項核准</div>
+                                <div class="check-item2"
+                                  style="align-items: first baseline; text-align: left; margin-top: 2px;"><span
+                                    class="check-box"></span>環境影響評估書件</div>
+                                <div class="check-item2"
+                                  style="align-items: first baseline; text-align: left; margin-top: 2px;"><span
+                                    class="check-box"></span>總量管制之污染分配量</div>
+                                <div class="check-item2"
+                                  style="align-items: first baseline; text-align: left; margin-top: 2px;"><span
+                                    class="check-box"></span>其他</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-row form-row-header">
+                      <div class="form-cell">八、排放口資料</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2" style="font-size: 14px;">(一)納入之污水下水道系統</div>
+                      <div class="form-cell-combine">
+                        <div class="form-row">
+                          <div class="form-cell label2" style="font-size: 14px; ">管制編號</div>
+                          <div class="form-cell center" style="font-size: 14px; flex: 2.1;">-</div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-cell label2" style="font-size: 14px;">名稱</div>
+                          <div class="form-cell center" style="font-size: 14px; flex: 2.1;">-</div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-cell label2" style="font-size: 14px;">代碼</div>
+                          <div class="form-cell center" style="font-size: 14px; flex: 2.1;">-</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2" style="font-size: 14px;">(二)排放口編號</div>
+                      <div class="form-cell center" style="font-size: 14px; flex: 2.1;">D</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2" style="font-size: 14px; flex-direction: column;">(三)納管水量
+                        <span style="font-size: 12px;">(立方公尺/每日)</span>
+                      </div>
+                      <div class="form-cell center" style="font-size: 14px; flex: 2.1;">-</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </template>
+            <template id="businessWaterTemplateCommunity">
+              <div class="accordion-item active">
+                <button class="accordion-header">壹、申請項目 <span class="note">（本表不列入核准登記事項）</span></button>
+                <div class="accordion-content">
+                  <div class="form-card">
+                    <!--<div class="form-row form-row-header">
+                          <div class="form-cell">一、聯絡人及方式</div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-cell label">姓名</div>
+                          <div class="form-cell" data-field="inspectManageNo">-</div>
+                        </div>-->
+                    <div class="form-row form-row-header">
+                      <div class="form-cell">一、許可證</div>
+                    </div>
+                    <!--<div class="form-row">
+                          <div class="form-cell label">系統名稱</div>
+                          <div class="form-cell" data-field="businessName">-</div>
+                          <div class="form-cell label">管制編號</div>
+                          <div class="form-cell" data-field="inspectManageNo">-</div>
+                        </div>-->
+                    <div class="form-row">
+                      <div class="form-cell label2">申請類別</div>
+                      <div class="form-cell" style="flex: 2.1;">
+                        <div class="check-line">
+                          <!--<label class="check-item"><span class="check-box"></span>水污染防治措施計畫</label>-->
+                          <label class="check-item"><span class="check-box checked"></span>簡易排放許可文件</label>
+                          <!--<label class="check-item"><span class="check-box"></span>土壤處理許可證</label>-->
+                          <label class="check-item"><span class="check-box"></span>排放地面水體許可證</label>
+                          <label class="check-item"><span class="check-box"></span>貯留許可文件</label>
+                          <!--<label class="check-item"><span class="check-box"></span>稀釋許可文件</label>-->
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">許可證字號</div>
+                      <div class="form-cell" data-field="waterPermitNo" style="flex: 2.1;">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">有效時間</div>
+                      <div class="form-cell" data-field="permitTime" style="flex: 2.1;">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">申請時間</div>
+                      <div class="form-cell" data-field="applyTime" style="flex: 2.1;">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">水質水量平衡示意圖</div>
+                      <div class="form-cell" style="flex:2.1;"><a href="/水質水量平衡示意圖.pdf" target="_blank">另開視窗</a></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <button class="accordion-header">貳、基本資料表</button>
+                <div class="accordion-content">
+                  <div class="form-card basic-card">
+                    <div class="form-row form-row-header">
+                      <div class="form-cell">一、事業名稱及地址或座落位置</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">系統名稱</div>
+                      <div class="form-cell" data-field="businessName" style="flex: 2.1;">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">管制編號</div>
+                      <div class="form-cell" data-field="controlNo" style="flex: 2.1;">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">系統地址</div>
+                      <div class="form-cell" data-field="address" style="flex: 2.1;">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">管理單位名稱</div>
+                      <div class="form-cell" data-field="manageName" style="flex: 2.1;">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">管理單位電話</div>
+                      <div class="form-cell" data-field="manageTel" style="flex: 2.1;">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">管理單位地址</div>
+                      <div class="form-cell" data-field="manageAddress" style="flex: 2.1;">-</div>
+                    </div>
+                    <div class="form-row coord-row">
+                      <div class="form-cell label2">大門口座標(TWD97)</div>
+                      <div class="form-cell value-block multiline" style="flex: 2.1;">
+                        <div class="value-line">東向座標：<span data-field="gateTwdX">-</span></div>
+                        <div class="value-line">北向座標：<span data-field="gateTwdY">-</span></div>
+                      </div>
+                    </div>
+                    <div class="form-row coord-row">
+                      <div class="form-cell label2">大門口座標(WGS84)</div>
+                      <div class="form-cell value-block multiline" style="flex: 2.1;">
+                        <div class="value-line">緯度：<span data-field="lat">-</span></div>
+                        <div class="value-line">經度：<span data-field="lng">-</span></div>
+                      </div>
+                    </div>
+                    <div class="form-row coord-row">
+                      <div class="form-cell label2">放流口座標(TWD97)</div>
+                      <div class="form-cell value-block multiline" style="flex: 2.1;">
+                        <div class="value-line">排放地面水體放流口：<span data-field="outletCode">D01</span></div>
+                        <div class="value-line">東向座標：<span data-field="outletTwdX">-</span></div>
+                        <div class="value-line">北向座標：<span data-field="outletTwdY">-</span></div>
+                      </div>
+                    </div>
+                    <div class="form-row coord-row">
+                      <div class="form-cell label2">放流口座標(WGS84)</div>
+                      <div class="form-cell value-block multiline" style="flex: 2.1;">
+                        <div class="value-line">排放地面水體放流口：<span data-field="outletCodeWgs">D01</span></div>
+                        <div class="value-line">緯度：<span data-field="outletLat">-</span></div>
+                        <div class="value-line">經度：<span data-field="outletLng">-</span></div>
+                      </div>
+                    </div>
+                    <div class="form-row coord-row">
+                      <div class="form-cell label2">放流口座標(TWD97)</div>
+                      <div class="form-cell value-block multiline" style="flex: 2.1;">
+                        <div class="value-line">逕流廢水放流口：<span data-field="outletCode">D01</span></div>
+                        <div class="value-line">東向座標：<span data-field="outletTwdX">-</span></div>
+                        <div class="value-line">北向座標：<span data-field="outletTwdY">-</span></div>
+                      </div>
+                    </div>
+                    <div class="form-row coord-row">
+                      <div class="form-cell label2">放流口座標(WGS84)</div>
+                      <div class="form-cell value-block multiline" style="flex: 2.1;">
+                        <div class="value-line">逕流廢水放流口：<span data-field="outletCodeWgs">D01</span></div>
+                        <div class="value-line">緯度：<span data-field="outletLat">-</span></div>
+                        <div class="value-line">經度：<span data-field="outletLng">-</span></div>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">管理單位負責人姓名</div>
+                      <div class="form-cell" style="flex: 2.1;">-</div>
+                    </div>
+                    <div class="form-row form-cell label">是否有放流口之放流水排入其他污水下水道系統</div>
+                    <div class="form-row">
+                      <div class="form-cell" style="margin-left: 18%;"><label class="check-item2"><span
+                            class="check-box checked"></span>否</label>
+                        <span style="display:inline-block; width:30%;"></span>
+                        <label class="check-item2"><span class="check-box"></span>是，該系統名稱：</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <button class="accordion-header">參、水污染防治措施資料</button>
+                <div class="accordion-content">
+                  <div class="form-card water-card">
+                    <!--<div class="form-row form-row-title">
+                          <div class="form-cell">※ 水污染許可資料摘要</div>
+                        </div>-->
+                    <div class="form-row form-row-header">
+                      <div class="form-cell">一、污水處理設施狀態與操作頻率</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">污水處理設施編號</div>
+                      <div class="form-cell" data-field="waterBusinessName" style="flex:2.1;">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">污水處理設施狀態</div>
+                      <div class="form-cell" data-field="waterControlNo" style="flex:2.1;">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">操作頻率</div>
+                      <div class="form-cell" data-field="waterAddress" style="flex:2.1;">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell">依申請每日處理最大水量及原廢(污)水水質，每日操作O小時</div>
+                    </div>
+                    <div class="form-row form-row-header">
+                      <div class="form-cell">二、污水來源</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">是否處理其他社區污水</div>
+                      <div class="form-cell" style="flex:2.1; flex-direction: column; display: block;">
+                        <div><span class="check-box checked"></span>否</div>
+                        <div><span class="check-box"></span>是，名稱：________，管制編號：_______</div>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">核准量</div>
+                      <div class="form-cell" style="flex-direction: column; flex:2.1;">
+                        <div class="form-cell">污水量OO(立方公尺/每日)<br />
+                          (包含本社區污水OO(立方公尺/每日)、其他社區污水XX(立方公尺/每日))</div>
+                      </div>
+                    </div>
+                    <div class="form-row form-row-header">
+                      <div class="form-cell">三、處理程序名稱</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2" style="flex: 1.6;">單元序列編號</div>
+                      <div class="form-cell label2">處理單元名稱(立方公尺/日)</div>
+                      <div class="form-cell label2">代碼</div>
+                      <div class="form-cell label2">停留時間(分)</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell center" style="flex: 1.6;">T01-1</div>
+                      <div class="form-cell center">-</div>
+                      <div class="form-cell center">-</div>
+                      <div class="form-cell center">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell center" style="flex: 1.6;">T01-2</div>
+                      <div class="form-cell center">-</div>
+                      <div class="form-cell center">-</div>
+                      <div class="form-cell center">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell center" style="flex: 1.6;">T01-3</div>
+                      <div class="form-cell center">-</div>
+                      <div class="form-cell center">-</div>
+                      <div class="form-cell center">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell center" style="flex: 1.6;">T01-4</div>
+                      <div class="form-cell center">-</div>
+                      <div class="form-cell center">-</div>
+                      <div class="form-cell center">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell center" style="flex: 1.6;">T01-5</div>
+                      <div class="form-cell center">-</div>
+                      <div class="form-cell center">-</div>
+                      <div class="form-cell center">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell center" style="flex: 1.6;">T01-6</div>
+                      <div class="form-cell center">-</div>
+                      <div class="form-cell center">-</div>
+                      <div class="form-cell center">-</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">有設置曝氣單元相關操作參數資料填寫<br />(無設置者免填寫)</div>
+                      <div class="form-cell" style="flex:2.1;">
+                        曝氣單元名稱：204接觸曝氣槽<br />
+                        曝氣量操作範圍：1～2<br />
+                        單位：[003] 毫克／公升<br />
+                        量測試計算方式：溶氧計<br />
+                        紀錄頻率：1次/日<br />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">有設置消毒單元相關操作參數資料填寫<br />(無設置者免填寫)</div>
+                      <div class="form-cell" style="flex:2.1;">
+                        消毒單元名稱：303消毒槽<br />
+                        消毒劑藥劑種類： [1213]氯錠<br />
+                        消毒劑藥劑濃度或純度(%)： 75%<br />
+                        加藥量操作範圍：1～2 單位： [075] 公斤／日<br />
+                        量測試計算方式：每月藥液損耗量（人工投藥（氯碇75％）÷31天<br />
+                        紀錄頻率：1次/日<br />
+                      </div>
+                    </div>
+                    <div class="form-row form-row-header">
+                      <div class="form-cell">四、放流口來源及排放量</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">放流水排放頻率<br /><br />排放方式<br /><br />排放時間</div>
+                      <div class="form-cell" style="flex:2.1; display: block; ">
+                        每月排放30日<br />
+                        非連續式<br />
+                        固定時間排放：每日共排放8 小時<br />
+                        最常排放時間：<br />
+                        <p style="margin-left: 10px;">
+                          (1) 06：00～08：00<br />
+                          (2) ：～：<br />
+                          (3) ：～：<br />
+                          (4) ：～：<br />
+                        </p>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">適用放流水標準行業別之名稱及代碼</div>
+                      <div class="form-cell" style="flex:2.1;"> [605-4]社區下水道其流量小於 250立方公尺／日 </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">承受水體</div>
+                      <div class="form-cell" style="flex:2.1;"> 名稱: 淡水河 <br />代碼:[ 114000 ] </div>
+                    </div>
+                    <div class="form-row form-row-header">
+                      <div class="form-cell">五、進流與出留污水設計資料</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2" style="justify-content: left;">(一)進流污水設計資料</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">水流編號</div>
+                      <div class="form-cell label2">水質項目</div>
+                      <div class="form-cell label2">濃度</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell center">WTB01</div>
+                      <div class="form-cell">[66]pH值</div>
+                      <div class="form-cell center">6～9</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell center">WTB02</div>
+                      <div class="form-cell">[65]水溫(攝氏)</div>
+                      <div class="form-cell center">20～25</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell center">WTB03</div>
+                      <div class="form-cell">[60]生化需氧量（mg/L）</div>
+                      <div class="form-cell center">220</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell center">WTB04</div>
+                      <div class="form-cell">[61]化學需氧量（mg/L）</div>
+                      <div class="form-cell center">450</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell center">WTB05</div>
+                      <div class="form-cell">[62]懸浮固體（mg/L）</div>
+                      <div class="form-cell center">220</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell center">WTB06</div>
+                      <div class="form-cell">[01]大腸桿菌群CFU/100ML</div>
+                      <div class="form-cell center">10000000</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2" style="justify-content: left;">(二)出流污水設計資料</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell label2">水流編號</div>
+                      <div class="form-cell label2">水質項目</div>
+                      <div class="form-cell label2">濃度</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell center">WTA01</div>
+                      <div class="form-cell">[66]pH值</div>
+                      <div class="form-cell center">6～9</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell center">WTA02</div>
+                      <div class="form-cell">[65]水溫(攝氏)</div>
+                      <div class="form-cell center">20～25</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell center">WTA03</div>
+                      <div class="form-cell">[60]生化需氧量（mg/L）</div>
+                      <div class="form-cell center">30</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell center">WTA04</div>
+                      <div class="form-cell">[61]化學需氧量（mg/L）</div>
+                      <div class="form-cell center">100</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell center">WTA05</div>
+                      <div class="form-cell">[62]懸浮固體（mg/L）</div>
+                      <div class="form-cell center">30</div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-cell center">WTA06</div>
+                      <div class="form-cell">[01]大腸桿菌群CFU/100ML</div>
+                      <div class="form-cell center">200000</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </template>
+          </div>
+
+          <div class="accordion-wrapper hidden" id="businessToxicAccordion">
+            <div class="accordion-item active">
+              <button class="accordion-header">壹、運作場所基本資料表</button>
+              <div class="accordion-content">
+                <div class="form-card basic-card">
+                  <div class="form-row form-row-header">
+                    <div class="form-cell">一、運作場所基本資料</div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-cell label2">名稱</div>
+                    <div class="form-cell" data-field="toxicBusinessName" style="flex: 2.1;">-</div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-cell label2">管制編號</div>
+                    <div class="form-cell" data-field="toxicControlNo" style="flex: 2.1;">-</div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-cell label2">統一編號</div>
+                    <div class="form-cell" data-field="toxicUnifiedNo" style="flex: 2.1;">-</div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-cell label2">地址</div>
+                    <div class="form-cell" data-field="toxicAddress" style="flex: 2.1;">-</div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-cell label2">行業別名稱</div>
+                    <div class="form-cell" data-field="toxicIndustryName" style="flex: 2.1;">-</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <button class="accordion-header">貳、運作人基本資料表</button>
+              <div class="accordion-content">
+                <div class="form-card basic-card">
+                  <div class="form-row form-row-header">
+                    <div class="form-cell">一、運作人基本資料</div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-cell label2">名稱</div>
+                    <div class="form-cell" data-field="toxicOperatorName" style="flex: 2.1;">-</div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-cell label2">管制編號</div>
+                    <div class="form-cell" data-field="controlNo2" style="flex: 2.1;">-</div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-cell label2">統一編號</div>
+                    <div class="form-cell" data-field="unifiedNo2" style="flex: 2.1;">-</div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-cell label2">地址</div>
+                    <div class="form-cell" data-field="address2" style="flex: 2.1;">-</div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-cell label2">毒化物列管編號</div>
+                    <div class="form-cell" data-field="toxicChemicalNo" style="flex: 2.1;">098-01</div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-cell label2">毒化物名稱</div>
+                    <div class="form-cell" data-field="toxicChemicalName" style="flex: 2.1;">二甲基甲醯胺</div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-cell label2">毒化物毒理資料</div>
+                    <div class="form-cell" style="flex: 2.1;"><span class="file-unavailable" aria-label="附件未提供">未提供</span></div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-cell label2">證件字號</div>
+                    <div class="form-cell" data-field="toxicPermitNo" style="flex: 2.1;">-</div>
+                  </div>
+                  <!--<div class="form-row">
+                          <div class="form-cell label2">核發日期</div>
+                          <div class="form-cell" style="flex: 2.1;" >-</div>
+                        </div>-->
+                  <div class="form-row">
+                    <div class="form-cell label2">有效日期</div>
+                    <div class="form-cell" data-field="toxicPermitTime" style="flex: 2.1;">-</div>
+                  </div>
+                </div>
+              </div>
+              <!--<div class="accordion-content2">
+                      <div class="form-card basic-card">
+                        <div class="form-row form-row-header">
+                          <div class="form-cell">※ 運作人基本資料</div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-cell label2">名稱</div>
+                          <div class="form-cell" style="flex: 2.1;" data-field="toxicOperatorName">-</div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-cell label2">管制編號</div>
+                          <div class="form-cell" style="flex: 2.1;">-</div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-cell label2">統一編號</div>
+                          <div class="form-cell" style="flex: 2.1;">-</div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-cell label2">地址</div>
+                          <div class="form-cell" style="flex: 2.1;">-</div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-cell label2">毒化物列管編號</div>
+                          <div class="form-cell" style="flex: 2.1;" data-field="toxicChemicalNo">072-01</div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-cell label2">毒化物名稱</div>
+                          <div class="form-cell" style="flex: 2.1;" data-field="toxicChemicalName">環氧氯丙烷</div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-cell label2">毒化物毒理資料</div>
+                          <div class="form-cell" style="flex: 2.1;"><span class="file-unavailable" aria-label="附件未提供">未提供</span></div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-cell label2">證件字號</div>
+                          <div class="form-cell" style="flex: 2.1;">-</div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-cell label2">核發日期</div>
+                          <div class="form-cell" style="flex: 2.1;">-</div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-cell label2">有效日期</div>
+                          <div class="form-cell" style="flex: 2.1;">-</div>
+                        </div>
+                      </div>
+                    </div>-->
+            </div>
+          </div>
+          <div class="accordion-wrapper hidden" id="businessCEMSAccordion">
+            <div class="accordion-item active" id="CEMSAccordion">
+              <button class="accordion-header">壹、CEMS 連續監測資料</button>
+              <div class="accordion-content">
+                <div class="btn-group cems-btn-area">
+                  <button class="c-btn tab-red business-cems-btn active" data-key="SOx" type="button">硫氧化物</button>
+                  <button class="c-btn tab-grey business-cems-btn" data-key="NOx" type="button">氮氧化物</button>
+                  <button class="c-btn tab-green business-cems-btn" data-key="PM" type="button">粒狀污染物</button>
+                </div>
+                <div class="cems-panel" id="businessCemsPanel">
+                  <div class="cems-panel-header">
+                    <div class="cems-panel-title">
+                      <span id="businessCemsPollutantName">SOx</span>
+                      排放標準值 <span id="businessCemsStandardValue">80</span> ppm
+                    </div>
+                  </div>
+                  <div class="cems-legend">
+                    <div class="cems-legend-item"><span class="cems-legend-box cems-legend-green"></span> 未超標</div>
+                    <div class="cems-legend-item"><span class="cems-legend-box cems-legend-gray"></span> 資料無效</div>
+                    <div class="cems-legend-item"><span class="cems-legend-box cems-legend-red"></span> 超標</div>
+                  </div>
+                  <div class="cems-stack-list" id="businessCemsStackList">
+                    <div class="cems-stack-row">
+                      <div class="cems-stack-tag tag-red">P001</div>
+                      <div class="cems-stack-info">
+                        <div class="cems-stack-title">監測值 <span class="cems-stack-value">92</span></div>
+                        <div class="cems-stack-text">主要排放煙道即時監測資料</div>
+                      </div>
+                    </div>
+                    <div class="cems-stack-row">
+                      <div class="cems-stack-tag tag-green">P002</div>
+                      <div class="cems-stack-info">
+                        <div class="cems-stack-title">監測值 <span class="cems-stack-value">58</span></div>
+                        <div class="cems-stack-text">備援煙道即時監測資料</div>
+                      </div>
+                    </div>
+                    <div class="cems-stack-row">
+                      <div class="cems-stack-tag tag-gray">P003</div>
+                      <div class="cems-stack-info">
+                        <div class="cems-stack-title">監測值 <span class="cems-stack-value">--</span></div>
+                        <div class="cems-stack-text">設備維護中</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="cems-note">■排放標準值包含固定污染源空氣污染物排放標準、環評承諾標準或地方加嚴標準等裁處依據。</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-wrapper hidden" id="businessCWMSAccordion">
+            <div class="accordion-item active" id="CWMSAccordion">
+              <button class="accordion-header">壹、CWMS 連續水質監測資料</button>
+              <div class="accordion-content">
+                <div class="btn-group cems-btn-area">
+                  <button class="c-btn tab-green business-cwms-btn active" data-key="PH" type="button">pH</button>
+                  <button class="c-btn tab-grey business-cwms-btn" data-key="COD" type="button">COD</button>
+                  <button class="c-btn tab-red business-cwms-btn" data-key="SS" type="button">SS</button>
+                </div>
+                <div class="cems-panel" id="businessCwmsPanel">
+                  <div class="cems-panel-header">
+                    <div class="cems-panel-title">
+                      <span id="businessCwmsPollutantName">pH</span>
+                      排放標準值 <span id="businessCwmsStandardValue">6-9</span> <span id="businessCwmsUnit"></span>
+                    </div>
+                  </div>
+                  <div class="cems-legend">
+                    <div class="cems-legend-item"><span class="cems-legend-box cems-legend-green"></span> 未超標</div>
+                    <div class="cems-legend-item"><span class="cems-legend-box cems-legend-gray"></span> 資料無效</div>
+                    <div class="cems-legend-item"><span class="cems-legend-box cems-legend-red"></span> 超標</div>
+                  </div>
+                  <div class="cems-stack-list" id="businessCwmsStackList">
+                    <div class="cems-stack-row">
+                      <div class="cems-stack-tag tag-green">W001</div>
+                      <div class="cems-stack-info">
+                        <div class="cems-stack-title">監測值 <span class="cems-stack-value">7.1</span> <span
+                            class="cems-stack-unit"></span></div>
+                        <div class="cems-stack-text">放流水監測井即時資料</div>
+                      </div>
+                    </div>
+                    <div class="cems-stack-row">
+                      <div class="cems-stack-tag tag-green">W002</div>
+                      <div class="cems-stack-info">
+                        <div class="cems-stack-title">監測值 <span class="cems-stack-value">108</span> <span
+                            class="cems-stack-unit">mg/L</span></div>
+                        <div class="cems-stack-text">處理設施出口即時資料</div>
+                      </div>
+                    </div>
+                    <div class="cems-stack-row">
+                      <div class="cems-stack-tag tag-gray">W003</div>
+                      <div class="cems-stack-info">
+                        <div class="cems-stack-title">監測值 <span class="cems-stack-value">--</span> <span
+                            class="cems-stack-unit"></span></div>
+                        <div class="cems-stack-text">設備維護中</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="cems-note">■化學需氧量與懸浮固體之監測記錄值，至少每小時傳輸 1 次。<br />■水量、氫離子濃度指數、水溫及導電度之監測記錄值，應每 5 分鐘傳輸 1 次以上。
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+
+
+      <section class="right-column">
+        <!-- 右側上方儀表板已移除，讓 GIS 地圖補滿空間 -->
+        <!-- 右下：地圖 -->
+        <div class="map-panel">
+          <div id="mapContainer"></div>
+
+          <!-- 地圖選項 -->
+          <div id="mapOptionsWrapper" class="map-options-wrapper">
+            <button id="mapOptionsTab" class="map-options-tab">
+              <div class="map-options-tab-icon">
+                <img src="images/setting.png" alt="地圖選項 icon" />
+              </div>
+              <div class="map-options-tab-text">地圖選項</div>
+            </button>
+
+            <div class="map-options-panel">
+              <div class="map-panel-inner">
+                <div class="basemap-row">
+                  <div class="basemap-label">底圖切換</div>
+                  <select id="basemapSelect" class="basemap-select">
+                    <option value="vector">電子地圖</option>
+                    <option value="orthophoto">正射影像圖</option>
+                  </select>
+                </div>
+
+                <!-- 圖層選項 -->
+                <div class="map-option-section">
+                  <div class="map-option-header" data-target="layerOptionsBody">
+                    <div class="map-option-header-title">圖層選項</div>
+                    <div class="map-option-toggle-box">
+                      <span class="map-option-toggle-icon">−</span>
+                    </div>
+                  </div>
+
+                  <div class="map-option-body active" id="layerOptionsBody">
+                    <div class="layer-list waste-layer-list">
+                      <div class="layer-row">
+                        <div class="layer-info">
+                          <div class="layer-icon layer-icon--illegal-dumping">
+                            <img src="images/marker.png" alt="非法棄置點資料 icon" />
+                          </div>
+                          <div class="layer-label">非法棄置點資料</div>
+                        </div>
+                        <label class="switch">
+                          <input type="checkbox" class="layer-toggle" data-layer="illegalDumping" checked />
+                          <span class="slider"></span>
+                        </label>
+                      </div>
+
+                      <div class="layer-row">
+                        <div class="layer-info">
+                          <div class="layer-icon">
+                            <img src="images/工廠許可.png" alt="非列管事業 icon" />
+                          </div>
+                          <div class="layer-label">非列管事業</div>
+                        </div>
+                        <label class="switch">
+                          <input type="checkbox" class="layer-toggle" data-layer="nonRegBusiness" checked />
+                          <span class="slider"></span>
+                        </label>
+                      </div>
+
+                      <div class="layer-row">
+                        <div class="layer-info">
+                          <div class="layer-icon">
+                            <img src="images/工廠許可(列管).png" alt="列管事業 icon" />
+                          </div>
+                          <div class="layer-label">列管事業</div>
+                        </div>
+                        <label class="switch">
+                          <input type="checkbox" class="layer-toggle" data-layer="regBusiness" checked />
+                          <span class="slider"></span>
+                        </label>
+                      </div>
+
+                      <div class="layer-row vehicle-layer-row" data-supervisor-only-layer="vehicle">
+                        <div class="layer-info">
+                          <div class="layer-icon">
+                            <img src="images/car.png" alt="車輛 icon" />
+                          </div>
+                          <div class="layer-label">車輛</div>
+                        </div>
+                        <label class="switch">
+                          <input type="checkbox" class="layer-toggle" data-layer="vehicle" checked />
+                          <span class="slider"></span>
+                        </label>
+                      </div>
+
+                      <div class="layer-row layer-row--camera">
+                        <div class="layer-info layer-info--camera">
+                          <div class="layer-icon">
+                            <img src="images/監視器.png" alt="即時影像 icon" />
+                          </div>
+                          <div class="layer-label">即時影像</div>
+                        </div>
+                        <button id="cameraLayerMenuBtn" class="camera-layer-menu-btn" type="button"
+                          aria-label="展開監視器圖層選單" aria-expanded="false" aria-controls="cameraLayerSubpanel">
+                          <span class="camera-layer-menu-icon" aria-hidden="true">+</span>
+                          <span class="camera-layer-menu-text">展開</span>
+                        </button>
+                        <label class="switch">
+                          <input type="checkbox" id="cameraAllToggle" class="layer-toggle" data-layer="camera"
+                            checked />
+                          <span class="slider"></span>
+                        </label>
+                      </div>
+                    </div>
+
+
+                    <div class="map-option-footer">
+                      <button id="clearLayersBtn" class="btn btn-secondary" style="margin: 0 auto; width: 7vw;">
+                        清除全部圖層
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 行政區篩選 -->
+                                <div class="map-option-section" id="districtFilterSection">
+                                  <div class="map-option-header" data-target="districtFilterBody">
+                                    <div class="map-option-header-title">行政區篩選</div>
+                                    <div class="map-option-toggle-box">
+                                      <span class="map-option-toggle-icon">+</span>
+                                    </div>
+                                  </div>
+
+                                  <div class="map-option-body" id="districtFilterBody">
+                                    <div id="districtCheckboxGroup" class="district-checkbox-group"></div>
+
+                                    <div class="selected-list">
+                                      <div class="selected-list-title">目前選取的行政區</div>
+                                      <div id="selectedListContent" class="selected-list-content selected-list-empty">
+                                        未選取（顯示全部點位、無行政區外框）
+                                      </div>
+                                    </div>
+
+                                    <div class="map-option-footer">
+                                      <button id="clearDistrictBtn" class="btn btn-secondary">
+                                        全部清除
+                                      </button>
+                                      <button id="districtDoneBtn" class="btn btn-primary"
+                                        style="background-color: #658faf; color: #dae3f3">
+                                        完成
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+              </div>
+            </div>
+          </div>
+
+          <aside id="cameraLayerSubpanel" class="camera-layer-subpanel" aria-hidden="true">
+            <div class="camera-layer-subpanel-header">
+              <div class="camera-layer-subpanel-title">監視器圖層</div>
+              <button id="cameraLayerCloseBtn" class="camera-layer-close-btn" type="button"
+                aria-label="收合監視器圖層選單">×</button>
+            </div>
+            <div class="camera-layer-subpanel-body">
+              <section class="camera-accordion is-open" data-camera-group="ntpc">
+                <button class="camera-accordion-header" type="button" aria-expanded="true">
+                  <span>新北市環保局</span>
+                  <span class="camera-accordion-icon">−</span>
+                </button>
+                <div class="camera-accordion-body">
+                  <label class="camera-layer-option">
+                    <span>稽查科(路)</span>
+                    <input type="checkbox" class="camera-sub-toggle" data-layer="cameraNtpcRoad" checked />
+                  </label>
+                  <label class="camera-layer-option">
+                    <span>稽查科(水)</span>
+                    <input type="checkbox" class="camera-sub-toggle" data-layer="cameraNtpcWater" />
+                  </label>
+                  <label class="camera-layer-option">
+                    <span>清維科</span>
+                    <input type="checkbox" class="camera-sub-toggle" data-layer="cameraNtpcCleanup" checked />
+                  </label>
+                  <label class="camera-layer-option">
+                    <span>空品科</span>
+                    <input type="checkbox" class="camera-sub-toggle" data-layer="cameraNtpcAir" />
+                  </label>
+                </div>
+              </section>
+
+              <section class="camera-accordion" data-camera-group="moea">
+                <button class="camera-accordion-header" type="button" aria-expanded="false">
+                  <span>經濟部</span>
+                  <span class="camera-accordion-icon">+</span>
+                </button>
+                <div class="camera-accordion-body">
+                  <label class="camera-layer-option">
+                    <span>水利署</span>
+                    <input type="checkbox" class="camera-sub-toggle" data-layer="cameraMoeaWra" />
+                  </label>
+                </div>
+              </section>
+
+              <section class="camera-accordion" data-camera-group="motc">
+                <button class="camera-accordion-header" type="button" aria-expanded="false">
+                  <span>交通部</span>
+                  <span class="camera-accordion-icon">+</span>
+                </button>
+                <div class="camera-accordion-body">
+                  <label class="camera-layer-option">
+                    <span>公路局</span>
+                    <input type="checkbox" class="camera-sub-toggle" data-layer="cameraMotcThb" />
+                  </label>
+                  <label class="camera-layer-option">
+                    <span>高速公路局</span>
+                    <input type="checkbox" class="camera-sub-toggle" data-layer="cameraMotcFreeway" />
+                  </label>
+                </div>
+              </section>
+            </div>
+          </aside>
+
+          <!-- 快速定位 -->
+          <div id="quickLocateWrapper" class="quick-locate-wrapper">
+            <button id="quickLocateTab" class="quick-locate-tab">
+              <div class="quick-locate-tab-icon">
+                <img src="images/earth.png" alt="快速定位 icon" />
+              </div>
+              <div class="quick-locate-tab-text">快速定位</div>
+            </button>
+
+            <div class="quick-locate-panel">
+              <div class="quick-locate-inner">
+                <div class="quick-locate-row">
+                  <div class="quick-locate-label">定位方式</div>
+                  <select id="locateTypeSelect" class="quick-locate-select">
+                    <option value="address">地址定位</option>
+                    <option value="cadastre">地籍定位</option>
+                    <option value="coord">經緯度定位</option>
+                    <option value="road">道路定位</option>
+                    <option value="streetlight">路燈定位</option>
+                  </select>
+                </div>
+
+                <div id="quickLocateFormContainer" class="quick-locate-form-container"></div>
+
+                <div class="quick-locate-footer">
+                  <button id="quickLocateClearBtn" class="btn btn-secondary" style="color: #dae3f3">
+                    清除定位
+                  </button>
+                  <button id="quickLocateGoBtn" class="btn btn-primary"
+                    style="background-color: #658faf; color: #dae3f3">
+                    定位
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 模擬參數設定 Modal -->
+          <div class="modal-backdrop" id="modalBackdrop">
+            <div class="modal">
+              <div class="modal-header">
+                <div class="modal-title">參數設定</div>
+                <button class="modal-close" id="modalCloseBtn">&times;</button>
+              </div>
+
+              <div class="coord-label" id="coordLabel">緯度：--，經度：--</div>
+
+              <div class="section-title">模擬類型</div>
+              <div class="mode-row">
+                <label class="mode-option active" data-mode="dispersion">
+                  <input type="radio" name="simMode" value="dispersion" checked />
+                  <div>
+                    <div class="mode-name">擴散模擬</div>
+                    <div class="mode-desc">推估潛在影響範圍。</div>
+                  </div>
+                </label>
+
+                <label class="mode-option" data-mode="trajectory">
+                  <input type="radio" name="simMode" value="trajectory" />
+                  <div>
+                    <div class="mode-name">逆軌跡模擬</div>
+                    <div class="mode-desc">回推可能污染來源路徑。</div>
+                  </div>
+                </label>
+              </div>
+
+              <div id="dispersionSection" class="mode-section active">
+                <div class="section-title" style="margin-bottom: 4px">擴散模擬參數</div>
+
+                <div id="dispersionParams" class="mode-param-section active">
+                  <div class="param-grid">
+                    <div class="param-group">
+                      <div class="param-label">排放源高度 (m)</div>
+                      <input type="number" class="param-input" id="stackHeightInput" value="60" min="5" max="300" />
+                    </div>
+
+                    <div class="param-group">
+                      <div class="param-label">排放等級</div>
+                      <select class="param-select" id="emissionLevelSelect">
+                        <option value="低">低（例：一般排放）</option>
+                        <option value="中" selected>中（例：短時間負荷提高）</option>
+                        <option value="高">高（例：事故狀況）</option>
+                      </select>
+                    </div>
+
+                    <!-- ✅ 事件時間改成「小時」 -->
+                    <div class="param-group">
+                      <div class="param-label">事件時間（小時）</div>
+                      <input type="number" class="param-input" id="eventHoursAgoInput" value="0" min="0" step="0.5" />
+                    </div>
+
+                    <div class="param-group">
+                      <div class="param-label">排放時間（小時）</div>
+                      <input type="number" class="param-input" id="emissionDurationInput" value="2" min="0.25"
+                        step="0.25" max="72" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div id="trajectorySection" class="mode-section">
+                <div class="section-title" style="margin-bottom: 4px">逆軌跡模擬參數</div>
+
+                <div id="trajectoryParams" class="mode-param-section">
+                  <div class="param-grid" style="grid-template-columns: 1fr">
+                    <div class="param-group">
+                      <div class="param-label">後推時間（小時）</div>
+                      <input type="number" class="param-input" id="backwardHoursInput" value="6" min="1" max="120" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <div class="footer-hint"></div>
+                <div class="footer-buttons">
+                  <button class="btn" id="btnCancel">取消</button>
+                  <button class="btn btn-primary" id="btnRun">開始模擬</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 模擬圖層控制列 -->
+        <div class="sim-layer-bar" id="simLayerBar">
+          <button class="btn btn-secondary btn-with-x" id="closeSimLayerBtn"
+            style="padding-inline: 10px; padding-left: 2VW;">
+            關閉模擬圖層
+          </button>
+
+          <!-- ✅ 播放/暫停 -->
+          <button class="btn sim-play-btn" id="playSimBtn" type="button">
+            ▶ 播放
+          </button>
+
+          <select id="simTimeSelect" class="sim-time-select">
+            <option value="now">目前時間</option>
+            <option value="1h">事件後 1 小時</option>
+            <option value="2h">事件後 2 小時</option>
+            <option value="3h">事件後 3 小時</option>
+            <option value="4h">事件後 4 小時</option>
+            <option value="5h">事件後 5 小時</option>
+            <option value="6h">事件後 6 小時</option>
+            <option value="7h">事件後 7 小時</option>
+            <option value="8h">事件後 8 小時</option>
+            <option value="9h">事件後 9 小時</option>
+            <option value="10h">事件後 10 小時</option>
+          </select>
+        </div>
+      </section>
+    </main>
+  </div>
+
+
+
+<div class="sim-now-time fixed-now-time" id="simNowTime" aria-label="目前時間"></div>
