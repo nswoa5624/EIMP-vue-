@@ -1,0 +1,190 @@
+/* topic-common.css
+   放三個主題頁共用、但不想塞回 common-branch.css 的樣式。
+   後續 water / waste / noise 若有不同版面，優先改各自 css。 */
+
+.topic-page .case-row span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.topic-page .topic-popup {
+  min-width: 210px;
+  color: #1f2a3a;
+  font-family: "Microsoft YaHei", sans-serif;
+}
+
+.topic-page .topic-popup-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #243247;
+}
+
+.topic-page .topic-popup-row {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 8px;
+  padding: 4px 0;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.topic-page .topic-popup-row span {
+  color: #64748b;
+  text-align: right;
+}
+
+.topic-page .topic-popup-row b {
+  color: #111827;
+  font-weight: 600;
+  word-break: break-word;
+}
+
+.topic-page .map-option-body.active .layer-list {
+  max-height: 260px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.topic-page .mobile-station-layout {
+  display: none;
+}
+
+.topic-page .desktop-station-layout {
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .topic-page .desktop-station-layout {
+    display: none;
+  }
+
+  .topic-page .mobile-station-layout {
+    display: block;
+    padding: 10px 12px;
+  }
+
+  .topic-page .mobile-station-section + .mobile-station-section {
+    margin-top: 10px;
+  }
+
+  .topic-page .mobile-station-title {
+    color: #dae3f3;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .topic-page .mobile-station-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}
+
+.topic-page .topic-popup--media {
+  width: 320px;
+}
+
+.topic-page .topic-popup-video-section {
+  margin: 6px 0 8px;
+}
+
+.topic-page .topic-popup-video-title {
+  margin-bottom: 4px;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.topic-page .topic-popup-video {
+  width: 100%;
+  height: 180px;
+  display: block;
+  border: 0;
+  border-radius: 6px;
+  background: #0f172a;
+}
+
+.topic-page .topic-popup-result-row b {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.topic-page .topic-popup-result-link {
+  flex-shrink: 0;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid #9ca3af;
+  background: #ffffff;
+  color: #1f2937;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.topic-page .topic-popup-result-link:hover {
+  background: #f3f4f6;
+}
+
+/* 監視器 popup：影像 + 四個欄位 + 異常時辨識結果連結 */
+
+.topic-page .topic-popup-camera {
+  width: 240px;
+}
+
+.topic-page .topic-popup-camera .topic-popup-video-section {
+  margin: 0 0 10px;
+}
+
+.topic-page .topic-popup-camera .topic-popup-video {
+  height: 145px;
+  border-radius: 0;
+}
+
+.topic-page .topic-popup-camera .topic-popup-row {
+  grid-template-columns: 82px 1fr;
+  gap: 6px;
+  padding: 3px 0;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.topic-page .topic-popup-camera .topic-popup-row span {
+  color: #333333;
+  font-weight: 1000;
+  text-align: right;
+}
+
+.topic-page .topic-popup-camera .topic-popup-row b {
+  color: #333333;
+  font-weight: 500;
+}
+
+.topic-page .topic-popup-camera .topic-popup-result-link {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+.topic-page .topic-popup-camera .topic-popup-result-link:hover {
+  background: transparent;
+  color: #1e40af;
+}
+
+/* shared business detail panel positioning */
+
+.topic-water .left-column, .topic-noise .left-column {
+  position: relative;
+}
+
+.topic-water .business-detail-panel, .topic-noise .business-detail-panel {
+  inset: 0;
+}

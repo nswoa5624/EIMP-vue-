@@ -1,0 +1,427 @@
+/* waste.css：廢主題專用樣式 */
+
+.topic-waste {
+  --topic-accent: #d6a84f;
+  --topic-accent-soft: rgba(214, 168, 79, 0.16);
+}
+
+.topic-waste .panel-title, .topic-waste .panel-body-title, .topic-waste .panel-body-address {
+  color: #70e7d3;
+}
+
+.topic-waste .aqi-station-btn.active, .topic-waste .aqi-station-btn:hover {
+  color: #ffd37a;
+}
+
+.topic-waste .layer-icon--waste, .topic-waste .layer-icon--illegal-dumping {
+  background: linear-gradient(135deg, #8a6a2d 0%, #ffd37a 100%);
+}
+
+.topic-waste .layer-icon--illegal-dumping img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 廢主題：比照噪音主題，移除右側上方儀表板後，讓 GIS 地圖補滿高度 */
+
+.topic-waste .right-column {
+  gap: 0;
+}
+
+.topic-waste .map-panel {
+  height: calc(100vh - 106px);
+  min-height: 560px;
+  max-height: none;
+}
+
+@media (max-width: 800px) {
+  .topic-waste .map-panel {
+    height: 70vh;
+    min-height: 420px;
+  }
+
+  .topic-waste .camera-layer-subpanel {
+    right: 0 !important;
+    left: 0;
+    top: 0 !important;
+    width: min(100%, 290px);
+    height: min(100%, 600px) !important;
+    border-radius: 8px 0 0 8px;
+  }
+
+  .topic-waste .district-checkbox-group {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 廢主題：圖層選項只保留指定圖層，並提供即時影像子選單 */
+
+.topic-waste .map-options-panel {
+  overflow: hidden;
+  height: min(100%, 600px);
+  max-height: none;
+}
+
+.topic-waste #layerOptionsBody {
+  position: static;
+}
+
+.topic-waste .waste-layer-list .layer-row {
+  min-height: 32px;
+}
+
+.topic-waste .layer-info--camera {
+  gap: 5px;
+}
+
+.topic-waste .camera-layer-menu-btn {
+  width: auto;
+  height: auto !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #dae3f3 !important;
+  font-size: 12px !important;
+  line-height: 1.2 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer;
+  padding: 0 2px !important;
+  flex: 0 0 auto;
+  transition: transform 0.18s ease, background 0.18s ease;
+  min-width: auto !important;
+  font-weight: 700 !important;
+  transform: none !important;
+  gap: 0 !important;
+  letter-spacing: 0.02em;
+  box-shadow: none !important;
+  border-color: #658faf !important;
+  text-decoration: underline;
+}
+
+.topic-waste .camera-layer-menu-btn:hover, .topic-waste .camera-layer-menu-btn.is-open {
+  background: transparent !important;
+  border-color: transparent !important;
+  color: #ffffff !important;
+}
+
+.topic-waste .camera-layer-menu-btn.is-open {
+  transform: rotate(180deg);
+}
+
+.topic-waste .camera-layer-subpanel {
+  position: absolute;
+  right: 220px !important;
+  top: 0 !important;
+  width: 260px;
+  border-radius: 8px 0 8px 8px;
+  background: rgba(10, 12, 18, 0.92);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.32);
+  color: #e5e7f3;
+  display: none;
+  overflow: hidden;
+  z-index: 4200 !important;
+  height: min(100%, 355px) !important;
+  max-height: none !important;
+}
+
+.topic-waste .camera-layer-subpanel.is-open {
+  display: flex !important;
+  flex-direction: column;
+}
+
+.topic-waste .camera-layer-subpanel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(112, 231, 211, 0.35);
+  flex: 0 0 auto;
+}
+
+.topic-waste .camera-layer-subpanel-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #70e7d3;
+}
+
+.topic-waste .camera-layer-close-btn {
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.topic-waste .camera-layer-close-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.topic-waste .camera-layer-subpanel-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  flex: 1 1 auto;
+  overflow: auto;
+  overflow-y: auto;
+}
+
+.topic-waste .camera-layer-option {
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 7px;
+  border-radius: 5px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.topic-waste .camera-layer-option:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.topic-waste .camera-layer-option input {
+  accent-color: #70e7d3;
+}
+
+/* 修正：廢主題圖層列加寬，讓「即時影像  展開/收合  開關」能同列顯示 */
+
+.topic-waste .quick-locate-panel {
+  width: 220px !important;
+  max-height: 520px;
+}
+
+.topic-waste .map-option-section, .topic-waste .map-option-body, .topic-waste .map-panel-inner {
+  overflow: visible;
+}
+
+.topic-waste .layer-row--camera {
+  gap: 8px;
+}
+
+.topic-waste .layer-row--camera .layer-info {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.topic-waste .layer-row--camera .camera-layer-menu-btn {
+  order: 2;
+}
+
+.topic-waste .layer-row--camera .switch {
+  order: 3;
+}
+
+/* 2026-06 修正：監視器子選單貼齊 GIS 上緣，並與圖層選項同高 */
+
+.topic-waste .map-panel-inner {
+  overflow: auto;
+}
+
+.topic-waste .camera-accordion {
+  border: 1px solid rgba(112, 231, 211, 0.28);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.topic-waste .camera-accordion-header {
+  width: 100%;
+  min-height: 34px;
+  border: none;
+  background: rgba(112, 231, 211, 0.10);
+  color: #e5e7f3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 7px 9px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.topic-waste .camera-accordion-header:hover {
+  background: rgba(112, 231, 211, 0.18);
+}
+
+.topic-waste .camera-accordion-icon {
+  color: #70e7d3;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.topic-waste .camera-accordion-body {
+  display: none;
+  padding: 6px;
+}
+
+.topic-waste .camera-accordion.is-open .camera-accordion-body {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* 2026-06-08 修正：監視器選單覆蓋圖層選項直立按鈕，且高度與右側圖層選單一致 */
+
+.topic-waste .map-options-wrapper.open {
+  z-index: 3000;
+}
+
+/* 行政區篩選：讓勾選清單可正常捲動，版型比照空主題 */
+
+.topic-waste .district-checkbox-group {
+  display: flex !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px !important;
+  max-height: 260px;
+  overflow-y: auto;
+  padding: 4px 2px;
+  flex-direction: column !important;
+}
+
+.topic-waste .checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font-size: 13px;
+  color: #dae3f3;
+  cursor: pointer;
+  user-select: none;
+}
+
+.topic-waste .checkbox-item input {
+  accent-color: #70e7d3;
+}
+
+.topic-waste .checkbox-item--all {
+  grid-column: auto !important;
+  font-weight: 700;
+  color: #70e7d3;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(112, 231, 211, 0.25);
+}
+
+.topic-waste .selected-list {
+  margin-top: 10px;
+  border: 1px solid rgba(112, 231, 211, 0.22);
+  border-radius: 6px;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.topic-waste .selected-list-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #70e7d3;
+  margin-bottom: 5px;
+}
+
+.topic-waste .selected-list-content {
+  font-size: 12px;
+  line-height: 1.45;
+  color: #e5e7f3;
+}
+
+.topic-waste .selected-list-empty {
+  color: rgba(229, 231, 243, 0.68);
+}
+
+.topic-waste #districtFilterBody .map-option-footer {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+/* 2026-06-08 修正：監視器展開/收合按鈕樣式優化 */
+
+.topic-waste .camera-layer-menu-icon {
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: rgba(218, 227, 243, 0.18) !important;
+  color: #dae3f3 !important;
+  display: none !important;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.topic-waste .camera-layer-menu-text {
+  display: inline-block;
+  min-width: auto !important;
+  text-align: center;
+}
+
+/* 2026-06-08 修正：監視器展開/收合按鈕顏色改成接近行政區篩選「完成」按鈕 */
+
+/* 2026-06-08 修正：廢主題快速定位欄位改為空主題同版樣式 */
+
+.topic-waste .quick-locate-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.topic-waste .quick-locate-input.readonly-input {
+  opacity: 0.9;
+  cursor: default;
+}
+
+.topic-waste .quick-locate-inner {
+  gap: 8px;
+}
+
+.topic-waste .quick-locate-row {
+  align-items: center;
+}
+
+.topic-waste .quick-locate-row .quick-locate-label {
+  flex: 0 0 64px;
+  white-space: nowrap;
+}
+
+.topic-waste .quick-locate-row .quick-locate-input, .topic-waste .quick-locate-row .quick-locate-select {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* 2026-06-08 修正：快速定位寬度與空主題一致 */
+
+/* 2026-06-08 修正：監視器展開/收合改回純文字，不使用有色按鈕 */
+
+/* 2026-06-08 修正：行政區排列方式比照空主題，以單欄順序排列 */
+
+/* 2026-06-08 修正：廢主題事業詳細資料面板套用空主題面板高度 */
+
+.topic-waste .business-detail-panel {
+  z-index: 5000;
+  inset: 0;
+}
+
+.topic-waste .business-detail-panel .permit-modal {
+  height: 100%;
+}
+
+.topic-waste .business-detail-panel .permit-body {
+  min-height: 0;
+}
+
+/* 2026-06-08 修正：事業詳細資料面板固定覆蓋左側欄，避免跑到 GIS 或整頁 */
+
+.topic-waste .left-column {
+  position: relative;
+}

@@ -1,0 +1,58 @@
+/* water.css：水主題專用樣式 */
+
+.topic-water {
+  --topic-accent: #4aa3d8;
+  --topic-accent-soft: rgba(74, 163, 216, 0.16);
+}
+
+.topic-water .panel-title, .topic-water .panel-body-title, .topic-water .panel-body-address {
+  color: #70e7d3;
+}
+
+.topic-water .waqi-station-btn, .topic-water .aqi-station-btn.active {
+  color: #f9cb3f;
+}
+
+.topic-water .water-station-panel.has-station-selection .waqi-station-btn {
+  color: #6a7282;
+}
+
+.topic-water .water-station-panel.has-station-selection .waqi-station-btn.active {
+  color: #f9cb3f;
+}
+
+.topic-water .layer-icon--water {
+  background: linear-gradient(135deg, #1d8fd1 0%, #82e6ff 100%);
+}
+
+.topic-water .water-anomaly-header-row .water-anomaly-time-title {
+  width: 30%;
+}
+
+.topic-water .water-anomaly-header-row .water-anomaly-address-title {
+  width: 69%;
+}
+
+/* 水主題：修正列管/非列管事業 popup 跑版，版型改回與空主題一致的上下排列。 */
+
+.topic-water .custom-case-popup .case-popup {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.topic-water .custom-case-popup .case-popup__body {
+  box-sizing: border-box;
+}
+
+.topic-water .custom-case-popup .case-popup__link-row {
+  flex: 0 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* 水主題：重疊圖標折疊 popup，參考空主題的選擇清單行為。 */
+
+/* 水主題－水色異常 Popup 寬度 */
+.topic-water .topic-popup-camera {
+  width: 200px;
+}

@@ -1,0 +1,37 @@
+/* noise.css：噪音／異味主題專用樣式 */
+
+.topic-noise {
+  --topic-accent: #c6a7ff;
+  --topic-accent-soft: rgba(198, 167, 255, 0.16);
+}
+
+.topic-noise .panel-title, .topic-noise .panel-body-title, .topic-noise .panel-body-address {
+  color: #70e7d3;
+}
+
+.topic-noise .aqi-station-btn.active, .topic-noise .aqi-station-btn:hover {
+  color: #d8c8ff;
+}
+
+.topic-noise .layer-icon--noise {
+  background: linear-gradient(135deg, #6f55b7 0%, #d8c8ff 100%);
+}
+
+/* 噪音／異味主題：移除右側上方儀表板後，讓 GIS 地圖補滿高度 */
+
+.topic-noise .right-column {
+  gap: 0;
+}
+
+.topic-noise .map-panel {
+  height: calc(100vh - 106px);
+  min-height: 560px;
+  max-height: none;
+}
+
+@media (max-width: 800px) {
+  .topic-noise .map-panel {
+    height: 70vh;
+    min-height: 420px;
+  }
+}
