@@ -1164,7 +1164,11 @@ body {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  margin-top: 4px;
+  margin-top: 0;
+}
+
+.quick-locate-inner > .quick-locate-row:first-child {
+  margin-bottom: 0;
 }
 
 /* 底部按鈕 */

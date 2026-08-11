@@ -12,7 +12,7 @@
     unifiedNo: "12345678",
     industrialParkName: "土城工業區",
     industryName: "電鍍業",
-    regulatedType: "水",
+    regulatedType: "水、毒",
     waterpermitNo: "新北市環水許字 第12345-678號",
     toxicpermitNo: "新北市毒許字第000031號",
     otherLincenseNo: "新北市環水許字第04123-04號",
@@ -44,8 +44,8 @@
     stockno: "農飼養登記第300000001號",
     unifiedNo: "45678901",
     industrialParkName: "-",
-    industryName: "畜牧業",
-    regulatedType: "廢",
+    industryName: "豬飼育業",
+    regulatedType: "水、廢",
     otherLincenseNo: "農水桃園字第1138225600號",
     inspectManageNo: "202603310004",
     tempManageNo: "A2026033100004",
@@ -69,7 +69,7 @@
     managename: "中和花園社區管理委員會",
     managetel: "02-22234567",
     industrialParkName: "-",
-    industryName: "社區污水下水道系統",
+    industryName: "廢水及污水處理業",
     regulatedType: "水",
     otherLincenseNo: "農水桃園字第1138225600號",
     inspectManageNo: "202603310005",
@@ -87,18 +87,18 @@
 ],
     // 新增非列管事業圖層示範資料。
     nonRegBusinessCases: [
-  { id: "NB0001", controlNo: "NFB-0001", businessName: "新莊精密加工廠", unifiedNo: "80123456", industryName: "金屬加工業", address: "新北市新莊區△△路66號", lat: 25.0362, lng: 121.4549, areaId: "Xinzhuang" },
-  { id: "NB0002", controlNo: "NFB-0002", businessName: "五股倉儲物流場", unifiedNo: "80234567", industryName: "倉儲物流業", address: "新北市五股區OO路88號", lat: 25.0841, lng: 121.4387, areaId: "Wugu" },
-  { id: "NB0003", controlNo: "NFB-0003", businessName: "板橋食品包裝行", unifiedNo: "80345678", industryName: "食品包裝業", address: "新北市板橋區OO路120號", lat: 25.0132, lng: 121.4637, areaId: "Banqiao" },
-  { id: "NB0004", controlNo: "NFB-0004", businessName: "三重印刷材料行", unifiedNo: "80456789", industryName: "印刷材料業", address: "新北市三重區XX路35號", lat: 25.0615, lng: 121.4881, areaId: "Sanchong" },
-  { id: "NB0005", controlNo: "NFB-0005", businessName: "新店電子維修廠", unifiedNo: "80567890", industryName: "電子維修業", address: "新北市新店區OO街18號", lat: 24.9435, lng: 121.5580, areaId: "Xindian" },
-  { id: "NB0006", controlNo: "NFB-0006", businessName: "淡水水產處理場", unifiedNo: "80678901", industryName: "水產處理業", address: "新北市淡水區中正路旁", lat: 25.1950, lng: 121.4520, areaId: "Tamsui" },
-  { id: "NB0007", controlNo: "NFB-0007", businessName: "林口材料倉儲中心", unifiedNo: "80789012", industryName: "材料倉儲業", address: "新北市林口區文化北路旁", lat: 25.0920, lng: 121.3660, areaId: "Linkou" },
-  { id: "NB0008", controlNo: "NFB-0008", businessName: "汐止機械保養廠", unifiedNo: "80890123", industryName: "機械保養業", address: "新北市汐止區大同路附近", lat: 25.0820, lng: 121.6400, areaId: "Xizhi" },
-  { id: "NB0009", controlNo: "NFB-0009", businessName: "鶯歌陶瓷工作室", unifiedNo: "80901234", industryName: "陶瓷製品業", address: "新北市鶯歌區文化路附近", lat: 24.9549, lng: 121.3518, areaId: "Yingge" },
-  { id: "NB0010", controlNo: "NFB-0010", businessName: "蘆洲金屬零件行", unifiedNo: "81012345", industryName: "金屬零件業", address: "新北市蘆洲區中山一路附近", lat: 25.0824, lng: 121.4694, areaId: "Luzhou" },
-  { id: "NB0011", controlNo: "NFB-0011", businessName: "泰山塑膠射出廠", unifiedNo: "81123456", industryName: "塑膠製品業", address: "新北市泰山區明志路附近", lat: 25.0450, lng: 121.4160, areaId: "Taishan" },
-  { id: "NB0012", controlNo: "NFB-0012", businessName: "八里車材整理場", unifiedNo: "81234567", industryName: "車材整理業", address: "新北市八里區龍米路附近", lat: 25.1650, lng: 121.3890, areaId: "Bali" }
+  { id: "NB0001", controlNo: "NFB-0001", businessName: "新莊精密加工廠", unifiedNo: "80123456", industryName: "其他金屬加工處理業", address: "新北市新莊區△△路66號", lat: 25.0362, lng: 121.4549, areaId: "Xinzhuang" },
+  { id: "NB0002", controlNo: "NFB-0002", businessName: "五股倉儲物流場", unifiedNo: "80234567", industryName: "普通倉儲業", address: "新北市五股區OO路88號", lat: 25.0841, lng: 121.4387, areaId: "Wugu" },
+  { id: "NB0003", controlNo: "NFB-0003", businessName: "板橋食品包裝行", unifiedNo: "80345678", industryName: "烘焙炊蒸食品製造業", address: "新北市板橋區OO路120號", lat: 25.0132, lng: 121.4637, areaId: "Banqiao" },
+  { id: "NB0004", controlNo: "NFB-0004", businessName: "三重印刷材料行", unifiedNo: "80456789", industryName: "印刷業", address: "新北市三重區XX路35號", lat: 25.0615, lng: 121.4881, areaId: "Sanchong" },
+  { id: "NB0005", controlNo: "NFB-0005", businessName: "新店電子維修廠", unifiedNo: "80567890", industryName: "其他電腦週邊設備製造業", address: "新北市新店區OO街18號", lat: 24.9435, lng: 121.5580, areaId: "Xindian" },
+  { id: "NB0006", controlNo: "NFB-0006", businessName: "淡水水產處理場", unifiedNo: "80678901", industryName: "未分類其他食品製造業", address: "新北市淡水區中正路旁", lat: 25.1950, lng: 121.4520, areaId: "Tamsui" },
+  { id: "NB0007", controlNo: "NFB-0007", businessName: "林口材料倉儲中心", unifiedNo: "80789012", industryName: "", address: "新北市林口區文化北路旁", lat: 25.0920, lng: 121.3660, areaId: "Linkou" },
+  { id: "NB0008", controlNo: "NFB-0008", businessName: "汐止機械保養廠", unifiedNo: "80890123", industryName: "", address: "新北市汐止區大同路附近", lat: 25.0820, lng: 121.6400, areaId: "Xizhi" },
+  { id: "NB0009", controlNo: "NFB-0009", businessName: "鶯歌陶瓷工作室", unifiedNo: "80901234", industryName: "其他陶瓷製品製造業", address: "新北市鶯歌區文化路附近", lat: 24.9549, lng: 121.3518, areaId: "Yingge" },
+  { id: "NB0010", controlNo: "NFB-0010", businessName: "蘆洲金屬零件行", unifiedNo: "81012345", industryName: "未分類其他金屬製品製造業", address: "新北市蘆洲區中山一路附近", lat: 25.0824, lng: 121.4694, areaId: "Luzhou" },
+  { id: "NB0011", controlNo: "NFB-0011", businessName: "泰山塑膠射出廠", unifiedNo: "81123456", industryName: "塑膠原料製造業", address: "新北市泰山區明志路附近", lat: 25.0450, lng: 121.4160, areaId: "Taishan" },
+  { id: "NB0012", controlNo: "NFB-0012", businessName: "八里車材整理場", unifiedNo: "81234567", industryName: "汽車零件製造業", address: "新北市八里區龍米路附近", lat: 25.1650, lng: 121.3890, areaId: "Bali" }
 ]
   };
 
@@ -1122,6 +1122,7 @@
     if (!mapEl || !window.L) return null;
 
     const map = L.map("mapContainer", { zoomControl: true }).setView(config.mapCenter || DEFAULT_CENTER, config.mapZoom || DEFAULT_ZOOM);
+    window.EIMPMap = map;
     const openTopicPopups = new Set();
 
     function closeAllTopicPopups(exceptPopup = null) {
@@ -1278,6 +1279,16 @@
     }
 
 
+    function getBusinessPermitAvailability(item) {
+      const regulatedTypes = Array.isArray(item?.regulatedTypes)
+        ? item.regulatedTypes
+        : String(item?.regulatedType || "").split(/[、,，/／\s]+/).filter(Boolean);
+      return {
+        hasWater: regulatedTypes.includes("水"),
+        hasToxic: regulatedTypes.includes("毒"),
+      };
+    }
+
     function buildBusinessCasePopup(item, layerKey) {
       const rows = [
         ["管制編號", item.controlNo || "-"],
@@ -1297,7 +1308,10 @@
         return `<div class="case-popup__k">${escapeHtml(key)}</div><div class="case-popup__v ${isMultiline ? "case-popup__v--multiline" : ""}">${escapeHtml(value)}</div>`;
       }).join("");
 
-      const detailLink = `<div class="case-popup__link-row"><button type="button" class="popup-plain-text-btn business-detail-trigger" data-item-type="${escapeAttr(layerKey)}" data-item-id="${escapeAttr(item.id)}">事業詳細資料</button></div>`;
+      const permits = getBusinessPermitAvailability(item);
+      const detailLink = permits.hasWater || permits.hasToxic
+        ? `<div class="case-popup__link-row"><button type="button" class="popup-plain-text-btn business-detail-trigger" data-item-type="${escapeAttr(layerKey)}" data-item-id="${escapeAttr(item.id)}">事業詳細資料</button></div>`
+        : "";
       const favoriteButton = getBusinessFavoriteButtonHtml(item, layerKey);
 
       return `<div class="case-popup">${favoriteButton}<div class="case-popup__body"><div class="case-popup__grid">${gridHtml}</div></div>${detailLink}</div>`;
@@ -1328,6 +1342,13 @@
 
       return `<div class="topic-popup${videoUrl ? " topic-popup--media" : ""}"><div class="topic-popup-title">${title}</div>${videoHtml}${popupRows}</div>`;
     }
+
+    window.EIMPBusinessPopupBridge = {
+      ...(window.EIMPBusinessPopupBridge || {}),
+      buildPopupContent(item, type) {
+        return buildBusinessCasePopup(item, type);
+      },
+    };
 
     (config.layers || []).forEach((layerConfig) => {
       const group = L.layerGroup();
@@ -1471,6 +1492,23 @@
         if (type === "CWMS") businessCWMSAccordion?.classList.remove("hidden");
       };
 
+      const configureBusinessPermitTypes = (item) => {
+        const permits = getBusinessPermitAvailability(item);
+        if (businessPermitTypeSelect) {
+          const waterOption = businessPermitTypeSelect.querySelector('option[value="water"]');
+          const toxicOption = businessPermitTypeSelect.querySelector('option[value="toxic"]');
+          if (waterOption) {
+            waterOption.hidden = !permits.hasWater;
+            waterOption.disabled = !permits.hasWater;
+          }
+          if (toxicOption) {
+            toxicOption.hidden = !permits.hasToxic;
+            toxicOption.disabled = !permits.hasToxic;
+          }
+        }
+        return permits;
+      };
+
       const inferWaterBusinessLayoutType = (item) => {
         const text = `${item.businessName || ""} ${item.businessCategory || ""} ${item.industryName || ""}`;
         if (/畜牧|牧場/.test(text)) return "livestock";
@@ -1488,6 +1526,7 @@
         if (!businessWaterAccordion) return;
         const template = getWaterBusinessTemplate(inferWaterBusinessLayoutType(item));
         businessWaterAccordion.innerHTML = template ? template.innerHTML : "";
+        window.EIMPBusinessWaterQuality?.render?.(businessWaterAccordion, item);
       };
 
       const renderBusinessCems = (key) => {
@@ -1591,16 +1630,24 @@
 
       const openBusinessDetailPanel = (item) => {
         if (!item) return;
+        const permits = configureBusinessPermitTypes(item);
+        if (!permits.hasWater && !permits.hasToxic) return;
         closeAllTopicPopups();
         currentBusinessDetailItem = item;
-        renderWaterBusinessLayout(item);
+        if (permits.hasWater) renderWaterBusinessLayout(item);
         populateBusinessDetail(item);
-        if (businessPermitTypeSelect) businessPermitTypeSelect.value = "water";
-        switchBusinessAccordion("water");
+        const initialPermitType = permits.hasWater ? "water" : "toxic";
+        if (businessPermitTypeSelect) businessPermitTypeSelect.value = initialPermitType;
+        switchBusinessAccordion(initialPermitType);
         businessDetailPanel.classList.add("is-open");
         businessDetailPanel.setAttribute("aria-hidden", "false");
         renderBusinessCems("SOx");
         renderBusinessCwms("PH");
+      };
+
+      window.EIMPBusinessPopupBridge = {
+        ...(window.EIMPBusinessPopupBridge || {}),
+        openDetail: openBusinessDetailPanel,
       };
 
       const closeBusinessDetailPanel = () => {
