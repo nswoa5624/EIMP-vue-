@@ -641,11 +641,22 @@
     const goBtn = $("quickLocateGoBtn");
     const clearBtn = $("quickLocateClearBtn");
     let marker = null;
+    const locationPopupOptions = { className: "custom-case-popup custom-location-popup", minWidth: 240, maxWidth: 320 };
     if (!typeSelect || !form) return;
 
+    const districts = ["板橋區", "中和區", "永和區", "新店區", "土城區", "新莊區", "三重區", "蘆洲區", "汐止區", "林口區", "泰山區", "五股區", "淡水區", "三芝區", "石門區", "八里區", "三峽區", "鶯歌區", "樹林區", "深坑區", "石碇區", "坪林區", "平溪區", "瑞芳區", "貢寮區", "金山區", "萬里區", "雙溪區", "烏來區"];
+    const addressTemplate = `
+      <div class="quick-locate-row"><div class="quick-locate-label">縣市</div><input class="quick-locate-input readonly-input" value="新北市" readonly /></div>
+      <div class="quick-locate-row"><label class="quick-locate-label" for="addrDistrictSelect">行政區</label><select class="quick-locate-select" id="addrDistrictSelect" required><option value="">請選擇</option>${districts.map((district) => `<option value="${district}">${district}</option>`).join("")}</select></div>
+      <div class="quick-locate-row"><label class="quick-locate-label" for="addrAddressInput">地址</label><input class="quick-locate-input" id="addrAddressInput" placeholder="例：三民路1段1巷38弄1號" required /></div>`;
     const templates = {
-      address: '<div class="quick-locate-row"><div class="quick-locate-label">地址</div><input class="quick-locate-input" id="locateKeywordInput" placeholder="例：板橋區中山路" /></div>',
-      cadastre: '<div class="quick-locate-row"><div class="quick-locate-label">地段</div><input class="quick-locate-input" placeholder="例：中和段" /></div><div class="quick-locate-row"><div class="quick-locate-label">地號</div><input class="quick-locate-input" placeholder="例：123-4" /></div>',
+      address: addressTemplate,
+      cadastre: `
+        <div class="quick-locate-row"><div class="quick-locate-label">縣市</div><input class="quick-locate-input readonly-input" value="新北市" readonly /></div>
+        <div class="quick-locate-row"><label class="quick-locate-label" for="cadDistrictSelect">行政區</label><select class="quick-locate-select" id="cadDistrictSelect"><option value="">請選擇</option>${districts.map((district) => `<option value="${district}">${district}</option>`).join("")}</select></div>
+        <div class="quick-locate-row"><label class="quick-locate-label" for="cadSectionSelect">地段</label><select class="quick-locate-select" id="cadSectionSelect"><option value="">請選擇</option></select></div>
+        <div class="quick-locate-row"><label class="quick-locate-label" for="cadMotherNoInput">地號母號</label><input class="quick-locate-input" id="cadMotherNoInput" inputmode="numeric" placeholder="例：6" /></div>
+        <div class="quick-locate-row"><label class="quick-locate-label" for="cadSubNoInput">地號子號</label><input class="quick-locate-input" id="cadSubNoInput" inputmode="numeric" placeholder="例：0（選填）" /></div>`,
       coord: '<div class="quick-locate-row"><div class="quick-locate-label">緯度</div><input class="quick-locate-input" id="locateLatInput" placeholder="25.0092" /></div><div class="quick-locate-row"><div class="quick-locate-label">經度</div><input class="quick-locate-input" id="locateLngInput" placeholder="121.4648" /></div>',
       road: '<div class="quick-locate-row"><div class="quick-locate-label">道路</div><input class="quick-locate-input" placeholder="例：連城路" /></div>',
       streetlight: '<div class="quick-locate-row"><div class="quick-locate-label">路燈號</div><input class="quick-locate-input" placeholder="請輸入路燈編號" /></div>',
@@ -653,12 +664,51 @@
 
     function render() {
       form.innerHTML = templates[typeSelect.value] || templates.address;
+      if (typeSelect.value === "cadastre") window.EIMPNTPCAddressLocation?.bindLandSectionSelect();
     }
 
     typeSelect.addEventListener("change", render);
     render();
 
-    goBtn?.addEventListener("click", () => {
+    goBtn?.addEventListener("click", async () => {
+      if (typeSelect.value === "cadastre") {
+        const service = window.EIMPNTPCAddressLocation;
+        if (!service) return alert("新北市地籍定位模組載入失敗。");
+        const params = service.getCadastreValues();
+        goBtn.disabled = true;
+        try {
+          const { lat, lng } = await service.locateLandNumber(params);
+          if (marker) marker.remove();
+          const details = { lat, lng, town: params.town, landSection: params.landSection, landNumber: `${params.landNumberMom}-${params.landNumberSon || "0"}` };
+          window.EIMPLocationTools?.setLocation(details);
+          marker = L.marker([lat, lng]).addTo(map).bindPopup(window.EIMPLocationTools?.buildPopupContent(details) || "地籍定位", locationPopupOptions).openPopup();
+          map.setView([lat, lng], 17);
+        } catch (error) {
+          alert(error.message || "地籍定位失敗，請稍後再試。");
+        } finally {
+          goBtn.disabled = false;
+        }
+        return;
+      }
+      if (typeSelect.value === "address") {
+        const service = window.EIMPNTPCAddressLocation;
+        if (!service) return alert("新北市地址定位模組載入失敗。");
+        const params = service.getFormValues();
+        goBtn.disabled = true;
+        try {
+          const { lat, lng } = await service.locateAddress(params);
+          if (marker) marker.remove();
+          const details = { lat, lng, town: params.town, address: service.formatAddress(params) };
+          window.EIMPLocationTools?.setLocation(details);
+          marker = L.marker([lat, lng]).addTo(map).bindPopup(window.EIMPLocationTools?.buildPopupContent(details) || details.address, locationPopupOptions).openPopup();
+          map.setView([lat, lng], 17);
+        } catch (error) {
+          alert(error.message || "地址定位失敗，請稍後再試。");
+        } finally {
+          goBtn.disabled = false;
+        }
+        return;
+      }
       let lat = Number($("locateLatInput")?.value);
       let lng = Number($("locateLngInput")?.value);
       if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
@@ -666,13 +716,16 @@
         lng = DEFAULT_CENTER[1];
       }
       if (marker) marker.remove();
-      marker = L.marker([lat, lng]).addTo(map).bindPopup("快速定位").openPopup();
+      const details = { lat, lng };
+      window.EIMPLocationTools?.setLocation(details);
+      marker = L.marker([lat, lng]).addTo(map).bindPopup(window.EIMPLocationTools?.buildPopupContent(details) || "快速定位", locationPopupOptions).openPopup();
       map.setView([lat, lng], 16);
     });
 
     clearBtn?.addEventListener("click", () => {
       if (marker) marker.remove();
       marker = null;
+      window.EIMPLocationTools?.clearLocation();
     });
   }
 
@@ -1118,6 +1171,12 @@
 
   function initMap(config) {
     appendVehicleLayerConfig(config);
+    window.EIMPAnalysisSourceLayers = (config.layers || []).map((layer) => ({
+      key: layer.key,
+      label: layer.label,
+      icon: layer.icon,
+      items: layer.items || [],
+    }));
     const mapEl = $("mapContainer");
     if (!mapEl || !window.L) return null;
 
@@ -1347,6 +1406,26 @@
       ...(window.EIMPBusinessPopupBridge || {}),
       buildPopupContent(item, type) {
         return buildBusinessCasePopup(item, type);
+      },
+    };
+
+    window.EIMPAnalysisPopupBridge = {
+      buildPopupContent(item, layerKey) {
+        const layerConfig = (config.layers || []).find((layer) => layer.key === layerKey);
+        return layerConfig ? buildLayerPopup(layerConfig, item) : null;
+      },
+      getMarkerIcon(item, layerKey) {
+        const layerConfig = (config.layers || []).find((layer) => layer.key === layerKey);
+        return layerConfig ? createMarkerIcon(item, layerConfig) : null;
+      },
+      getPopupOptions(item, layerKey) {
+        if (layerKey === "regBusiness" || layerKey === "nonRegBusiness") {
+          return { maxWidth: 360, minWidth: 260, className: "custom-case-popup", closeButton: true, autoClose: false, closeOnClick: false };
+        }
+        return item.videoUrl ? { maxWidth: 360, minWidth: 220 } : { closeButton: true, autoClose: false, closeOnClick: false };
+      },
+      beforeOpen() {
+        closeAllTopicPopups();
       },
     };
 
