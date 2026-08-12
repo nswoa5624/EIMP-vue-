@@ -9,6 +9,7 @@
   ];
   const REGULATED_TYPES = ["空", "水", "廢", "毒", "土污", "環藥", "管考"];
   const EMPTY_INDUSTRY = "系統內設空值";
+  const ALL_PRIORITY_INDUSTRIES = "全部行業別";
   const PRIORITY_INDUSTRIES = ["電鍍業", "金屬表面處理業", "染整業", "資源物回收處理業"];
   const OTHER_INDUSTRIES = [
     "其他機械器具批發業", "磚瓦、砂石、水泥及其製品批發業", "烘焙炊蒸食品製造業", "普通倉儲業",
@@ -50,7 +51,7 @@
   const ALL_WATER_ITEMS = "全部水質項目";
 
   const state = {
-    district: { enabled: false, values: new Set(DISTRICTS) },
+    district: { enabled: false, values: new Set() },
     regulated: { enabled: false, statuses: new Set(), types: new Set() },
     industry: { enabled: false, values: new Set() },
     water: { enabled: false, values: new Set(WATER_ITEMS) },
@@ -178,7 +179,7 @@
     const label = document.createElement("div");
     label.className = "quick-locate-label";
     label.textContent = labelText;
-    const select = makeSelect(`businessLocate${kind}Toggle`, [["disabled", "禁用"], ["enabled", "啟用"]]);
+    const select = makeSelect(`businessLocate${kind}Toggle`, [["disabled", "停用"], ["enabled", "啟用"]]);
     select.dataset.filterKind = kind;
     const settingButton = document.createElement("button");
     settingButton.type = "button";
@@ -364,6 +365,11 @@
       title.textContent = "行業別設定";
       help.textContent = "請勾選欲查詢事業行業別";
       const { form: searchForm, input: search } = makeFilterSearch("businessIndustrySearch", "搜尋行業別");
+      const commonIndustryValues = [...PRIORITY_INDUSTRIES, EMPTY_INDUSTRY];
+      const industrySelection = new Set(state.industry.values);
+      if (commonIndustryValues.every((industry) => industrySelection.has(industry))) {
+        industrySelection.add(ALL_PRIORITY_INDUSTRIES);
+      }
 
       const makeIndustrySection = (heading, values) => {
         const section = document.createElement("section");
@@ -371,12 +377,25 @@
         const sectionTitle = document.createElement("h3");
         sectionTitle.className = "business-locate-subsection-title";
         sectionTitle.textContent = heading;
-        const grid = checkboxGrid("businessIndustry", values, state.industry.values, false);
+        const grid = checkboxGrid("businessIndustry", values, industrySelection, false);
         section.append(sectionTitle, grid);
         return section;
       };
-      const prioritySection = makeIndustrySection("常用行業別", [...PRIORITY_INDUSTRIES, EMPTY_INDUSTRY]);
+      const prioritySection = makeIndustrySection("常用行業別", [ALL_PRIORITY_INDUSTRIES, ...commonIndustryValues]);
       const otherSection = makeIndustrySection("其他行業別", OTHER_INDUSTRIES);
+      const allPriorityInput = prioritySection.querySelector(`input[value="${ALL_PRIORITY_INDUSTRIES}"]`);
+      const priorityInputs = Array.from(prioritySection.querySelectorAll("input")).filter((input) => input !== allPriorityInput);
+      const syncAllPriorityState = () => {
+        const checkedCount = priorityInputs.filter((input) => input.checked).length;
+        allPriorityInput.checked = checkedCount === priorityInputs.length;
+        allPriorityInput.indeterminate = checkedCount > 0 && checkedCount < priorityInputs.length;
+      };
+      allPriorityInput.addEventListener("change", () => {
+        priorityInputs.forEach((input) => { input.checked = allPriorityInput.checked; });
+        allPriorityInput.indeterminate = false;
+      });
+      priorityInputs.forEach((input) => input.addEventListener("change", syncAllPriorityState));
+      syncAllPriorityState();
       const emptySearchResult = document.createElement("p");
       emptySearchResult.className = "business-industry-empty-search";
       emptySearchResult.textContent = "找不到符合的行業別。";
@@ -462,6 +481,7 @@
       state.regulated.enabled = true;
     } else if (currentModalKind === "industry") {
       state.industry.values = selectedValues('input[name="businessIndustry"]', (input) => input.value);
+      state.industry.values.delete(ALL_PRIORITY_INDUSTRIES);
       state.industry.enabled = true;
     } else if (currentModalKind === "water") {
       state.water.values = selectedValues('input[name="businessWaterItem"]', (input) => input.value);
@@ -487,7 +507,7 @@
   function resetFilter(kind) {
     state[kind].enabled = false;
     if (kind === "district") {
-      state.district.values = new Set(DISTRICTS);
+      state.district.values = new Set();
     } else if (kind === "regulated") {
       state.regulated.statuses.clear();
       state.regulated.types.clear();
