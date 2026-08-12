@@ -38,6 +38,16 @@ pnpm build
 
 輸出會放在 `dist/`，此目錄不納入 Git。
 
+## 新北市地址定位 API
+
+複製 `.env.example` 為 `.env`，並填入新北市 GIS 核發的系統授權資訊：
+
+```dotenv
+NTPC_GIS_API_KEY=你的系統授權資訊
+```
+
+開發與本機預覽時，Vite 會透過 `/api/ntpc-fast-location` 代理呼叫新北市 GIS，並由伺服器端加入 `Referer: http://211.21.98.79`，授權資訊不會送進前端程式碼。正式部署靜態檔案時，Web Server 也必須將同一路徑反向代理至 `https://www.gis.ntpc.gov.tw/Func_Service/QueryFastLocAPI.aspx`，並加入相同的 `Referer` 與 `Key`。
+
 ## Git 分支
 
 - `main`：轉換前的原始靜態版本

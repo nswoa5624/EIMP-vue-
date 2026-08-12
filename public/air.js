@@ -926,6 +926,14 @@ document.addEventListener("DOMContentLoaded", () => {
   { id: "NB0012", controlNo: "NFB-0012", businessName: "八里車材整理場", unifiedNo: "81234567", industryName: "汽車零件製造業", address: "新北市八里區龍米路附近", lat: 25.1650, lng: 121.3890, areaId: "Bali" }
 ];
 
+  // 提供環域分析直接使用地圖既有的案件與事業圖層資料。
+  window.EIMPAnalysisSourceLayers = [
+    { key: "air", label: "空污陳情", icon: "images/民眾陳情.png", items: airCases },
+    { key: "fire", label: "火災", icon: "images/火災報案.png", items: fireCases },
+    { key: "regBusiness", label: "列管事業", icon: "images/工廠許可(列管).png", items: regBusinessCases },
+    { key: "nonRegBusiness", label: "非列管事業", icon: "images/工廠許可.png", items: nonRegBusinessCases },
+  ];
+
   // ====== 4. 行政區 Polygon 狀態 ======
   const areaLayers = {};
   const areaMeta = {};
@@ -1397,10 +1405,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function removeLocationMarkerIfUnlockedAndExists() {
-    if (!locationLocked && locationMarker) {
+  function removeLocationMarkerIfUnlockedAndExists(force = false) {
+    if (force && locationMarker) {
       map.removeLayer(locationMarker);
       locationMarker = null;
+      currentLatLng = null;
+      lastSimPopupInfo = null;
+      window.EIMPLocationTools?.clearLocation();
     }
   }
 
@@ -1421,61 +1432,42 @@ document.addEventListener("DOMContentLoaded", () => {
       }).addTo(map);
     }
 
-    locationMarker.off("click");
-    locationMarker.on("click", (e) => {
-      if (e && e.originalEvent) L.DomEvent.stop(e.originalEvent);
-      closeAllPopups();
-      openLocationPopup(info);
-    });
-
     if (coordLabel) {
       coordLabel.textContent =
         `緯度：${latlng.lat.toFixed(5)}，經度：${latlng.lng.toFixed(5)}`;
     }
 
-    if (info) lastSimPopupInfo = info;
+    lastSimPopupInfo = info || null;
+    window.EIMPLocationTools?.setLocation({ lat: latlng.lat, lng: latlng.lng, ...(info || {}) });
+    bindLocationPopup(info);
+    locationMarker.openPopup();
   }
 
-  // 快速定位 popup
-  function openLocationPopup(info) {
+  function bindLocationPopup(info) {
     if (!locationMarker) return;
 
     const latlng = locationMarker.getLatLng();
-    currentLatLng = latlng;
-
-    if (coordLabel) {
-      coordLabel.textContent = `緯度：${latlng.lat.toFixed(5)}，經度：${latlng.lng.toFixed(5)}`;
-    }
-
-    const html = `
-      <div class="sim-popup-container">
-
-
-        <div class="sim-popup-row">
-          <div class="sim-popup-label">經度：</div>
-          <div class="sim-popup-value">${latlng.lng.toFixed(6)}° E</div>
-        </div>
-        <div class="sim-popup-row">
-          <div class="sim-popup-label">緯度：</div>
-          <div class="sim-popup-value">${latlng.lat.toFixed(6)}° N</div>
-        </div>
-
-      </div>
-
-      <div class="sim-popup-footer">
-        <button class="popup-btn-open">開啟 模擬圖層</button>
-      </div>
-    `;
+    const details = { lat: latlng.lat, lng: latlng.lng, ...(info || lastSimPopupInfo || {}) };
+    const html = window.EIMPLocationTools?.buildPopupContent(details) || "定位資訊";
 
     locationMarker.unbindPopup();
     locationMarker.bindPopup(html, {
       maxWidth: 300,
       minWidth: 271,
-      className: "custom-sim-popup",
+      className: "custom-case-popup custom-location-popup",
       closeButton: true,
       autoClose: false,
       closeOnClick: false,
     });
+  }
+
+  // 快速定位 popup
+  function openLocationPopup(info) {
+    if (!locationMarker) return;
+    const latlng = locationMarker.getLatLng();
+    currentLatLng = latlng;
+    if (coordLabel) coordLabel.textContent = `緯度：${latlng.lat.toFixed(5)}，經度：${latlng.lng.toFixed(5)}`;
+    bindLocationPopup(info);
     locationMarker.openPopup();
   }
 
@@ -1663,7 +1655,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function getFireCaseFromPopup(popup) {
     const fireCaseId = popup?.dataset?.fireCaseId;
-    return fireCases.find((item) => String(item.id) === String(fireCaseId)) || null;
+    return fireCases.find((item) => String(item.id) === String(fireCaseId))
+      || window.EIMPAnalysisPopupItems?.get?.(String(fireCaseId))
+      || null;
   }
 
   function getFireDispatchVehicleFromPopup(popup) {
@@ -1910,6 +1904,25 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     openDetail(item) {
       openBusinessDetailPanel(item);
+    },
+  };
+
+  window.EIMPAnalysisPopupBridge = {
+    buildPopupContent(item, type) {
+      return getCasePopupContent(item, type);
+    },
+    getMarkerIcon(item, type) {
+      return getCaseMarkerIcon(type, item);
+    },
+    getPopupOptions(item, type) {
+      if (type === "fire") return { maxWidth: 390, minWidth: 300, className: "custom-case-popup custom-fire-case-popup", closeButton: true, autoClose: false, closeOnClick: false };
+      return { maxWidth: 360, minWidth: 260, className: "custom-case-popup", closeButton: true, autoClose: false, closeOnClick: false };
+    },
+    beforeOpen(marker) {
+      closeAllPopups();
+      const latlng = marker.getLatLng();
+      currentLatLng = latlng;
+      if (coordLabel) coordLabel.textContent = `緯度：${latlng.lat.toFixed(5)}，經度：${latlng.lng.toFixed(5)}`;
     },
   };
 
@@ -2878,7 +2891,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const distSel = createDistrictSelect("cadDistrictSelect");
       quickLocateFormContainer.appendChild(createRow("行政區", distSel));
 
-      const sectionSel = createSimpleSelect("cadSectionSelect", ["請選擇地段","○○段","△△段"]);
+      const sectionSel = createSimpleSelect("cadSectionSelect", ["請選擇"]);
       quickLocateFormContainer.appendChild(createRow("地段", sectionSel));
 
       const motherInput = createNumberInput("cadMotherNoInput", "母號");
@@ -2886,12 +2899,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const subInput = createNumberInput("cadSubNoInput", "子號");
       quickLocateFormContainer.appendChild(createRow("地號子號", subInput));
+      window.EIMPNTPCAddressLocation?.bindLandSectionSelect();
     } else if (type === "address") {
       const distSel2 = createDistrictSelect("addrDistrictSelect");
       quickLocateFormContainer.appendChild(createRow("行政區", distSel2));
-
-      const addrInput = createTextInput("addrAddressInput", "請輸入地址");
-      quickLocateFormContainer.appendChild(createRow("地址", addrInput));
+      quickLocateFormContainer.appendChild(createRow("地址", createTextInput("addrAddressInput", "例：三民路1段1巷38弄1號")));
     } else if (type === "coord") {
       const lngInput = createNumberInput("coordLngInput", "請輸入經度");
       const latInput = createNumberInput("coordLatInput", "請輸入緯度");
@@ -2936,14 +2948,59 @@ document.addEventListener("DOMContentLoaded", () => {
       else if (!el.classList.contains("readonly-input")) el.value = "";
     });
     quickLocateLayer.clearLayers();
-    removeLocationMarkerIfUnlockedAndExists();
+    removeLocationMarkerIfUnlockedAndExists(true);
     closeAllPopups();
   }
 
   quickLocateClearBtn?.addEventListener("click", clearQuickLocateInputs);
 
-  quickLocateGoBtn?.addEventListener("click", () => {
+  quickLocateGoBtn?.addEventListener("click", async () => {
     const type = locateTypeSelect.value;
+
+    if (type === "cadastre") {
+      const service = window.EIMPNTPCAddressLocation;
+      if (!service) return alert("新北市地籍定位模組載入失敗。");
+      if (locationLocked) return alert("定位已鎖定，請先點鎖頭解鎖後再重新定位。");
+      const params = service.getCadastreValues();
+      quickLocateGoBtn.disabled = true;
+      try {
+        const { lat, lng } = await service.locateLandNumber(params);
+        closeAllPopups();
+        setSimulationLocation(L.latLng(lat, lng), {
+          town: params.town,
+          landSection: params.landSection,
+          landNumber: `${params.landNumberMom}-${params.landNumberSon || "0"}`,
+        });
+        map.setView([lat, lng], 17, { animate: false });
+      } catch (error) {
+        alert(error.message || "地籍定位失敗，請稍後再試。");
+      } finally {
+        quickLocateGoBtn.disabled = false;
+      }
+      return;
+    }
+
+    if (type === "address") {
+      const service = window.EIMPNTPCAddressLocation;
+      if (!service) return alert("新北市地址定位模組載入失敗。");
+      if (locationLocked) return alert("定位已鎖定，請先點鎖頭解鎖後再重新定位。");
+      const params = service.getFormValues();
+      quickLocateGoBtn.disabled = true;
+      try {
+        const { lat, lng } = await service.locateAddress(params);
+        closeAllPopups();
+        setSimulationLocation(L.latLng(lat, lng), {
+          town: params.town,
+          address: service.formatAddress(params),
+        });
+        map.setView([lat, lng], 17, { animate: false });
+      } catch (error) {
+        alert(error.message || "地址定位失敗，請稍後再試。");
+      } finally {
+        quickLocateGoBtn.disabled = false;
+      }
+      return;
+    }
 
     if (type === "coord") {
       const lngStr = document.getElementById("coordLngInput")?.value || "";
@@ -2968,10 +3025,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      setSimulationLocation(L.latLng(lat, lng), {
-        district: "(3+2)新北市OO區XX里",
-        address: "新北市OO區OO段",
-      });
+      setSimulationLocation(L.latLng(lat, lng));
 
       map.setView([lat, lng], map.getZoom(), { animate: false });
     } else {
@@ -2980,26 +3034,36 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ====== 13. 模擬流程：地圖點擊 ======
-  map.on("click", (e) => {
+  map.on("click", (event) => {
     if (selectionMode) return;
+    if (event.originalEvent?.target?.closest?.(".leaflet-marker-icon")) return;
 
     if (hasAnyPopupOpen()) {
       closeAllPopups();
       return;
     }
 
-    if (locationLocked) return;
-
-    const latlng = e.latlng;
-    setSimulationLocation(latlng);
   });
 
   function showModal() {
+    const mapPanel = modalBackdrop?.parentElement;
+    if (modalBackdrop && mapPanel) {
+      modalBackdrop.style.left = `${mapPanel.scrollLeft}px`;
+      modalBackdrop.style.top = `${mapPanel.scrollTop}px`;
+      modalBackdrop.style.right = "auto";
+      modalBackdrop.style.bottom = "auto";
+      modalBackdrop.style.width = `${mapPanel.clientWidth}px`;
+      modalBackdrop.style.height = `${mapPanel.clientHeight}px`;
+    }
     modalBackdrop?.classList.add("show");
   }
   function hideModal() {
     modalBackdrop?.classList.remove("show");
   }
+  document.addEventListener("eimp:open-simulation-analysis", () => {
+    if (currentLatLng) showModal();
+    else alert("無法獲取模擬位置座標，請重試。");
+  });
 
   function clearSimulationLayers() {
     if (dispersionLayer && map.hasLayer(dispersionLayer)) map.removeLayer(dispersionLayer);
@@ -3154,6 +3218,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   modalCloseBtn?.addEventListener("click", hideModal);
   btnCancel?.addEventListener("click", hideModal);
+  modalBackdrop?.addEventListener("click", (event) => {
+    if (event.target === modalBackdrop) hideModal();
+  });
 
   // ✅ 開始模擬：事件時間改成小時
   btnRun?.addEventListener("click", () => {

@@ -3,5 +3,5 @@ import { createLegacyPage } from "../legacy/createLegacyPage.js";
 
 createLegacyPage({
   bodyHtml,
-  scripts: ["/ui-common.js","/topic-common.js","/decision.js"],
+  scripts: ["/ui-common.js", "/ntpc-address-location.js", "/topic-common.js", "/decision.js"],
 });

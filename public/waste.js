@@ -914,6 +914,7 @@ function initWasteQuickLocate(context) {
 
   const quickLocateLayer = L.layerGroup().addTo(map);
   let quickLocateMarker = null;
+  const locationPopupOptions = { className: "custom-case-popup custom-location-popup", minWidth: 240, maxWidth: 320 };
 
   const newTaipeiDistricts = [
     "板橋區", "中和區", "永和區", "新店區", "土城區", "新莊區", "三重區", "蘆洲區", "汐止區",
@@ -1006,12 +1007,14 @@ function initWasteQuickLocate(context) {
 
     if (type === "cadastre") {
       formContainer.appendChild(createRow("行政區", createDistrictSelect("cadDistrictSelect")));
-      formContainer.appendChild(createRow("地段", createSimpleSelect("cadSectionSelect", ["請選擇地段", "○○段", "△△段"])));
+      const sectionSelect = createSimpleSelect("cadSectionSelect", ["請選擇"]);
+      formContainer.appendChild(createRow("地段", sectionSelect));
       formContainer.appendChild(createRow("地號母號", createNumberInput("cadMotherNoInput", "母號")));
       formContainer.appendChild(createRow("地號子號", createNumberInput("cadSubNoInput", "子號")));
+      window.EIMPNTPCAddressLocation?.bindLandSectionSelect();
     } else if (type === "address") {
       formContainer.appendChild(createRow("行政區", createDistrictSelect("addrDistrictSelect")));
-      formContainer.appendChild(createRow("地址", createTextInput("addrAddressInput", "請輸入地址")));
+      formContainer.appendChild(createRow("地址", createTextInput("addrAddressInput", "例：三民路1段1巷38弄1號")));
     } else if (type === "coord") {
       formContainer.appendChild(createRow("經度", createNumberInput("coordLngInput", "請輸入經度")));
       formContainer.appendChild(createRow("緯度", createNumberInput("coordLatInput", "請輸入緯度")));
@@ -1038,6 +1041,7 @@ function initWasteQuickLocate(context) {
       map.removeLayer(quickLocateMarker);
       quickLocateMarker = null;
     }
+    window.EIMPLocationTools?.clearLocation();
     map.closePopup();
   };
 
@@ -1047,8 +1051,48 @@ function initWasteQuickLocate(context) {
 
   clearBtn.addEventListener("click", clearQuickLocateInputs);
 
-  goBtn.addEventListener("click", () => {
+  goBtn.addEventListener("click", async () => {
     const type = typeSelect.value;
+
+    if (type === "cadastre") {
+      const service = window.EIMPNTPCAddressLocation;
+      if (!service) return alert("新北市地籍定位模組載入失敗。");
+      const params = service.getCadastreValues();
+      goBtn.disabled = true;
+      try {
+        const { lat, lng } = await service.locateLandNumber(params);
+        if (quickLocateMarker) map.removeLayer(quickLocateMarker);
+        const details = { lat, lng, town: params.town, landSection: params.landSection, landNumber: `${params.landNumberMom}-${params.landNumberSon || "0"}` };
+        window.EIMPLocationTools?.setLocation(details);
+        quickLocateMarker = L.marker([lat, lng]).addTo(map).bindPopup(window.EIMPLocationTools?.buildPopupContent(details) || "地籍定位", locationPopupOptions).openPopup();
+        map.setView([lat, lng], 17, { animate: false });
+      } catch (error) {
+        alert(error.message || "地籍定位失敗，請稍後再試。");
+      } finally {
+        goBtn.disabled = false;
+      }
+      return;
+    }
+
+    if (type === "address") {
+      const service = window.EIMPNTPCAddressLocation;
+      if (!service) return alert("新北市地址定位模組載入失敗。");
+      const params = service.getFormValues();
+      goBtn.disabled = true;
+      try {
+        const { lat, lng } = await service.locateAddress(params);
+        if (quickLocateMarker) map.removeLayer(quickLocateMarker);
+        const details = { lat, lng, town: params.town, address: service.formatAddress(params) };
+        window.EIMPLocationTools?.setLocation(details);
+        quickLocateMarker = L.marker([lat, lng]).addTo(map).bindPopup(window.EIMPLocationTools?.buildPopupContent(details) || details.address, locationPopupOptions).openPopup();
+        map.setView([lat, lng], 17, { animate: false });
+      } catch (error) {
+        alert(error.message || "地址定位失敗，請稍後再試。");
+      } finally {
+        goBtn.disabled = false;
+      }
+      return;
+    }
 
     if (type === "coord") {
       const lngStr = document.getElementById("coordLngInput")?.value || "";
@@ -1068,16 +1112,11 @@ function initWasteQuickLocate(context) {
       }
 
       if (quickLocateMarker) map.removeLayer(quickLocateMarker);
-
+      const details = { lat, lng };
+      window.EIMPLocationTools?.setLocation(details);
       quickLocateMarker = L.marker([lat, lng])
         .addTo(map)
-        .bindPopup(`
-          <div class="topic-popup">
-            <div class="topic-popup-title">快速定位</div>
-            <div class="topic-popup-row"><span>經度</span><b>${lng.toFixed(6)}° E</b></div>
-            <div class="topic-popup-row"><span>緯度</span><b>${lat.toFixed(6)}° N</b></div>
-          </div>
-        `)
+        .bindPopup(window.EIMPLocationTools?.buildPopupContent(details) || "快速定位", locationPopupOptions)
         .openPopup();
 
       map.setView([lat, lng], map.getZoom(), { animate: false });

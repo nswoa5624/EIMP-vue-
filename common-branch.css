@@ -1128,7 +1128,7 @@ body {
   padding: 4px 8px;
   border-radius: 4px;
   border: 2px solid rgba(255, 255, 255, 0.16);
-  background: #161b24;
+  background: #6a7282;
   color: #dae3f3;
   outline: none;
 }
@@ -1139,7 +1139,7 @@ body {
   padding: 5px 8px;
   border-radius: 4px;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  background: #1b222f;
+  background: #6a7282;
   color: #e5e7f3;
   font-size: 12px;
   outline: none;
@@ -1152,10 +1152,34 @@ body {
 /* 縣市鎖定 */
 
 .readonly-input {
-  background: rgb(191, 191, 191, 0.5);
+  background: #6a7282;
   pointer-events: none;
   text-align: left;
   padding-left: 13px;
+}
+
+/* 快速定位欄位在輸入、聚焦與瀏覽器自動填入後維持一致底色 */
+.quick-locate-wrapper .quick-locate-select,
+.quick-locate-wrapper .quick-locate-input,
+.quick-locate-wrapper .quick-locate-select:focus,
+.quick-locate-wrapper .quick-locate-input:focus,
+.quick-locate-wrapper .quick-locate-input:valid,
+.quick-locate-wrapper .quick-locate-input:invalid {
+  background-color: #6a7282;
+}
+
+.quick-locate-wrapper .quick-locate-select option {
+  background-color: #6a7282;
+  color: #dae3f3;
+}
+
+.quick-locate-wrapper .quick-locate-input:-webkit-autofill,
+.quick-locate-wrapper .quick-locate-input:-webkit-autofill:hover,
+.quick-locate-wrapper .quick-locate-input:-webkit-autofill:focus,
+.quick-locate-wrapper .quick-locate-input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #6a7282 inset;
+  -webkit-text-fill-color: #e5e7f3;
+  caret-color: #e5e7f3;
 }
 
 /* 動態欄位容器 */
@@ -1373,6 +1397,501 @@ body {
 .footer-buttons {
   display: flex;
   gap: 8px;
+}
+
+.location-popup-actions {
+  justify-content: center !important;
+  align-items: stretch !important;
+  gap: 10px;
+  padding: 9px 14px 11px !important;
+  border-top: none !important;
+  background: #f8f9fa !important;
+}
+
+.location-popup-actions > button {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 38px;
+  margin: 0 !important;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(31, 42, 58, 0.16);
+  transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease, border-color 0.16s ease;
+}
+
+.location-popup-actions [data-open-analysis-tools] {
+  flex: 0 0 auto;
+  min-height: 32px;
+  padding: 6px 20px;
+  border: 1px solid #364153;
+  border-radius: 999px;
+  background: #364153;
+  color: #ffffff;
+  font-size: 12px;
+}
+
+.location-popup-actions [data-open-analysis-tools]:hover {
+  border-color: #415065;
+  background: #415065;
+  box-shadow: 0 4px 10px rgba(54, 65, 83, 0.3);
+}
+
+.location-popup-actions [data-open-analysis-tools]::before {
+  content: "◆";
+  margin-right: 6px;
+  font-size: 10px;
+}
+
+.location-popup-actions > button:hover {
+  transform: translateY(-1px);
+}
+
+.location-popup-actions > button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(31, 42, 58, 0.18);
+}
+
+.location-popup-actions > button:focus-visible {
+  outline: 2px solid #63e0cf;
+  outline-offset: 2px;
+}
+
+.environment-analysis-overlay {
+  z-index: 4500;
+  padding: 20px;
+  background: rgba(18, 27, 36, 0.58);
+  backdrop-filter: blur(3px);
+}
+
+.analysis-tool-switch {
+  margin: 4px 18px 14px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.analysis-tool-switch .param-group {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+}
+
+.analysis-tool-switch .param-label {
+  margin: 0;
+  font-weight: 700;
+  color: #bfd0d8;
+}
+
+.analysis-tool-switch .param-select {
+  height: 36px;
+  padding: 7px 10px;
+  border-color: rgba(112, 231, 211, 0.44);
+  background: #202c39;
+  color: #edf8f6;
+}
+
+.analysis-tool-switch .param-select option {
+  background: #202c39;
+  color: #edf8f6;
+}
+
+[data-environment-panel][hidden] {
+  display: none !important;
+}
+
+.environment-analysis-dialog {
+  max-height: calc(100% - 32px);
+  overflow: auto;
+}
+
+.environment-analysis-dialog,
+#modalBackdrop .modal {
+  background: #323e4f;
+  color: #cdeee8;
+}
+
+.environment-analysis-dialog .modal-title,
+#modalBackdrop .modal-title {
+  color: #63e0cf;
+}
+
+.environment-analysis-dialog .modal-close,
+#modalBackdrop .modal-close,
+.environment-analysis-dialog .coord-label,
+#modalBackdrop .coord-label,
+.environment-analysis-dialog .param-label,
+#modalBackdrop .param-label,
+.environment-analysis-dialog .footer-hint,
+#modalBackdrop .footer-hint {
+  color: #cdeee8;
+}
+
+.environment-analysis-dialog .section-title,
+#modalBackdrop .section-title {
+  color: #63e0cf;
+}
+
+.environment-analysis-dialog .param-input,
+.environment-analysis-dialog .param-select,
+#modalBackdrop .param-input,
+#modalBackdrop .param-select {
+  border-color: rgba(205, 238, 232, 0.28);
+  background: #2f3947;
+  color: #cdeee8;
+}
+
+.environment-analysis-dialog .param-select option,
+#modalBackdrop .param-select option {
+  background: #2f3947;
+  color: #cdeee8;
+}
+
+.environment-analysis-dialog .mode-option,
+#modalBackdrop .mode-option {
+  border-color: rgba(205, 238, 232, 0.24);
+  background: #2f3947;
+  color: #cdeee8;
+}
+
+.environment-analysis-dialog .mode-option.active,
+#modalBackdrop .mode-option.active {
+  border-color: #63e0cf;
+  background: #394a58;
+  box-shadow: 0 0 0 1px rgba(99, 224, 207, 0.35);
+}
+
+.environment-analysis-dialog .mode-desc,
+#modalBackdrop .mode-desc {
+  color: #a9c9c4;
+}
+
+.environment-analysis-body {
+  padding-top: 2px;
+}
+
+.environment-analysis-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.environment-analysis-range {
+  grid-template-columns: 1fr;
+}
+
+.environment-analysis-result {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.environment-analysis-result:empty {
+  display: none;
+}
+
+.environment-analysis-result strong,
+.environment-analysis-result span {
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: #eef2f6;
+  color: #4b5563;
+  font-size: 12px;
+}
+
+.environment-analysis-result strong {
+  background: #497782;
+  color: #fff;
+}
+
+.environment-analysis-footer .environment-analysis-clear {
+  width: auto;
+}
+
+/* 分析工具視窗：沿用快速定位「事業定位設定」的視覺語言 */
+.environment-analysis-dialog,
+#modalBackdrop .modal {
+  width: min(520px, calc(100% - 24px));
+  max-width: calc(100% - 24px);
+  max-height: min(610px, calc(100% - 40px));
+  overflow: auto;
+  padding: 0;
+  border: 1px solid rgba(112, 231, 211, 0.72);
+  border-radius: 10px;
+  background: #323e4f;
+  color: #edf8f6;
+  box-shadow: 0 18px 60px rgba(4, 12, 18, 0.58), 0 0 0 1px rgba(112, 231, 211, 0.08);
+}
+
+#modalBackdrop {
+  padding: 20px;
+  background: rgba(18, 27, 36, 0.58);
+  backdrop-filter: blur(3px);
+}
+
+.environment-analysis-dialog .modal-header,
+#modalBackdrop .modal-header {
+  margin: 0;
+  padding: 14px 18px 6px;
+  background: #323e4f;
+}
+
+.environment-analysis-dialog .modal-title,
+#modalBackdrop .modal-title {
+  color: #70e7d3;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.environment-analysis-dialog .modal-close,
+#modalBackdrop .modal-close {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid rgba(112, 231, 211, 0.22);
+  border-radius: 50%;
+  background: #3d5a61;
+  color: #dae3f3;
+}
+
+.environment-analysis-dialog .modal-close:hover,
+.environment-analysis-dialog .modal-close:focus-visible,
+#modalBackdrop .modal-close:hover,
+#modalBackdrop .modal-close:focus-visible {
+  background: #496970;
+}
+
+.environment-analysis-dialog > .coord-label,
+#modalBackdrop .modal > .coord-label {
+  margin: 0 18px 10px;
+  color: #bfd0d8;
+}
+
+.environment-analysis-dialog .section-title,
+#modalBackdrop .section-title {
+  margin: 10px 18px 8px;
+  padding: 0;
+  border-left: 0;
+  color: #70e7d3;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.environment-analysis-dialog > .mode-row,
+.environment-analysis-dialog > .param-grid,
+.environment-analysis-dialog > .environment-analysis-body,
+#modalBackdrop .modal > .mode-row,
+#modalBackdrop .modal > .param-grid {
+  margin-right: 18px;
+  margin-left: 18px;
+}
+
+.environment-analysis-dialog .param-label,
+#modalBackdrop .param-label,
+.environment-analysis-dialog .footer-hint,
+#modalBackdrop .footer-hint {
+  color: #bfd0d8;
+}
+
+.environment-analysis-dialog .param-input,
+.environment-analysis-dialog .param-select,
+#modalBackdrop .param-input,
+#modalBackdrop .param-select {
+  height: 34px;
+  padding: 7px 10px;
+  border-color: rgba(112, 231, 211, 0.44);
+  border-radius: 6px;
+  background: #202c39;
+  color: #edf8f6;
+  outline: none;
+}
+
+.environment-analysis-dialog .param-input:focus,
+.environment-analysis-dialog .param-select:focus,
+#modalBackdrop .param-input:focus,
+#modalBackdrop .param-select:focus {
+  border-color: #70e7d3;
+  box-shadow: 0 0 0 2px rgba(112, 231, 211, 0.14);
+}
+
+.environment-analysis-dialog .param-select option,
+#modalBackdrop .param-select option {
+  background: #202c39;
+  color: #edf8f6;
+}
+
+.environment-analysis-dialog .mode-option,
+#modalBackdrop .mode-option {
+  min-height: 36px;
+  padding: 8px 10px;
+  border-color: rgba(137, 164, 181, 0.35);
+  border-radius: 6px;
+  background: #2a3644;
+  color: #e2efed;
+}
+
+.environment-analysis-dialog .mode-option.active,
+#modalBackdrop .mode-option.active {
+  border-color: #6fa9a2;
+  background: rgba(68, 105, 112, 0.52);
+  color: #e4efed;
+  box-shadow: none;
+}
+
+.environment-analysis-dialog .mode-option:hover,
+#modalBackdrop .mode-option:hover {
+  border-color: rgba(111, 169, 162, 0.72);
+  background: #334454;
+}
+
+.environment-analysis-dialog .mode-option input,
+#modalBackdrop .mode-option input {
+  accent-color: #5f9691;
+}
+
+.environment-analysis-dialog .mode-desc,
+#modalBackdrop .mode-desc {
+  color: #a9bad0;
+}
+
+.environment-analysis-result strong,
+.environment-analysis-result span {
+  background: #2a3644;
+  color: #e2efed;
+}
+
+.environment-analysis-result strong {
+  background: #497782;
+  color: #ffffff;
+}
+
+.environment-analysis-dialog .modal-footer,
+#modalBackdrop .modal-footer {
+  justify-content: flex-end;
+  margin: 0;
+  padding: 12px 18px 16px;
+  background: #323e4f;
+}
+
+.environment-analysis-dialog .footer-buttons,
+#modalBackdrop .footer-buttons {
+  gap: 10px;
+}
+
+.environment-analysis-dialog .modal-footer .btn,
+#modalBackdrop .modal-footer .btn {
+  width: auto;
+  min-width: 76px;
+  padding: 7px 14px;
+  background: #3d5a61;
+  color: #dae3f3;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 6px 20px rgba(0, 0, 0, 0.35);
+}
+
+.environment-analysis-dialog .modal-footer .btn-primary,
+#modalBackdrop .modal-footer .btn-primary {
+  background: #658faf;
+}
+
+.environment-analysis-dialog .modal-footer .btn:hover,
+#modalBackdrop .modal-footer .btn:hover {
+  background: #3e5a61;
+}
+
+.environment-analysis-dialog .modal-footer .btn-primary:hover,
+#modalBackdrop .modal-footer .btn-primary:hover {
+  background: #719abb;
+}
+
+/* 模擬分析參數需收在視窗邊框內，並在較矮地圖中保持緊湊 */
+#modalBackdrop .mode-section .param-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px 10px;
+  width: auto;
+  margin: 0 18px 8px;
+}
+
+#modalBackdrop .mode-section .param-group {
+  min-width: 0;
+}
+
+#modalBackdrop .mode-section .param-input,
+#modalBackdrop .mode-section .param-select {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+}
+
+#modalBackdrop .mode-section .param-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#modalBackdrop .mode-section .section-title {
+  margin-top: 8px;
+  margin-bottom: 6px !important;
+}
+
+#modalBackdrop .mode-row {
+  margin-bottom: 7px;
+}
+
+#modalBackdrop .modal-footer {
+  padding-top: 8px;
+}
+
+#trajectorySection .param-grid {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+.environment-analysis-results {
+  display: flex;
+  flex-direction: column;
+  height: min(560px, calc(100% - 50px));
+}
+
+.environment-analysis-results[hidden],
+.environment-analysis-results-backdrop[hidden] {
+  display: none;
+}
+
+.environment-analysis-results .business-locate-results-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
+}
+
+.environment-analysis-results-table th:nth-child(3),
+.environment-analysis-results-table td:nth-child(3) {
+  width: 90px;
+  max-width: 90px;
+}
+
+.environment-analysis-results-table th:nth-child(4),
+.environment-analysis-results-table td:nth-child(4) {
+  width: auto;
+  max-width: none;
+}
+
+.environment-analysis-results-footer {
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: flex-start;
+  padding: 10px 18px 16px;
+  background: #323e4f;
+}
+
+.environment-analysis-range-shape {
+  filter: drop-shadow(0 0 3px rgba(18, 27, 36, 0.9));
+  pointer-events: none;
 }
 
 @media (max-width: 640px) {
