@@ -1,4 +1,6 @@
 import { createApp, h, nextTick } from "vue";
+import PetitionPetAssistant from "../components/PetitionPetAssistant.js";
+import "../components/petition-pet-assistant.css";
 
 function loadScript(src) {
   return new Promise((resolve, reject) => {
@@ -14,10 +16,13 @@ export function createLegacyPage({ bodyHtml, scripts = [] }) {
   const app = createApp({
     name: "LegacyCompatiblePage",
     render() {
-      return h("div", {
-        class: "vue-page-host",
-        innerHTML: bodyHtml,
-      });
+      return h("div", { class: "vue-page-shell" }, [
+        h("div", {
+          class: "vue-page-host",
+          innerHTML: bodyHtml,
+        }),
+        h(PetitionPetAssistant),
+      ]);
     },
     async mounted() {
       await nextTick();
