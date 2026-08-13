@@ -1,4 +1,5 @@
 #app,
+.vue-page-shell,
 .vue-page-host {
   display: contents;
 }
