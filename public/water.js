@@ -601,7 +601,7 @@ function initWaterQualityTrendPanel(config) {
     const left = 38;
     const right = 322;
     const top = 14;
-    const bottom = 122;
+    const bottom = 144;
     const coordinates = values.map((value, index) => ({
       value,
       x: left + (index * (right - left)) / (values.length - 1),
@@ -632,7 +632,7 @@ function initWaterQualityTrendPanel(config) {
     [high, high - (high - low) / 3, high - ((high - low) * 2) / 3, low].forEach((value, index) => {
       const text = document.createElementNS(svgNamespace, "text");
       text.setAttribute("x", "32");
-      text.setAttribute("y", String(18 + index * 36));
+      text.setAttribute("y", String(18 + index * 43.3));
       text.setAttribute("text-anchor", "end");
       text.textContent = value.toFixed(selectedMetric === "temp" || selectedMetric === "ec" ? 1 : 2);
       yLabels.appendChild(text);
@@ -657,7 +657,7 @@ function initWaterQualityTrendPanel(config) {
     const metric = metricConfig[selectedMetric];
     const tooltipWidth = 94;
     const tooltipX = point.x > 218 ? point.x - tooltipWidth - 7 : point.x + 7;
-    const tooltipY = Math.max(16, Math.min(82, point.y - 18));
+    const tooltipY = Math.max(16, Math.min(104, point.y - 18));
 
     inspectorLine.setAttribute("x1", point.x.toFixed(1));
     inspectorLine.setAttribute("x2", point.x.toFixed(1));

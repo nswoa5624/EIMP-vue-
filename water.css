@@ -92,7 +92,7 @@
   min-height: 0;
   flex: 1;
   display: grid;
-  grid-template-columns: 148px minmax(0, 1fr);
+  grid-template-columns: 30% minmax(0, 70%);
   margin: 0 -10px;
 }
 
@@ -100,20 +100,20 @@
   display: grid;
   align-content: start;
   gap: 2px;
-  padding: 4px 7px 4px 10px;
+  padding: 3px 6px 3px 8px;
   background: #323e4f;
 }
 
 .topic-water .water-quality-metric {
   position: relative;
   width: 100%;
-  min-height: 43px;
+  min-height: 49px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: 5px;
   padding: 5px 5px 5px 7px;
-  border: 0;
+  border: 1px solid rgba(91, 118, 139, 0.5);
   border-radius: 4px;
   background: transparent;
   color: #e8f2fa;
@@ -128,6 +128,7 @@
 
 .topic-water .water-quality-metric.is-active {
   background: rgba(13, 21, 31, 0.28);
+  border-color: rgba(114, 139, 159, 0.68);
 }
 
 .topic-water .water-quality-metric-copy {
@@ -139,7 +140,8 @@
 
 .topic-water .water-quality-metric-name {
   color: #5ee9df;
-  font-size: 12px;
+  font-size: 11px;
+  white-space: nowrap;
 }
 
 .topic-water .water-quality-metric-code {
@@ -149,7 +151,7 @@
 
 .topic-water .water-quality-metric-value {
   color: #ffd23d;
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
@@ -163,7 +165,7 @@
 
 .topic-water .water-quality-chart-section {
   min-width: 0;
-  padding: 5px 8px 0;
+  padding: 3px 7px 0;
 }
 
 .topic-water .water-quality-chart-header {
@@ -171,7 +173,7 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  min-height: 38px;
+  min-height: 34px;
 }
 
 .topic-water .water-quality-chart-title {
@@ -211,7 +213,7 @@
 
 .topic-water .water-quality-chart {
   width: 100%;
-  height: 160px;
+  height: 180px;
   display: block;
   overflow: visible;
   touch-action: pan-y;
