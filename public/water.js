@@ -197,7 +197,7 @@ function initWaterPopupBehavior(context, config) {
 const EIMPWaterTopicConfig = {
   caseListPanOnly: true,
   stationSelectionPanelSelector: ".water-station-panel",
-  resetStationSelectionOnOutsideClick: true,
+  resetStationSelectionOnOutsideClick: false,
   stationLocations: {
     "忠孝碼頭": { lng: 121.5002090, lat: 25.0511440 },
     "華江碼頭": { lng: 121.4835090, lat: 25.0348980 },
@@ -473,41 +473,59 @@ const EIMPWaterTopicConfig = {
   },
   "stationData": {
     "忠孝碼頭": {
-      "ph": "7.1",
-      "temp": "26"
+      "ph": "6.81",
+      "temp": "30.4",
+      "ec": "345.61",
+      "do": "3.47"
     },
     "華江碼頭": {
       "ph": "7.3",
-      "temp": "25"
+      "temp": "29.8",
+      "ec": "332.48",
+      "do": "4.12"
     },
     "新海橋": {
       "ph": "6.9",
-      "temp": "26"
+      "temp": "29.5",
+      "ec": "361.20",
+      "do": "3.86"
     },
     "中正碼頭": {
       "ph": "7.2",
-      "temp": "25"
+      "temp": "30.1",
+      "ec": "318.75",
+      "do": "4.03"
     },
     "北新橋": {
       "ph": "7.4",
-      "temp": "24"
+      "temp": "28.9",
+      "ec": "297.42",
+      "do": "4.38"
     },
     "成美長壽橋": {
       "ph": "7.0",
-      "temp": "25"
+      "temp": "30.2",
+      "ec": "373.66",
+      "do": "3.72"
     },
     "承德橋": {
       "ph": "7.2",
-      "temp": "26"
+      "temp": "29.7",
+      "ec": "325.18",
+      "do": "4.21"
     },
     "臺北橋": {
       "ph": "7.5",
-      "temp": "26"
+      "temp": "30.0",
+      "ec": "349.83",
+      "do": "3.95"
     }
   },
   "defaultStationData": {
     "ph": "7.1",
-    "temp": "26"
+    "temp": "26",
+    "ec": "--",
+    "do": "--"
   },
   onMapReady(context) {
     initWaterPopupBehavior(context, EIMPWaterTopicConfig);
@@ -515,3 +533,143 @@ const EIMPWaterTopicConfig = {
 };
 
 window.EIMPTopic.initTopicPage(EIMPWaterTopicConfig);
+
+function initWaterQualityTrendPanel(config) {
+  const panel = document.getElementById("waterQualityMonitorPanel");
+  const content = document.getElementById("waterQualityContent");
+  const empty = document.getElementById("waterQualityEmpty");
+  const stationName = document.getElementById("waterQualityStationName");
+  const footer = document.getElementById("waterQualityFooter");
+  const chartTitle = document.getElementById("waterQualityChartTitle");
+  const latest = document.getElementById("waterQualityLatest");
+  const latestUnit = document.getElementById("waterQualityLatestUnit");
+  const chartLine = document.getElementById("waterQualityChartLine");
+  const chartArea = document.getElementById("waterQualityChartArea");
+  const chartPoints = document.getElementById("waterQualityChartPoints");
+  const yLabels = document.getElementById("waterQualityYLabels");
+  const metricButtons = Array.from(document.querySelectorAll("[data-water-metric]"));
+  if (!panel || !content || !chartLine || !chartArea || !chartPoints || !yLabels) return;
+
+  const metricConfig = {
+    ph: { name: "酸鹼度（pH）趨勢", unit: " pH", decimals: 2, offsets: [-0.07, 0.01, -0.04, 0.10, 0.07, 0.14, 0.05, 0] },
+    temp: { name: "水溫（WTEMP）趨勢", unit: " °C", decimals: 1, offsets: [-1.3, -1.8, -2.2, -2.4, -1.5, -0.3, 0.4, 0] },
+    ec: { name: "導電度（EC）趨勢", unit: " μS", decimals: 2, offsets: [-13.6, -7.6, -4.6, 4.4, 9.4, 3.4, -2.6, 0] },
+    do: { name: "水中溶氧（DO）趨勢", unit: " mg/L", decimals: 2, offsets: [0.63, 0.35, 0.18, -0.09, -0.35, -0.21, 0.04, 0] },
+  };
+
+  const svgNamespace = "http://www.w3.org/2000/svg";
+  let selectedStation = "";
+  let selectedMetric = "ph";
+
+  function getMetricValue(station, metric) {
+    const rawValue = config.stationData?.[station]?.[metric];
+    const value = Number(rawValue);
+    return Number.isFinite(value) ? value : null;
+  }
+
+  function buildSeries(station, metric) {
+    const current = getMetricValue(station, metric);
+    if (current === null) return [];
+    return metricConfig[metric].offsets.map((offset) => Number((current + offset).toFixed(metricConfig[metric].decimals)));
+  }
+
+  function renderChart() {
+    const metric = metricConfig[selectedMetric];
+    const values = buildSeries(selectedStation, selectedMetric);
+    if (!metric || !values.length) return;
+
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    const padding = Math.max((max - min) * 0.35, selectedMetric === "ec" ? 4 : 0.2);
+    const low = min - padding;
+    const high = max + padding;
+    const left = 46;
+    const right = 508;
+    const top = 14;
+    const bottom = 134;
+    const coordinates = values.map((value, index) => ({
+      value,
+      x: left + (index * (right - left)) / (values.length - 1),
+      y: bottom - ((value - low) / (high - low)) * (bottom - top),
+    }));
+    const path = coordinates.map((point, index) => `${index ? "L" : "M"} ${point.x.toFixed(1)} ${point.y.toFixed(1)}`).join(" ");
+
+    chartLine.setAttribute("d", path);
+    chartArea.setAttribute("d", `${path} L ${right} ${bottom} L ${left} ${bottom} Z`);
+    chartPoints.replaceChildren();
+    coordinates.forEach((point, index) => {
+      const circle = document.createElementNS(svgNamespace, "circle");
+      circle.setAttribute("class", "water-quality-chart-point");
+      circle.setAttribute("cx", point.x.toFixed(1));
+      circle.setAttribute("cy", point.y.toFixed(1));
+      circle.setAttribute("r", index === coordinates.length - 1 ? "4.5" : "3");
+      const title = document.createElementNS(svgNamespace, "title");
+      title.textContent = `${point.value}${metric.unit}`;
+      circle.appendChild(title);
+      chartPoints.appendChild(circle);
+    });
+
+    yLabels.replaceChildren();
+    [high, high - (high - low) / 3, high - ((high - low) * 2) / 3, low].forEach((value, index) => {
+      const text = document.createElementNS(svgNamespace, "text");
+      text.setAttribute("x", "39");
+      text.setAttribute("y", String(18 + index * 40));
+      text.setAttribute("text-anchor", "end");
+      text.textContent = value.toFixed(selectedMetric === "temp" || selectedMetric === "ec" ? 1 : 2);
+      yLabels.appendChild(text);
+    });
+
+    chartTitle.textContent = metric.name;
+    latest.textContent = config.stationData[selectedStation][selectedMetric];
+    latestUnit.textContent = metric.unit;
+  }
+
+  function selectMetric(metric) {
+    if (!metricConfig[metric]) return;
+    selectedMetric = metric;
+    metricButtons.forEach((button) => {
+      const isActive = button.dataset.waterMetric === metric;
+      button.classList.toggle("is-active", isActive);
+      button.setAttribute("aria-pressed", String(isActive));
+    });
+    renderChart();
+  }
+
+  function showStation(station) {
+    if (!config.stationData?.[station]) return;
+    selectedStation = station;
+    panel.classList.add("has-data");
+    content.hidden = false;
+    empty.hidden = true;
+    stationName.hidden = false;
+    footer.hidden = false;
+    stationName.textContent = station;
+
+    Object.keys(metricConfig).forEach((metric) => {
+      const valueElement = panel.querySelector(`[data-water-value="${metric}"]`);
+      if (valueElement) valueElement.textContent = config.stationData[station][metric] ?? "--";
+    });
+    selectMetric(selectedMetric);
+  }
+
+  metricButtons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+      event.stopPropagation();
+      selectMetric(button.dataset.waterMetric);
+    });
+  });
+
+  document.querySelectorAll(".waqi-station-btn").forEach((button) => {
+    button.addEventListener("click", () => showStation(button.dataset.station || button.textContent.trim()));
+  });
+
+  const commonSelectStation = config.selectStation;
+  if (typeof commonSelectStation === "function") {
+    config.selectStation = function selectStationWithTrend(station, options) {
+      commonSelectStation(station, options);
+      showStation(station);
+    };
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => initWaterQualityTrendPanel(EIMPWaterTopicConfig));

@@ -329,8 +329,8 @@
           </div>
         </article>
 
-        <!-- AQI -->
-        <article class="panel panel-large">
+        <!-- 河川水質監測 -->
+        <article class="panel panel-large water-quality-monitor-panel" id="waterQualityMonitorPanel">
           <div class="panel-header">
             <div class="panel-icon-left">
               <div class="panel-circle">
@@ -339,14 +339,98 @@
               <div class="panel-title-text">
                 <h2 class="panel-title">河川水質監測</h2>
               </div>
+              <span class="water-quality-station-name" id="waterQualityStationName" hidden></span>
             </div>
             <div class="panel-icon-right">
               <img src="/images/card-bar.png" alt="More" />
             </div>
           </div>
 
-          <div class="panel-body" style="text-align: center; font-size: 16px">
+          <div class="water-quality-empty" id="waterQualityEmpty">
             請選擇水質測站
+          </div>
+
+          <div class="water-quality-content" id="waterQualityContent" hidden>
+            <div class="water-quality-metrics" aria-label="選擇水質監測項目">
+              <div class="water-quality-hint">點選項目切換趨勢</div>
+
+              <button class="water-quality-metric is-active" type="button" data-water-metric="ph" aria-pressed="true">
+                <span class="water-quality-metric-copy">
+                  <span class="water-quality-metric-name">酸鹼度</span>
+                  <span class="water-quality-metric-code">pH</span>
+                </span>
+                <span class="water-quality-metric-value"><span data-water-value="ph">--</span><small>pH</small></span>
+              </button>
+
+              <button class="water-quality-metric" type="button" data-water-metric="temp" aria-pressed="false">
+                <span class="water-quality-metric-copy">
+                  <span class="water-quality-metric-name">水溫</span>
+                  <span class="water-quality-metric-code">WTEMP</span>
+                </span>
+                <span class="water-quality-metric-value"><span data-water-value="temp">--</span><small>°C</small></span>
+              </button>
+
+              <button class="water-quality-metric" type="button" data-water-metric="ec" aria-pressed="false">
+                <span class="water-quality-metric-copy">
+                  <span class="water-quality-metric-name">導電度</span>
+                  <span class="water-quality-metric-code">EC</span>
+                </span>
+                <span class="water-quality-metric-value"><span data-water-value="ec">--</span><small>μS</small></span>
+              </button>
+
+              <button class="water-quality-metric" type="button" data-water-metric="do" aria-pressed="false">
+                <span class="water-quality-metric-copy">
+                  <span class="water-quality-metric-name">水中溶氧</span>
+                  <span class="water-quality-metric-code">DO</span>
+                </span>
+                <span class="water-quality-metric-value"><span data-water-value="do">--</span><small>mg/L</small></span>
+              </button>
+            </div>
+
+            <div class="water-quality-chart-section">
+              <div class="water-quality-chart-header">
+                <div>
+                  <div class="water-quality-chart-title" id="waterQualityChartTitle">酸鹼度（pH）趨勢</div>
+                  <div class="water-quality-chart-period">近 24 小時 · 每 3 小時一筆</div>
+                </div>
+                <div class="water-quality-latest">
+                  <span>最新數值</span>
+                  <strong><span id="waterQualityLatest">--</span><small id="waterQualityLatestUnit"> pH</small></strong>
+                </div>
+              </div>
+
+              <svg class="water-quality-chart" id="waterQualityChart" viewBox="0 0 520 185" role="img" aria-labelledby="waterQualityChartTitle waterQualityChartDesc" preserveAspectRatio="none">
+                <desc id="waterQualityChartDesc">所選水質監測項目的近二十四小時折線趨勢</desc>
+                <defs>
+                  <linearGradient id="waterQualityAreaGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#58eee3" stop-opacity=".28"></stop>
+                    <stop offset="100%" stop-color="#58eee3" stop-opacity="0"></stop>
+                  </linearGradient>
+                </defs>
+                <g class="water-quality-chart-grid" aria-hidden="true">
+                  <line x1="46" y1="14" x2="508" y2="14"></line>
+                  <line x1="46" y1="54" x2="508" y2="54"></line>
+                  <line x1="46" y1="94" x2="508" y2="94"></line>
+                  <line x1="46" y1="134" x2="508" y2="134"></line>
+                </g>
+                <g class="water-quality-y-labels" id="waterQualityYLabels" aria-hidden="true"></g>
+                <g class="water-quality-x-labels" aria-hidden="true">
+                  <text x="46" y="161" text-anchor="middle">15:00</text>
+                  <text x="161" y="161" text-anchor="middle">21:00</text>
+                  <text x="277" y="161" text-anchor="middle">03:00</text>
+                  <text x="392" y="161" text-anchor="middle">09:00</text>
+                  <text x="508" y="161" text-anchor="middle">15:00</text>
+                </g>
+                <path class="water-quality-chart-area" id="waterQualityChartArea"></path>
+                <path class="water-quality-chart-line" id="waterQualityChartLine"></path>
+                <line class="water-quality-now-line" x1="508" y1="14" x2="508" y2="134"></line>
+                <g id="waterQualityChartPoints"></g>
+              </svg>
+            </div>
+          </div>
+
+          <div class="water-quality-footer" id="waterQualityFooter" hidden>
+            資料時間：2026/08/07 15:00
           </div>
         </article>
         <section aria-hidden="true" class="business-detail-panel" id="businessDetailPanel">
