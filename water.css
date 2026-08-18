@@ -62,12 +62,13 @@
 .topic-water .water-quality-monitor-panel {
   position: relative;
   overflow: hidden;
+  height: 295px;
 }
 
 .topic-water .water-quality-monitor-panel.has-data {
   z-index: 800;
   width: 100%;
-  height: 305px;
+  height: 295px;
 }
 
 .topic-water .water-quality-monitor-panel [hidden] {
@@ -274,7 +275,7 @@
 
 .topic-water .water-quality-chart {
   width: 100%;
-  height: 165px;
+  height: 155px;
   display: block;
   overflow: visible;
   touch-action: pan-y;
@@ -329,7 +330,7 @@
 
 .topic-water .water-quality-footer {
   margin: 0 -2px -4px;
-  transform: translateY(-4px);
+  transform: translateY(-7px);
   color: #91a6b8;
   font-size: 11px;
   text-align: right;
