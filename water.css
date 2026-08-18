@@ -62,13 +62,11 @@
 .topic-water .water-quality-monitor-panel {
   position: relative;
   overflow: hidden;
-  transition: width 180ms ease, box-shadow 180ms ease;
 }
 
 .topic-water .water-quality-monitor-panel.has-data {
   z-index: 800;
-  width: min(790px, calc(100vw - 40px));
-  box-shadow: 0 16px 36px rgba(4, 13, 23, 0.48);
+  width: 100%;
 }
 
 .topic-water .water-quality-monitor-panel [hidden] {
@@ -94,25 +92,16 @@
   min-height: 0;
   flex: 1;
   display: grid;
-  grid-template-columns: 245px minmax(0, 1fr);
+  grid-template-columns: 148px minmax(0, 1fr);
   margin: 0 -10px;
-  border-top: 1px solid rgba(125, 157, 179, 0.18);
 }
 
 .topic-water .water-quality-metrics {
   display: grid;
   align-content: start;
   gap: 2px;
-  padding: 7px 10px 5px;
-  background: rgba(23, 35, 49, 0.25);
-  border-right: 1px solid rgba(125, 157, 179, 0.2);
-}
-
-.topic-water .water-quality-hint {
-  padding: 0 7px 2px;
-  color: #9cafc1;
-  font-size: 11px;
-  letter-spacing: 0.03em;
+  padding: 4px 7px 4px 10px;
+  background: #323e4f;
 }
 
 .topic-water .water-quality-metric {
@@ -122,10 +111,10 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  gap: 8px;
-  padding: 5px 8px 5px 12px;
-  border: 1px solid transparent;
-  border-radius: 5px;
+  gap: 5px;
+  padding: 5px 5px 5px 7px;
+  border: 0;
+  border-radius: 4px;
   background: transparent;
   color: #e8f2fa;
   font-family: inherit;
@@ -134,23 +123,11 @@
 }
 
 .topic-water .water-quality-metric:hover {
-  background: rgba(75, 108, 132, 0.28);
+  background: rgba(21, 29, 40, 0.16);
 }
 
 .topic-water .water-quality-metric.is-active {
-  border-color: rgba(62, 158, 159, 0.54);
-  background: rgba(30, 107, 111, 0.24);
-}
-
-.topic-water .water-quality-metric.is-active::before {
-  content: "";
-  position: absolute;
-  top: 7px;
-  bottom: 7px;
-  left: 0;
-  width: 3px;
-  border-radius: 2px;
-  background: #58eee3;
+  background: rgba(13, 21, 31, 0.28);
 }
 
 .topic-water .water-quality-metric-copy {
@@ -162,31 +139,31 @@
 
 .topic-water .water-quality-metric-name {
   color: #5ee9df;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .topic-water .water-quality-metric-code {
   color: #91a6b8;
-  font-size: 10px;
+  font-size: 9px;
 }
 
 .topic-water .water-quality-metric-value {
   color: #ffd23d;
-  font-size: 20px;
+  font-size: 16px;
   line-height: 1;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 
 .topic-water .water-quality-metric-value small {
-  margin-left: 3px;
+  margin-left: 2px;
   color: #dfeaf3;
-  font-size: 10px;
+  font-size: 8px;
 }
 
 .topic-water .water-quality-chart-section {
   min-width: 0;
-  padding: 8px 12px 0;
+  padding: 5px 8px 0;
 }
 
 .topic-water .water-quality-chart-header {
@@ -199,14 +176,14 @@
 
 .topic-water .water-quality-chart-title {
   color: #f1f7fb;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
 }
 
 .topic-water .water-quality-chart-period {
   margin-top: 2px;
   color: #9cafc1;
-  font-size: 10px;
+  font-size: 9px;
 }
 
 .topic-water .water-quality-latest {
@@ -214,29 +191,32 @@
   flex-direction: column;
   align-items: flex-end;
   color: #95a9ba;
-  font-size: 10px;
+  font-size: 9px;
   white-space: nowrap;
 }
 
 .topic-water .water-quality-latest strong {
   margin-top: 1px;
   color: #ffd23d;
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 700;
   line-height: 1;
 }
 
 .topic-water .water-quality-latest small {
   color: #dfeaf3;
-  font-size: 10px;
+  font-size: 8px;
   font-weight: 400;
 }
 
 .topic-water .water-quality-chart {
   width: 100%;
-  height: 170px;
+  height: 160px;
   display: block;
   overflow: visible;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .topic-water .water-quality-chart-grid line {
@@ -248,7 +228,7 @@
 .topic-water .water-quality-y-labels text,
 .topic-water .water-quality-x-labels text {
   fill: #94a8b9;
-  font-size: 10px;
+  font-size: 9px;
 }
 
 .topic-water .water-quality-chart-area {
@@ -285,6 +265,45 @@
   text-align: right;
 }
 
+.topic-water .water-quality-chart-hit-area {
+  fill: transparent;
+  cursor: crosshair;
+  pointer-events: all;
+}
+
+.topic-water .water-quality-inspector-line {
+  stroke: rgba(230, 239, 247, 0.72);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+  vector-effect: non-scaling-stroke;
+}
+
+.topic-water .water-quality-inspector-point {
+  fill: #323e4f;
+  stroke: #eef7ff;
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.topic-water .water-quality-inspector-box {
+  fill: #202b39;
+  stroke: rgba(214, 228, 239, 0.24);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.topic-water .water-quality-inspector-time,
+.topic-water .water-quality-inspector-value {
+  fill: #dce9f3;
+  font-size: 9px;
+  pointer-events: none;
+}
+
+.topic-water .water-quality-inspector-value {
+  fill: #ffd23d;
+  font-weight: 700;
+}
+
 @media (max-width: 800px) {
   .topic-water .water-quality-monitor-panel.has-data {
     width: 100%;
@@ -302,13 +321,4 @@
     border-bottom: 1px solid rgba(125, 157, 179, 0.2);
   }
 
-  .topic-water .water-quality-hint {
-    grid-column: 1 / -1;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .topic-water .water-quality-monitor-panel {
-    transition: none;
-  }
 }

@@ -547,8 +547,17 @@ function initWaterQualityTrendPanel(config) {
   const chartArea = document.getElementById("waterQualityChartArea");
   const chartPoints = document.getElementById("waterQualityChartPoints");
   const yLabels = document.getElementById("waterQualityYLabels");
+  const chart = document.getElementById("waterQualityChart");
+  const chartHitArea = document.getElementById("waterQualityChartHitArea");
+  const chartInspector = document.getElementById("waterQualityChartInspector");
+  const inspectorLine = document.getElementById("waterQualityInspectorLine");
+  const inspectorPoint = document.getElementById("waterQualityInspectorPoint");
+  const inspectorTooltip = document.getElementById("waterQualityInspectorTooltip");
+  const inspectorBox = document.getElementById("waterQualityInspectorBox");
+  const inspectorTime = document.getElementById("waterQualityInspectorTime");
+  const inspectorValue = document.getElementById("waterQualityInspectorValue");
   const metricButtons = Array.from(document.querySelectorAll("[data-water-metric]"));
-  if (!panel || !content || !chartLine || !chartArea || !chartPoints || !yLabels) return;
+  if (!panel || !content || !chartLine || !chartArea || !chartPoints || !yLabels || !chart || !chartHitArea || !chartInspector) return;
 
   const metricConfig = {
     ph: { name: "酸鹼度（pH）趨勢", unit: " pH", decimals: 2, offsets: [-0.07, 0.01, -0.04, 0.10, 0.07, 0.14, 0.05, 0] },
@@ -558,8 +567,14 @@ function initWaterQualityTrendPanel(config) {
   };
 
   const svgNamespace = "http://www.w3.org/2000/svg";
+  const chartTimes = ["08/06 15:00", "08/06 18:00", "08/06 21:00", "08/07 00:00", "08/07 03:00", "08/07 06:00", "08/07 09:00", "08/07 15:00"];
   let selectedStation = "";
   let selectedMetric = "ph";
+  let renderedCoordinates = [];
+  let renderedValues = [];
+  let longPressTimer = 0;
+  let inspectorActive = false;
+  let pointerStart = null;
 
   function getMetricValue(station, metric) {
     const rawValue = config.stationData?.[station]?.[metric];
@@ -583,10 +598,10 @@ function initWaterQualityTrendPanel(config) {
     const padding = Math.max((max - min) * 0.35, selectedMetric === "ec" ? 4 : 0.2);
     const low = min - padding;
     const high = max + padding;
-    const left = 46;
-    const right = 508;
+    const left = 38;
+    const right = 322;
     const top = 14;
-    const bottom = 134;
+    const bottom = 122;
     const coordinates = values.map((value, index) => ({
       value,
       x: left + (index * (right - left)) / (values.length - 1),
@@ -596,6 +611,10 @@ function initWaterQualityTrendPanel(config) {
 
     chartLine.setAttribute("d", path);
     chartArea.setAttribute("d", `${path} L ${right} ${bottom} L ${left} ${bottom} Z`);
+    renderedCoordinates = coordinates;
+    renderedValues = values;
+    chartInspector.hidden = true;
+    inspectorActive = false;
     chartPoints.replaceChildren();
     coordinates.forEach((point, index) => {
       const circle = document.createElementNS(svgNamespace, "circle");
@@ -612,8 +631,8 @@ function initWaterQualityTrendPanel(config) {
     yLabels.replaceChildren();
     [high, high - (high - low) / 3, high - ((high - low) * 2) / 3, low].forEach((value, index) => {
       const text = document.createElementNS(svgNamespace, "text");
-      text.setAttribute("x", "39");
-      text.setAttribute("y", String(18 + index * 40));
+      text.setAttribute("x", "32");
+      text.setAttribute("y", String(18 + index * 36));
       text.setAttribute("text-anchor", "end");
       text.textContent = value.toFixed(selectedMetric === "temp" || selectedMetric === "ec" ? 1 : 2);
       yLabels.appendChild(text);
@@ -623,6 +642,82 @@ function initWaterQualityTrendPanel(config) {
     latest.textContent = config.stationData[selectedStation][selectedMetric];
     latestUnit.textContent = metric.unit;
   }
+
+  function getChartPointFromEvent(event) {
+    const rect = chart.getBoundingClientRect();
+    const svgX = ((event.clientX - rect.left) / rect.width) * 330;
+    const clampedX = Math.max(38, Math.min(322, svgX));
+    const index = Math.max(0, Math.min(renderedCoordinates.length - 1, Math.round(((clampedX - 38) / (322 - 38)) * (renderedCoordinates.length - 1))));
+    return { index, point: renderedCoordinates[index] };
+  }
+
+  function updateInspector(event) {
+    if (!renderedCoordinates.length) return;
+    const { index, point } = getChartPointFromEvent(event);
+    const metric = metricConfig[selectedMetric];
+    const tooltipWidth = 94;
+    const tooltipX = point.x > 218 ? point.x - tooltipWidth - 7 : point.x + 7;
+    const tooltipY = Math.max(16, Math.min(82, point.y - 18));
+
+    inspectorLine.setAttribute("x1", point.x.toFixed(1));
+    inspectorLine.setAttribute("x2", point.x.toFixed(1));
+    inspectorPoint.setAttribute("cx", point.x.toFixed(1));
+    inspectorPoint.setAttribute("cy", point.y.toFixed(1));
+    inspectorTooltip.setAttribute("transform", `translate(${tooltipX - 44} ${tooltipY - 18})`);
+    inspectorBox.setAttribute("x", "44");
+    inspectorBox.setAttribute("y", "18");
+    inspectorTime.setAttribute("x", "52");
+    inspectorTime.setAttribute("y", "32");
+    inspectorValue.setAttribute("x", "52");
+    inspectorValue.setAttribute("y", "46");
+    inspectorTime.textContent = chartTimes[index];
+    inspectorValue.textContent = `${renderedValues[index]}${metric.unit}`;
+    chartInspector.hidden = false;
+  }
+
+  function clearLongPress() {
+    window.clearTimeout(longPressTimer);
+    longPressTimer = 0;
+  }
+
+  function endInspector(event) {
+    clearLongPress();
+    if (inspectorActive && event?.pointerId !== undefined && chartHitArea.hasPointerCapture(event.pointerId)) {
+      chartHitArea.releasePointerCapture(event.pointerId);
+    }
+    inspectorActive = false;
+    pointerStart = null;
+    chartInspector.hidden = true;
+  }
+
+  chartHitArea.addEventListener("pointerdown", (event) => {
+    clearLongPress();
+    pointerStart = { x: event.clientX, y: event.clientY };
+    longPressTimer = window.setTimeout(() => {
+      inspectorActive = true;
+      chartHitArea.setPointerCapture(event.pointerId);
+      updateInspector(event);
+    }, 280);
+  });
+
+  chartHitArea.addEventListener("pointermove", (event) => {
+    if (inspectorActive) {
+      event.preventDefault();
+      updateInspector(event);
+      return;
+    }
+    if (pointerStart && Math.hypot(event.clientX - pointerStart.x, event.clientY - pointerStart.y) > 8) {
+      clearLongPress();
+      pointerStart = null;
+    }
+  });
+
+  chartHitArea.addEventListener("pointerup", endInspector);
+  chartHitArea.addEventListener("pointercancel", endInspector);
+  chartHitArea.addEventListener("lostpointercapture", () => {
+    inspectorActive = false;
+    chartInspector.hidden = true;
+  });
 
   function selectMetric(metric) {
     if (!metricConfig[metric]) return;
@@ -652,6 +747,24 @@ function initWaterQualityTrendPanel(config) {
     selectMetric(selectedMetric);
   }
 
+  function resetPanel() {
+    selectedStation = "";
+    selectedMetric = "ph";
+    endInspector();
+    panel.classList.remove("has-data");
+    content.hidden = true;
+    empty.hidden = false;
+    stationName.hidden = true;
+    footer.hidden = true;
+    document.querySelectorAll(".waqi-station-btn").forEach((button) => button.classList.remove("active"));
+    document.querySelector(config.stationSelectionPanelSelector)?.classList.remove("has-station-selection");
+    metricButtons.forEach((button) => {
+      const isDefault = button.dataset.waterMetric === "ph";
+      button.classList.toggle("is-active", isDefault);
+      button.setAttribute("aria-pressed", String(isDefault));
+    });
+  }
+
   metricButtons.forEach((button) => {
     button.addEventListener("click", (event) => {
       event.stopPropagation();
@@ -661,6 +774,12 @@ function initWaterQualityTrendPanel(config) {
 
   document.querySelectorAll(".waqi-station-btn").forEach((button) => {
     button.addEventListener("click", () => showStation(button.dataset.station || button.textContent.trim()));
+  });
+
+  document.addEventListener("click", (event) => {
+    const target = event.target instanceof Element ? event.target : event.target?.parentElement;
+    if (!selectedStation || target?.closest("#waterQualityMonitorPanel, .waqi-station-btn")) return;
+    resetPanel();
   });
 
   const commonSelectStation = config.selectStation;
