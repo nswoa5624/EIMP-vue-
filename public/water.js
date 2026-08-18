@@ -541,40 +541,59 @@ function initWaterQualityTrendPanel(config) {
   const stationName = document.getElementById("waterQualityStationName");
   const footer = document.getElementById("waterQualityFooter");
   const chartTitle = document.getElementById("waterQualityChartTitle");
-  const latest = document.getElementById("waterQualityLatest");
-  const latestUnit = document.getElementById("waterQualityLatestUnit");
   const chartLine = document.getElementById("waterQualityChartLine");
   const chartArea = document.getElementById("waterQualityChartArea");
   const chartPoints = document.getElementById("waterQualityChartPoints");
   const yLabels = document.getElementById("waterQualityYLabels");
+  const xLabels = document.getElementById("waterQualityXLabels");
   const chart = document.getElementById("waterQualityChart");
   const chartHitArea = document.getElementById("waterQualityChartHitArea");
   const chartInspector = document.getElementById("waterQualityChartInspector");
   const inspectorLine = document.getElementById("waterQualityInspectorLine");
+  const inspectorHorizontalLine = document.getElementById("waterQualityInspectorHorizontalLine");
   const inspectorPoint = document.getElementById("waterQualityInspectorPoint");
   const inspectorTooltip = document.getElementById("waterQualityInspectorTooltip");
   const inspectorBox = document.getElementById("waterQualityInspectorBox");
   const inspectorTime = document.getElementById("waterQualityInspectorTime");
   const inspectorValue = document.getElementById("waterQualityInspectorValue");
+  const rangeSelect = document.getElementById("waterQualityRangeSelect");
+  const startDateInput = document.getElementById("waterQualityStartDate");
+  const endDateInput = document.getElementById("waterQualityEndDate");
   const metricButtons = Array.from(document.querySelectorAll("[data-water-metric]"));
-  if (!panel || !content || !chartLine || !chartArea || !chartPoints || !yLabels || !chart || !chartHitArea || !chartInspector) return;
+  if (!panel || !content || !chartLine || !chartArea || !chartPoints || !yLabels || !xLabels || !chart || !chartHitArea || !chartInspector || !rangeSelect || !startDateInput || !endDateInput) return;
 
   const metricConfig = {
-    ph: { name: "酸鹼度（pH）趨勢", unit: " pH", decimals: 2, offsets: [-0.07, 0.01, -0.04, 0.10, 0.07, 0.14, 0.05, 0] },
-    temp: { name: "水溫（WTEMP）趨勢", unit: " °C", decimals: 1, offsets: [-1.3, -1.8, -2.2, -2.4, -1.5, -0.3, 0.4, 0] },
-    ec: { name: "導電度（EC）趨勢", unit: " μS", decimals: 2, offsets: [-13.6, -7.6, -4.6, 4.4, 9.4, 3.4, -2.6, 0] },
-    do: { name: "水中溶氧（DO）趨勢", unit: " mg/L", decimals: 2, offsets: [0.63, 0.35, 0.18, -0.09, -0.35, -0.21, 0.04, 0] },
+    ph: { name: "酸鹼度（pH）", unit: " pH", decimals: 2, amplitude: 0.16 },
+    temp: { name: "水溫（WTEMP）", unit: " °C", decimals: 1, amplitude: 2.4 },
+    ec: { name: "導電度（EC）", unit: " μS", decimals: 2, amplitude: 14 },
+    do: { name: "水中溶氧（DO）", unit: " mg/L", decimals: 2, amplitude: 0.6 },
+  };
+
+  const intervalConfig = {
+    "10m": { pointCount: 13, stepMilliseconds: 10 * 60 * 1000, axisFormat: "time" },
+    "1h": { pointCount: 25, stepMilliseconds: 60 * 60 * 1000, axisFormat: "time" },
+    "1d": { pointCount: 8, stepMilliseconds: 24 * 60 * 60 * 1000, axisFormat: "date" },
   };
 
   const svgNamespace = "http://www.w3.org/2000/svg";
-  const chartTimes = ["08/06 15:00", "08/06 18:00", "08/06 21:00", "08/07 00:00", "08/07 03:00", "08/07 06:00", "08/07 09:00", "08/07 15:00"];
   let selectedStation = "";
   let selectedMetric = "ph";
   let renderedCoordinates = [];
   let renderedValues = [];
+  let renderedTimes = [];
   let longPressTimer = 0;
   let inspectorActive = false;
   let pointerStart = null;
+
+  function setInspectorVisible(isVisible) {
+    if (isVisible) {
+      chartInspector.removeAttribute("hidden");
+      chartInspector.setAttribute("aria-hidden", "false");
+      return;
+    }
+    chartInspector.setAttribute("hidden", "");
+    chartInspector.setAttribute("aria-hidden", "true");
+  }
 
   function getMetricValue(station, metric) {
     const rawValue = config.stationData?.[station]?.[metric];
@@ -582,15 +601,69 @@ function initWaterQualityTrendPanel(config) {
     return Number.isFinite(value) ? value : null;
   }
 
+  function pad2(value) {
+    return String(value).padStart(2, "0");
+  }
+
+  function formatDateInput(date) {
+    return `${date.getFullYear()}-${pad2(date.getMonth() + 1)}-${pad2(date.getDate())}`;
+  }
+
+  function parseDateInput(value, hour = 15) {
+    const [year, month, day] = value.split("-").map(Number);
+    return new Date(year, month - 1, day, hour, 0, 0, 0);
+  }
+
+  function formatInspectorTime(date) {
+    return `${pad2(date.getMonth() + 1)}/${pad2(date.getDate())} ${pad2(date.getHours())}:${pad2(date.getMinutes())}`;
+  }
+
+  function formatAxisTime(date, format) {
+    if (format === "date") return `${pad2(date.getMonth() + 1)}/${pad2(date.getDate())}`;
+    return `${pad2(date.getHours())}:${pad2(date.getMinutes())}`;
+  }
+
   function buildSeries(station, metric) {
     const current = getMetricValue(station, metric);
     if (current === null) return [];
-    return metricConfig[metric].offsets.map((offset) => Number((current + offset).toFixed(metricConfig[metric].decimals)));
+    const selectedInterval = intervalConfig[rangeSelect.value] || intervalConfig["1h"];
+    const metricOptions = metricConfig[metric];
+    const values = Array.from({ length: selectedInterval.pointCount }, (_, index) => {
+      const wave = Math.sin(index * 0.86) * 0.52 + Math.cos(index * 0.41) * 0.28;
+      return Number((current + wave * metricOptions.amplitude).toFixed(metricOptions.decimals));
+    });
+    values[values.length - 1] = current;
+    return values;
+  }
+
+  function buildTimes() {
+    const selectedInterval = intervalConfig[rangeSelect.value] || intervalConfig["1h"];
+    const endDate = parseDateInput(endDateInput.value || "2026-08-07", rangeSelect.value === "1d" ? 0 : 15);
+    return Array.from({ length: selectedInterval.pointCount }, (_, index) => (
+      new Date(endDate.getTime() - (selectedInterval.pointCount - 1 - index) * selectedInterval.stepMilliseconds)
+    ));
+  }
+
+  function renderXAxis(times) {
+    const selectedInterval = intervalConfig[rangeSelect.value] || intervalConfig["1h"];
+    const lastIndex = times.length - 1;
+    const tickIndexes = Array.from(new Set([0, Math.round(lastIndex * 0.25), Math.round(lastIndex * 0.5), Math.round(lastIndex * 0.75), lastIndex]));
+    xLabels.replaceChildren();
+    tickIndexes.forEach((index, tickPosition) => {
+      const text = document.createElementNS(svgNamespace, "text");
+      const x = 38 + (index * (322 - 38)) / lastIndex;
+      text.setAttribute("x", x.toFixed(1));
+      text.setAttribute("y", "171");
+      text.setAttribute("text-anchor", tickPosition === 0 ? "start" : tickPosition === tickIndexes.length - 1 ? "end" : "middle");
+      text.textContent = formatAxisTime(times[index], selectedInterval.axisFormat);
+      xLabels.appendChild(text);
+    });
   }
 
   function renderChart() {
     const metric = metricConfig[selectedMetric];
     const values = buildSeries(selectedStation, selectedMetric);
+    const times = buildTimes();
     if (!metric || !values.length) return;
 
     const min = Math.min(...values);
@@ -613,7 +686,8 @@ function initWaterQualityTrendPanel(config) {
     chartArea.setAttribute("d", `${path} L ${right} ${bottom} L ${left} ${bottom} Z`);
     renderedCoordinates = coordinates;
     renderedValues = values;
-    chartInspector.hidden = true;
+    renderedTimes = times;
+    setInspectorVisible(false);
     inspectorActive = false;
     chartPoints.replaceChildren();
     coordinates.forEach((point, index) => {
@@ -638,9 +712,9 @@ function initWaterQualityTrendPanel(config) {
       yLabels.appendChild(text);
     });
 
+    renderXAxis(times);
+
     chartTitle.textContent = metric.name;
-    latest.textContent = config.stationData[selectedStation][selectedMetric];
-    latestUnit.textContent = metric.unit;
   }
 
   function getChartPointFromEvent(event) {
@@ -661,6 +735,8 @@ function initWaterQualityTrendPanel(config) {
 
     inspectorLine.setAttribute("x1", point.x.toFixed(1));
     inspectorLine.setAttribute("x2", point.x.toFixed(1));
+    inspectorHorizontalLine.setAttribute("y1", point.y.toFixed(1));
+    inspectorHorizontalLine.setAttribute("y2", point.y.toFixed(1));
     inspectorPoint.setAttribute("cx", point.x.toFixed(1));
     inspectorPoint.setAttribute("cy", point.y.toFixed(1));
     inspectorTooltip.setAttribute("transform", `translate(${tooltipX - 44} ${tooltipY - 18})`);
@@ -670,9 +746,9 @@ function initWaterQualityTrendPanel(config) {
     inspectorTime.setAttribute("y", "32");
     inspectorValue.setAttribute("x", "52");
     inspectorValue.setAttribute("y", "46");
-    inspectorTime.textContent = chartTimes[index];
+    inspectorTime.textContent = formatInspectorTime(renderedTimes[index]);
     inspectorValue.textContent = `${renderedValues[index]}${metric.unit}`;
-    chartInspector.hidden = false;
+    setInspectorVisible(true);
   }
 
   function clearLongPress() {
@@ -687,7 +763,7 @@ function initWaterQualityTrendPanel(config) {
     }
     inspectorActive = false;
     pointerStart = null;
-    chartInspector.hidden = true;
+    setInspectorVisible(false);
   }
 
   chartHitArea.addEventListener("pointerdown", (event) => {
@@ -697,7 +773,7 @@ function initWaterQualityTrendPanel(config) {
       inspectorActive = true;
       chartHitArea.setPointerCapture(event.pointerId);
       updateInspector(event);
-    }, 280);
+    }, event.pointerType === "mouse" ? 180 : 320);
   });
 
   chartHitArea.addEventListener("pointermove", (event) => {
@@ -714,9 +790,10 @@ function initWaterQualityTrendPanel(config) {
 
   chartHitArea.addEventListener("pointerup", endInspector);
   chartHitArea.addEventListener("pointercancel", endInspector);
+  chartHitArea.addEventListener("contextmenu", (event) => event.preventDefault());
   chartHitArea.addEventListener("lostpointercapture", () => {
     inspectorActive = false;
-    chartInspector.hidden = true;
+    setInspectorVisible(false);
   });
 
   function selectMetric(metric) {
@@ -729,6 +806,48 @@ function initWaterQualityTrendPanel(config) {
     });
     renderChart();
   }
+
+  function syncDateLimits(changedInput) {
+    const oneMonthMilliseconds = 31 * 24 * 60 * 60 * 1000;
+    let startDate = parseDateInput(startDateInput.value || "2026-08-06", 0);
+    let endDate = parseDateInput(endDateInput.value || "2026-08-07", 0);
+
+    if (startDate > endDate) {
+      if (changedInput === startDateInput) {
+        endDate = new Date(startDate);
+        endDateInput.value = formatDateInput(endDate);
+      } else {
+        startDate = new Date(endDate);
+        startDateInput.value = formatDateInput(startDate);
+      }
+    }
+
+    if (endDate - startDate > oneMonthMilliseconds) {
+      if (changedInput === startDateInput) {
+        endDate = new Date(startDate.getTime() + oneMonthMilliseconds);
+        endDateInput.value = formatDateInput(endDate);
+      } else {
+        startDate = new Date(endDate.getTime() - oneMonthMilliseconds);
+        startDateInput.value = formatDateInput(startDate);
+      }
+    }
+
+    const latestEndDate = new Date(startDate.getTime() + oneMonthMilliseconds);
+    const earliestStartDate = new Date(endDate.getTime() - oneMonthMilliseconds);
+    startDateInput.max = endDateInput.value;
+    startDateInput.min = formatDateInput(earliestStartDate);
+    endDateInput.min = startDateInput.value;
+    endDateInput.max = formatDateInput(latestEndDate);
+    if (selectedStation) renderChart();
+  }
+
+  rangeSelect.addEventListener("change", () => {
+    endInspector();
+    if (selectedStation) renderChart();
+  });
+  startDateInput.addEventListener("change", () => syncDateLimits(startDateInput));
+  endDateInput.addEventListener("change", () => syncDateLimits(endDateInput));
+  syncDateLimits();
 
   function showStation(station) {
     if (!config.stationData?.[station]) return;

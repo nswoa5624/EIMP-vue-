@@ -387,14 +387,19 @@
 
             <div class="water-quality-chart-section">
               <div class="water-quality-chart-header">
-                <div>
-                  <div class="water-quality-chart-title" id="waterQualityChartTitle">酸鹼度（pH）趨勢</div>
-                  <div class="water-quality-chart-period">近 24 小時 · 每 3 小時一筆</div>
-                </div>
-                <div class="water-quality-latest">
-                  <span>最新數值</span>
-                  <strong><span id="waterQualityLatest">--</span><small id="waterQualityLatestUnit"> pH</small></strong>
-                </div>
+                <div class="water-quality-chart-title" id="waterQualityChartTitle">酸鹼度（pH）</div>
+                <select class="water-quality-range-select" id="waterQualityRangeSelect" aria-label="查詢資料間隔">
+                  <option value="10m">10 分鐘</option>
+                  <option value="1h" selected>小時</option>
+                  <option value="1d">天</option>
+                </select>
+              </div>
+
+              <div class="water-quality-date-range" aria-label="查詢日期區間">
+                <label for="waterQualityStartDate">日期</label>
+                <input id="waterQualityStartDate" type="date" value="2026-08-06" />
+                <span aria-hidden="true">–</span>
+                <input id="waterQualityEndDate" type="date" value="2026-08-07" />
               </div>
 
               <svg class="water-quality-chart" id="waterQualityChart" viewBox="0 0 330 190" role="img" aria-labelledby="waterQualityChartTitle waterQualityChartDesc" preserveAspectRatio="none">
@@ -411,20 +416,16 @@
                   <line x1="38" y1="100" x2="322" y2="100"></line>
                   <line x1="38" y1="144" x2="322" y2="144"></line>
                 </g>
+                <line class="water-quality-y-axis" x1="38" y1="14" x2="38" y2="144" aria-hidden="true"></line>
                 <g class="water-quality-y-labels" id="waterQualityYLabels" aria-hidden="true"></g>
-                <g class="water-quality-x-labels" aria-hidden="true">
-                  <text x="38" y="171" text-anchor="start">15:00</text>
-                  <text x="109" y="171" text-anchor="middle">21:00</text>
-                  <text x="180" y="171" text-anchor="middle">03:00</text>
-                  <text x="251" y="171" text-anchor="middle">09:00</text>
-                  <text x="322" y="171" text-anchor="end">15:00</text>
-                </g>
+                <g class="water-quality-x-labels" id="waterQualityXLabels" aria-hidden="true"></g>
                 <path class="water-quality-chart-area" id="waterQualityChartArea"></path>
                 <path class="water-quality-chart-line" id="waterQualityChartLine"></path>
                 <line class="water-quality-now-line" x1="322" y1="14" x2="322" y2="144"></line>
                 <g id="waterQualityChartPoints"></g>
                 <g class="water-quality-chart-inspector" id="waterQualityChartInspector" hidden aria-hidden="true">
                   <line class="water-quality-inspector-line" id="waterQualityInspectorLine" x1="38" y1="14" x2="38" y2="144"></line>
+                  <line class="water-quality-inspector-line" id="waterQualityInspectorHorizontalLine" x1="38" y1="14" x2="322" y2="14"></line>
                   <circle class="water-quality-inspector-point" id="waterQualityInspectorPoint" cx="38" cy="14" r="4"></circle>
                   <g id="waterQualityInspectorTooltip">
                     <rect class="water-quality-inspector-box" id="waterQualityInspectorBox" x="44" y="18" width="94" height="36" rx="4"></rect>
