@@ -560,10 +560,12 @@ function initWaterQualityTrendPanel(config) {
   const inspectorTime = document.getElementById("waterQualityInspectorTime");
   const inspectorValue = document.getElementById("waterQualityInspectorValue");
   const rangeSelect = document.getElementById("waterQualityRangeSelect");
+  const rangeHint = document.getElementById("waterQualityRangeHint");
+  const rangeError = document.getElementById("waterQualityRangeError");
   const startDateInput = document.getElementById("waterQualityStartDate");
   const endDateInput = document.getElementById("waterQualityEndDate");
   const metricButtons = Array.from(document.querySelectorAll("[data-water-metric]"));
-  if (!panel || !content || !chartLine || !chartArea || !chartPoints || !yLabels || !xLabels || !chart || !chartHitArea || !chartInspector || !rangeSelect || !startDateInput || !endDateInput) return;
+  if (!panel || !content || !chartLine || !chartArea || !chartPoints || !yLabels || !xLabels || !chart || !chartHitArea || !chartInspector || !rangeSelect || !rangeHint || !rangeError || !startDateInput || !endDateInput) return;
 
   const metricConfig = {
     ph: { name: "酸鹼度（pH）", unit: " pH", decimals: 2, amplitude: 0.16 },
@@ -573,9 +575,9 @@ function initWaterQualityTrendPanel(config) {
   };
 
   const intervalConfig = {
-    "10m": { pointCount: 13, stepMilliseconds: 10 * 60 * 1000, axisFormat: "time" },
-    "1h": { pointCount: 25, stepMilliseconds: 60 * 60 * 1000, axisFormat: "time" },
-    "1d": { pointCount: 8, stepMilliseconds: 24 * 60 * 60 * 1000, axisFormat: "date" },
+    "10m": { pointCount: 13, stepMilliseconds: 10 * 60 * 1000, maxDurationMilliseconds: 2 * 60 * 60 * 1000, maxDurationLabel: "2 小時", axisFormat: "time" },
+    "1h": { pointCount: 25, stepMilliseconds: 60 * 60 * 1000, maxDurationMilliseconds: 24 * 60 * 60 * 1000, maxDurationLabel: "24 小時", axisFormat: "time" },
+    "1d": { pointCount: 8, stepMilliseconds: 24 * 60 * 60 * 1000, maxDurationMilliseconds: 7 * 24 * 60 * 60 * 1000, maxDurationLabel: "7 天", axisFormat: "date" },
   };
 
   const svgNamespace = "http://www.w3.org/2000/svg";
@@ -663,7 +665,22 @@ function initWaterQualityTrendPanel(config) {
     });
   }
 
+  function validateQueryRange() {
+    const selectedInterval = intervalConfig[rangeSelect.value] || intervalConfig["1h"];
+    const startDate = parseDateInput(startDateInput.value || "2026-08-06", 0);
+    const endDate = parseDateInput(endDateInput.value || "2026-08-07", 0);
+    const isValid = endDate >= startDate && endDate - startDate <= selectedInterval.maxDurationMilliseconds;
+
+    rangeHint.textContent = `最大查詢時間：${selectedInterval.maxDurationLabel}`;
+    rangeError.textContent = isValid ? "" : `超過最大查詢時間（最多 ${selectedInterval.maxDurationLabel}）`;
+    rangeError.hidden = isValid;
+    startDateInput.setAttribute("aria-invalid", String(!isValid));
+    endDateInput.setAttribute("aria-invalid", String(!isValid));
+    return isValid;
+  }
+
   function renderChart() {
+    if (!validateQueryRange()) return;
     const metric = metricConfig[selectedMetric];
     const values = buildSeries(selectedStation, selectedMetric);
     const times = buildTimes();
@@ -841,12 +858,14 @@ function initWaterQualityTrendPanel(config) {
     startDateInput.min = formatDateInput(earliestStartDate);
     endDateInput.min = startDateInput.value;
     endDateInput.max = formatDateInput(latestEndDate);
-    if (selectedStation) renderChart();
+    const isValid = validateQueryRange();
+    if (selectedStation && isValid) renderChart();
   }
 
   rangeSelect.addEventListener("change", () => {
     endInspector();
-    if (selectedStation) renderChart();
+    const isValid = validateQueryRange();
+    if (selectedStation && isValid) renderChart();
   });
   startDateInput.addEventListener("change", () => syncDateLimits(startDateInput));
   endDateInput.addEventListener("change", () => syncDateLimits(endDateInput));

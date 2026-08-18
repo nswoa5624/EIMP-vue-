@@ -386,22 +386,27 @@
             </div>
 
             <div class="water-quality-chart-section">
-              <div class="water-quality-chart-header">
-                <label class="water-quality-range-control" for="waterQualityRangeSelect">
-                  <span>統計頻率</span>
-                  <select class="water-quality-range-select" id="waterQualityRangeSelect" aria-label="統計頻率">
-                  <option value="10m">10 分鐘</option>
-                  <option value="1h" selected>小時</option>
-                  <option value="1d">天</option>
-                  </select>
-                </label>
-              </div>
+              <div class="water-quality-query-controls">
+                <div class="water-quality-date-control">
+                  <div class="water-quality-date-range" aria-label="查詢日期區間">
+                    <input id="waterQualityStartDate" type="date" value="2026-08-06" aria-label="查詢開始日期" />
+                    <span aria-hidden="true">–</span>
+                    <input id="waterQualityEndDate" type="date" value="2026-08-07" aria-label="查詢結束日期" />
+                  </div>
+                  <div class="water-quality-range-error" id="waterQualityRangeError" role="alert" hidden></div>
+                </div>
 
-              <div class="water-quality-date-range" aria-label="查詢日期區間">
-                <label for="waterQualityStartDate">日期</label>
-                <input id="waterQualityStartDate" type="date" value="2026-08-06" />
-                <span aria-hidden="true">–</span>
-                <input id="waterQualityEndDate" type="date" value="2026-08-07" />
+                <label class="water-quality-range-control" for="waterQualityRangeSelect">
+                  <span class="water-quality-range-control-row">
+                    <span>統計頻率</span>
+                    <select class="water-quality-range-select" id="waterQualityRangeSelect" aria-label="統計頻率">
+                      <option value="10m">10 分鐘</option>
+                      <option value="1h" selected>小時</option>
+                      <option value="1d">天</option>
+                  </select>
+                  </span>
+                  <small id="waterQualityRangeHint">最大查詢時間：24 小時</small>
+                </label>
               </div>
 
               <svg class="water-quality-chart" id="waterQualityChart" viewBox="0 0 330 190" role="img" aria-label="水質監測趨勢圖" aria-describedby="waterQualityChartDesc" preserveAspectRatio="none">

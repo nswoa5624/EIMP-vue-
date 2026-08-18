@@ -170,25 +170,44 @@
   padding: 3px 7px 0;
 }
 
-.topic-water .water-quality-chart-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-end;
-  gap: 12px;
-  min-height: 23px;
+.topic-water .water-quality-query-controls {
+  display: grid;
+  grid-template-columns: 186px minmax(0, 1fr);
+  align-items: start;
+  gap: 4px;
+  min-height: 38px;
+}
+
+.topic-water .water-quality-date-control {
+  min-width: 0;
 }
 
 .topic-water .water-quality-range-control {
   display: flex;
-  align-items: center;
-  gap: 4px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1px;
   color: #aebdca;
   font-size: 11px;
   white-space: nowrap;
 }
 
+.topic-water .water-quality-range-control-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3px;
+}
+
+.topic-water .water-quality-range-control small {
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 400;
+  text-align: right;
+}
+
 .topic-water .water-quality-range-select {
-  width: 74px;
+  width: 63px;
   height: 23px;
   padding: 0 4px;
   border: 1px solid rgba(115, 140, 160, 0.56);
@@ -215,7 +234,7 @@
 
 .topic-water .water-quality-date-range input {
   min-width: 0;
-  width: 104px;
+  width: 86px;
   height: 22px;
   padding: 0 3px;
   border: 1px solid rgba(115, 140, 160, 0.48);
@@ -225,6 +244,14 @@
   font-family: inherit;
   font-size: 11px;
   color-scheme: dark;
+}
+
+.topic-water .water-quality-range-error {
+  margin-top: 1px;
+  color: #ff7373;
+  font-size: 10px;
+  line-height: 1.2;
+  white-space: nowrap;
 }
 
 .topic-water .water-quality-chart {
