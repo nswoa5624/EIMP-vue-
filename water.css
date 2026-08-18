@@ -71,6 +71,10 @@
   box-shadow: 0 16px 36px rgba(4, 13, 23, 0.48);
 }
 
+.topic-water .water-quality-monitor-panel [hidden] {
+  display: none !important;
+}
+
 .topic-water .water-quality-station-name {
   color: #f4f7fb;
   font-size: 18px;
