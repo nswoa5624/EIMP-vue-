@@ -67,7 +67,7 @@
 .topic-water .water-quality-monitor-panel.has-data {
   z-index: 800;
   width: 100%;
-  height: 320px;
+  height: 305px;
 }
 
 .topic-water .water-quality-monitor-panel [hidden] {
@@ -172,21 +172,29 @@
 
 .topic-water .water-quality-query-controls {
   display: grid;
-  grid-template-columns: 190px minmax(0, 1fr);
+  grid-template-columns: 194px minmax(0, 1fr);
   align-items: start;
   gap: 4px;
-  min-height: 70px;
+  min-height: 42px;
 }
 
 .topic-water .water-quality-date-control {
   min-width: 0;
 }
 
-.topic-water .water-quality-query-label {
+.topic-water .water-quality-query-heading {
+  min-height: 15px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
   margin-bottom: 1px;
+}
+
+.topic-water .water-quality-query-label {
   color: #dce7f0;
   font-size: 11px;
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .topic-water .water-quality-range-control {
@@ -229,38 +237,34 @@
 }
 
 .topic-water .water-quality-date-range {
-  display: grid;
+  display: flex;
   align-items: center;
   gap: 2px;
+  height: 24px;
   color: #95a9ba;
   font-size: 11px;
 }
 
-.topic-water .water-quality-date-range label {
-  display: grid;
-  grid-template-columns: 28px minmax(0, 1fr);
-  align-items: center;
-  gap: 3px;
+.topic-water .water-quality-date-range > span {
+  flex: 0 0 auto;
   color: #aebdca;
-  font-size: 10px;
 }
 
 .topic-water .water-quality-date-range input {
   min-width: 0;
-  width: 100%;
+  width: 90px;
   height: 22px;
-  padding: 0 3px;
+  padding: 0 2px;
   border: 1px solid rgba(115, 140, 160, 0.48);
   border-radius: 3px;
   background: #2a3748;
   color: #dce7f0;
   font-family: inherit;
-  font-size: 11px;
+  font-size: 10px;
   color-scheme: dark;
 }
 
 .topic-water .water-quality-range-error {
-  margin-top: 1px;
   color: #ff7373;
   -webkit-text-fill-color: #ff7373;
   font-size: 10px;
@@ -270,7 +274,7 @@
 
 .topic-water .water-quality-chart {
   width: 100%;
-  height: 170px;
+  height: 165px;
   display: block;
   overflow: visible;
   touch-action: pan-y;
@@ -325,6 +329,7 @@
 
 .topic-water .water-quality-footer {
   margin: 0 -2px -4px;
+  transform: translateY(-4px);
   color: #91a6b8;
   font-size: 11px;
   text-align: right;

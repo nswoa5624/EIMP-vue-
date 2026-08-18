@@ -701,7 +701,7 @@ function initWaterQualityTrendPanel(config) {
     const isValid = endDate >= startDate && endDate - startDate <= selectedInterval.maxDurationMilliseconds;
 
     rangeHint.textContent = `最大查詢時間：${selectedInterval.maxDurationLabel}`;
-    rangeError.textContent = isValid ? "" : `超過最大查詢時間（最多 ${selectedInterval.maxDurationLabel}）`;
+    rangeError.textContent = isValid ? "" : "超過最大查詢區間";
     if (isValid) {
       rangeError.setAttribute("hidden", "");
     } else {
