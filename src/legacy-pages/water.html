@@ -388,11 +388,14 @@
             <div class="water-quality-chart-section">
               <div class="water-quality-chart-header">
                 <div class="water-quality-chart-title" id="waterQualityChartTitle">酸鹼度（pH）</div>
-                <select class="water-quality-range-select" id="waterQualityRangeSelect" aria-label="查詢資料間隔">
+                <label class="water-quality-range-control" for="waterQualityRangeSelect">
+                  <span>統計頻率</span>
+                  <select class="water-quality-range-select" id="waterQualityRangeSelect" aria-label="統計頻率">
                   <option value="10m">10 分鐘</option>
                   <option value="1h" selected>小時</option>
                   <option value="1d">天</option>
-                </select>
+                  </select>
+                </label>
               </div>
 
               <div class="water-quality-date-range" aria-label="查詢日期區間">
@@ -428,9 +431,9 @@
                   <line class="water-quality-inspector-line" id="waterQualityInspectorHorizontalLine" x1="38" y1="14" x2="322" y2="14"></line>
                   <circle class="water-quality-inspector-point" id="waterQualityInspectorPoint" cx="38" cy="14" r="4"></circle>
                   <g id="waterQualityInspectorTooltip">
-                    <rect class="water-quality-inspector-box" id="waterQualityInspectorBox" x="44" y="18" width="94" height="36" rx="4"></rect>
-                    <text class="water-quality-inspector-time" id="waterQualityInspectorTime" x="52" y="32">08/07 15:00</text>
-                    <text class="water-quality-inspector-value" id="waterQualityInspectorValue" x="52" y="46">--</text>
+                    <rect class="water-quality-inspector-box" id="waterQualityInspectorBox" x="44" y="18" width="78" height="34" rx="4"></rect>
+                    <text class="water-quality-inspector-time" id="waterQualityInspectorTime" x="50" y="31">08/07 15:00</text>
+                    <text class="water-quality-inspector-value" id="waterQualityInspectorValue" x="50" y="44">--</text>
                   </g>
                 </g>
                 <rect class="water-quality-chart-hit-area" id="waterQualityChartHitArea" x="38" y="14" width="284" height="130" rx="2"></rect>

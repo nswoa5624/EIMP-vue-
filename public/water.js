@@ -127,6 +127,7 @@ function initWaterPopupBehavior(context, config) {
   }
 
   function handleMarkerClickWithOverlap(entry) {
+    if (entry.layerKey !== "riverWaterStation") config.resetWaterQualityPanel?.();
     const markerLatLng = entry.marker.getLatLng();
     const nearbyItems = findNearbyMarkers(markerLatLng);
     openOverlapChooser(markerLatLng, nearbyItems.length ? nearbyItems : [entry]);
@@ -140,6 +141,7 @@ function initWaterPopupBehavior(context, config) {
       map.panTo(markerLatLng);
       return;
     }
+    config.resetWaterQualityPanel?.();
     setActiveCaseRow(entry.item?.id);
     map.setView(markerLatLng, map.getZoom(), { animate: false });
     entry.marker.openPopup();
@@ -172,6 +174,7 @@ function initWaterPopupBehavior(context, config) {
 
   config.onVehicleMarkerClick = ({ marker }) => {
     if (!marker?.getLatLng) return false;
+    config.resetWaterQualityPanel?.();
     const markerLatLng = marker.getLatLng();
     const nearbyItems = findNearbyMarkers(markerLatLng);
 
@@ -186,6 +189,7 @@ function initWaterPopupBehavior(context, config) {
       return true;
     }
 
+    config.resetWaterQualityPanel?.();
     return false;
   };
 
@@ -729,9 +733,9 @@ function initWaterQualityTrendPanel(config) {
     if (!renderedCoordinates.length) return;
     const { index, point } = getChartPointFromEvent(event);
     const metric = metricConfig[selectedMetric];
-    const tooltipWidth = 94;
-    const tooltipX = point.x > 218 ? point.x - tooltipWidth - 7 : point.x + 7;
-    const tooltipY = Math.max(16, Math.min(104, point.y - 18));
+    const tooltipWidth = 78;
+    const tooltipX = point.x > 234 ? point.x - tooltipWidth - 7 : point.x + 7;
+    const tooltipY = Math.max(2, Math.min(106, point.y - 42));
 
     inspectorLine.setAttribute("x1", point.x.toFixed(1));
     inspectorLine.setAttribute("x2", point.x.toFixed(1));
@@ -742,10 +746,10 @@ function initWaterQualityTrendPanel(config) {
     inspectorTooltip.setAttribute("transform", `translate(${tooltipX - 44} ${tooltipY - 18})`);
     inspectorBox.setAttribute("x", "44");
     inspectorBox.setAttribute("y", "18");
-    inspectorTime.setAttribute("x", "52");
-    inspectorTime.setAttribute("y", "32");
-    inspectorValue.setAttribute("x", "52");
-    inspectorValue.setAttribute("y", "46");
+    inspectorTime.setAttribute("x", "50");
+    inspectorTime.setAttribute("y", "31");
+    inspectorValue.setAttribute("x", "50");
+    inspectorValue.setAttribute("y", "44");
     inspectorTime.textContent = formatInspectorTime(renderedTimes[index]);
     inspectorValue.textContent = `${renderedValues[index]}${metric.unit}`;
     setInspectorVisible(true);
@@ -884,6 +888,8 @@ function initWaterQualityTrendPanel(config) {
     });
   }
 
+  config.resetWaterQualityPanel = resetPanel;
+
   metricButtons.forEach((button) => {
     button.addEventListener("click", (event) => {
       event.stopPropagation();
@@ -897,9 +903,18 @@ function initWaterQualityTrendPanel(config) {
 
   document.addEventListener("click", (event) => {
     const target = event.target instanceof Element ? event.target : event.target?.parentElement;
-    if (!selectedStation || target?.closest("#waterQualityMonitorPanel, .waqi-station-btn")) return;
-    resetPanel();
-  });
+    if (!selectedStation || !target) return;
+    if (target.closest(".case-row")) {
+      resetPanel();
+      return;
+    }
+
+    const markerIcon = target.closest(".leaflet-marker-icon");
+    if (!markerIcon) return;
+    let markerSource = markerIcon.getAttribute("src") || markerIcon.outerHTML || "";
+    try { markerSource = decodeURIComponent(markerSource); } catch (error) {}
+    if (!markerSource.includes("水測站")) resetPanel();
+  }, true);
 
   const commonSelectStation = config.selectStation;
   if (typeof commonSelectStation === "function") {
