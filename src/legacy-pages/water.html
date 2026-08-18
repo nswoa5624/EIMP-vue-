@@ -388,10 +388,10 @@
             <div class="water-quality-chart-section">
               <div class="water-quality-query-controls">
                 <div class="water-quality-date-control">
+                  <div class="water-quality-query-label">查詢區間</div>
                   <div class="water-quality-date-range" aria-label="查詢日期區間">
-                    <input id="waterQualityStartDate" type="date" value="2026-08-06" aria-label="查詢開始日期" />
-                    <span aria-hidden="true">–</span>
-                    <input id="waterQualityEndDate" type="date" value="2026-08-07" aria-label="查詢結束日期" />
+                    <label><span>開始</span><input id="waterQualityStartDate" type="datetime-local" value="2026-08-06T15:00" aria-label="查詢開始日期與時間" /></label>
+                    <label><span>結束</span><input id="waterQualityEndDate" type="datetime-local" value="2026-08-07T15:00" aria-label="查詢結束日期與時間" /></label>
                   </div>
                   <div class="water-quality-range-error" id="waterQualityRangeError" role="alert" hidden></div>
                 </div>

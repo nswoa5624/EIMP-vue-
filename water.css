@@ -67,7 +67,7 @@
 .topic-water .water-quality-monitor-panel.has-data {
   z-index: 800;
   width: 100%;
-  height: 305px;
+  height: 320px;
 }
 
 .topic-water .water-quality-monitor-panel [hidden] {
@@ -172,14 +172,21 @@
 
 .topic-water .water-quality-query-controls {
   display: grid;
-  grid-template-columns: 186px minmax(0, 1fr);
+  grid-template-columns: 190px minmax(0, 1fr);
   align-items: start;
   gap: 4px;
-  min-height: 38px;
+  min-height: 70px;
 }
 
 .topic-water .water-quality-date-control {
   min-width: 0;
+}
+
+.topic-water .water-quality-query-label {
+  margin-bottom: 1px;
+  color: #dce7f0;
+  font-size: 11px;
+  font-weight: 700;
 }
 
 .topic-water .water-quality-range-control {
@@ -190,6 +197,8 @@
   color: #aebdca;
   font-size: 11px;
   white-space: nowrap;
+  justify-self: end;
+  width: 107px;
 }
 
 .topic-water .water-quality-range-control-row {
@@ -201,13 +210,14 @@
 
 .topic-water .water-quality-range-control small {
   color: #ffffff;
+  -webkit-text-fill-color: #ffffff;
   font-size: 10px;
   font-weight: 400;
   text-align: right;
 }
 
 .topic-water .water-quality-range-select {
-  width: 63px;
+  width: 61px;
   height: 23px;
   padding: 0 4px;
   border: 1px solid rgba(115, 140, 160, 0.56);
@@ -219,22 +229,25 @@
 }
 
 .topic-water .water-quality-date-range {
-  display: flex;
+  display: grid;
   align-items: center;
-  gap: 4px;
-  height: 24px;
+  gap: 2px;
   color: #95a9ba;
   font-size: 11px;
 }
 
 .topic-water .water-quality-date-range label {
-  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  align-items: center;
+  gap: 3px;
   color: #aebdca;
+  font-size: 10px;
 }
 
 .topic-water .water-quality-date-range input {
   min-width: 0;
-  width: 86px;
+  width: 100%;
   height: 22px;
   padding: 0 3px;
   border: 1px solid rgba(115, 140, 160, 0.48);
@@ -249,6 +262,7 @@
 .topic-water .water-quality-range-error {
   margin-top: 1px;
   color: #ff7373;
+  -webkit-text-fill-color: #ff7373;
   font-size: 10px;
   line-height: 1.2;
   white-space: nowrap;
@@ -256,7 +270,7 @@
 
 .topic-water .water-quality-chart {
   width: 100%;
-  height: 180px;
+  height: 170px;
   display: block;
   overflow: visible;
   touch-action: pan-y;

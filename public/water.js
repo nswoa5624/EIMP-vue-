@@ -614,9 +614,38 @@ function initWaterQualityTrendPanel(config) {
     return `${date.getFullYear()}-${pad2(date.getMonth() + 1)}-${pad2(date.getDate())}`;
   }
 
+  function formatDateTimeInput(date) {
+    return `${formatDateInput(date)}T${pad2(date.getHours())}:${pad2(date.getMinutes())}`;
+  }
+
   function parseDateInput(value, hour = 15) {
+    if (value.includes("T")) return new Date(value);
     const [year, month, day] = value.split("-").map(Number);
     return new Date(year, month - 1, day, hour, 0, 0, 0);
+  }
+
+  function formatInputValue(date, input) {
+    return input.type === "datetime-local" ? formatDateTimeInput(date) : formatDateInput(date);
+  }
+
+  function applyIntervalInputMode() {
+    const usesDateOnly = rangeSelect.value === "1d";
+    const startDate = parseDateInput(startDateInput.value || "2026-08-06", 15);
+    const endDate = parseDateInput(endDateInput.value || "2026-08-07", 15);
+    const inputType = usesDateOnly ? "date" : "datetime-local";
+
+    [startDateInput, endDateInput].forEach((input) => {
+      input.type = inputType;
+      if (usesDateOnly) {
+        input.removeAttribute("step");
+      } else {
+        input.step = rangeSelect.value === "10m" ? "600" : "3600";
+      }
+    });
+    startDateInput.value = formatInputValue(startDate, startDateInput);
+    endDateInput.value = formatInputValue(endDate, endDateInput);
+    startDateInput.setAttribute("aria-label", usesDateOnly ? "查詢開始日期" : "查詢開始日期與時間");
+    endDateInput.setAttribute("aria-label", usesDateOnly ? "查詢結束日期" : "查詢結束日期與時間");
   }
 
   function formatInspectorTime(date) {
@@ -673,7 +702,11 @@ function initWaterQualityTrendPanel(config) {
 
     rangeHint.textContent = `最大查詢時間：${selectedInterval.maxDurationLabel}`;
     rangeError.textContent = isValid ? "" : `超過最大查詢時間（最多 ${selectedInterval.maxDurationLabel}）`;
-    rangeError.hidden = isValid;
+    if (isValid) {
+      rangeError.setAttribute("hidden", "");
+    } else {
+      rangeError.removeAttribute("hidden");
+    }
     startDateInput.setAttribute("aria-invalid", String(!isValid));
     endDateInput.setAttribute("aria-invalid", String(!isValid));
     return isValid;
@@ -835,40 +868,41 @@ function initWaterQualityTrendPanel(config) {
     if (startDate > endDate) {
       if (changedInput === startDateInput) {
         endDate = new Date(startDate);
-        endDateInput.value = formatDateInput(endDate);
+        endDateInput.value = formatInputValue(endDate, endDateInput);
       } else {
         startDate = new Date(endDate);
-        startDateInput.value = formatDateInput(startDate);
+        startDateInput.value = formatInputValue(startDate, startDateInput);
       }
     }
 
     if (endDate - startDate > oneMonthMilliseconds) {
       if (changedInput === startDateInput) {
         endDate = new Date(startDate.getTime() + oneMonthMilliseconds);
-        endDateInput.value = formatDateInput(endDate);
+        endDateInput.value = formatInputValue(endDate, endDateInput);
       } else {
         startDate = new Date(endDate.getTime() - oneMonthMilliseconds);
-        startDateInput.value = formatDateInput(startDate);
+        startDateInput.value = formatInputValue(startDate, startDateInput);
       }
     }
 
     const latestEndDate = new Date(startDate.getTime() + oneMonthMilliseconds);
     const earliestStartDate = new Date(endDate.getTime() - oneMonthMilliseconds);
     startDateInput.max = endDateInput.value;
-    startDateInput.min = formatDateInput(earliestStartDate);
+    startDateInput.min = formatInputValue(earliestStartDate, startDateInput);
     endDateInput.min = startDateInput.value;
-    endDateInput.max = formatDateInput(latestEndDate);
+    endDateInput.max = formatInputValue(latestEndDate, endDateInput);
     const isValid = validateQueryRange();
     if (selectedStation && isValid) renderChart();
   }
 
   rangeSelect.addEventListener("change", () => {
     endInspector();
-    const isValid = validateQueryRange();
-    if (selectedStation && isValid) renderChart();
+    applyIntervalInputMode();
+    syncDateLimits();
   });
   startDateInput.addEventListener("change", () => syncDateLimits(startDateInput));
   endDateInput.addEventListener("change", () => syncDateLimits(endDateInput));
+  applyIntervalInputMode();
   syncDateLimits();
 
   function showStation(station) {
