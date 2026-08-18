@@ -67,6 +67,7 @@
 .topic-water .water-quality-monitor-panel.has-data {
   z-index: 800;
   width: 100%;
+  height: 305px;
 }
 
 .topic-water .water-quality-monitor-panel [hidden] {
@@ -172,16 +173,9 @@
 .topic-water .water-quality-chart-header {
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 12px;
-  min-height: 25px;
-}
-
-.topic-water .water-quality-chart-title {
-  color: #f1f7fb;
-  font-size: 14px;
-  font-weight: 700;
-  white-space: nowrap;
+  min-height: 23px;
 }
 
 .topic-water .water-quality-range-control {
@@ -195,7 +189,7 @@
 
 .topic-water .water-quality-range-select {
   width: 74px;
-  height: 25px;
+  height: 23px;
   padding: 0 4px;
   border: 1px solid rgba(115, 140, 160, 0.56);
   border-radius: 3px;
@@ -209,7 +203,7 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  height: 28px;
+  height: 24px;
   color: #95a9ba;
   font-size: 11px;
 }
@@ -222,7 +216,7 @@
 .topic-water .water-quality-date-range input {
   min-width: 0;
   width: 104px;
-  height: 24px;
+  height: 22px;
   padding: 0 3px;
   border: 1px solid rgba(115, 140, 160, 0.48);
   border-radius: 3px;
@@ -235,7 +229,7 @@
 
 .topic-water .water-quality-chart {
   width: 100%;
-  height: 164px;
+  height: 180px;
   display: block;
   overflow: visible;
   touch-action: pan-y;

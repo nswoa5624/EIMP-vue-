@@ -544,7 +544,6 @@ function initWaterQualityTrendPanel(config) {
   const empty = document.getElementById("waterQualityEmpty");
   const stationName = document.getElementById("waterQualityStationName");
   const footer = document.getElementById("waterQualityFooter");
-  const chartTitle = document.getElementById("waterQualityChartTitle");
   const chartLine = document.getElementById("waterQualityChartLine");
   const chartArea = document.getElementById("waterQualityChartArea");
   const chartPoints = document.getElementById("waterQualityChartPoints");
@@ -718,7 +717,7 @@ function initWaterQualityTrendPanel(config) {
 
     renderXAxis(times);
 
-    chartTitle.textContent = metric.name;
+    chart.setAttribute("aria-label", `${metric.name}趨勢圖`);
   }
 
   function getChartPointFromEvent(event) {
@@ -735,7 +734,7 @@ function initWaterQualityTrendPanel(config) {
     const metric = metricConfig[selectedMetric];
     const tooltipWidth = 78;
     const tooltipX = point.x > 234 ? point.x - tooltipWidth - 7 : point.x + 7;
-    const tooltipY = Math.max(2, Math.min(106, point.y - 42));
+    const tooltipY = 2;
 
     inspectorLine.setAttribute("x1", point.x.toFixed(1));
     inspectorLine.setAttribute("x2", point.x.toFixed(1));

@@ -387,7 +387,6 @@
 
             <div class="water-quality-chart-section">
               <div class="water-quality-chart-header">
-                <div class="water-quality-chart-title" id="waterQualityChartTitle">酸鹼度（pH）</div>
                 <label class="water-quality-range-control" for="waterQualityRangeSelect">
                   <span>統計頻率</span>
                   <select class="water-quality-range-select" id="waterQualityRangeSelect" aria-label="統計頻率">
@@ -405,7 +404,7 @@
                 <input id="waterQualityEndDate" type="date" value="2026-08-07" />
               </div>
 
-              <svg class="water-quality-chart" id="waterQualityChart" viewBox="0 0 330 190" role="img" aria-labelledby="waterQualityChartTitle waterQualityChartDesc" preserveAspectRatio="none">
+              <svg class="water-quality-chart" id="waterQualityChart" viewBox="0 0 330 190" role="img" aria-label="水質監測趨勢圖" aria-describedby="waterQualityChartDesc" preserveAspectRatio="none">
                 <desc id="waterQualityChartDesc">所選水質監測項目的近二十四小時折線趨勢</desc>
                 <defs>
                   <linearGradient id="waterQualityAreaGradient" x1="0" y1="0" x2="0" y2="1">
