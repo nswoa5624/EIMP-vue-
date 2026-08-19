@@ -9,7 +9,7 @@
   ];
   const REGULATED_TYPES = ["空", "水", "廢", "毒", "土污", "環藥", "管考"];
   const EMPTY_INDUSTRY = "系統內設空值";
-  const ALL_PRIORITY_INDUSTRIES = "全部行業別";
+  const ALL_INDUSTRIES = "全部行業別";
   const PRIORITY_INDUSTRIES = ["電鍍業", "金屬表面處理業", "染整業", "資源物回收處理業"];
   const OTHER_INDUSTRIES = [
     "其他機械器具批發業", "磚瓦、砂石、水泥及其製品批發業", "烘焙炊蒸食品製造業", "普通倉儲業",
@@ -36,12 +36,12 @@
   ];
   const INDUSTRIES = [...PRIORITY_INDUSTRIES, EMPTY_INDUSTRY, ...OTHER_INDUSTRIES];
   const BUSINESSES = [
-    { id: "EB001", name: "土城金屬工業有限公司", district: "土城區", address: "新北市土城區OO路100號", regulated: true, regulatedTypes: ["水", "毒"], industry: "電鍍業", waterQualityItems: [{ name: "水溫", value: "15～35", unit: "攝氏" }, { name: "pH值", value: "6～9", unit: "" }, { name: "生化需氧量", value: "220", unit: "mg/L" }, { name: "化學需氧量", value: "450", unit: "mg/L" }, { name: "懸浮固體", value: "280", unit: "mg/L" }, { name: "大腸桿菌群", value: "50000000", unit: "CFU/100mL" }, { name: "銅", value: "3.0", unit: "mg/L" }, { name: "鉻", value: "2.0", unit: "mg/L" }, { name: "鎳", value: "1.0", unit: "mg/L" }], lat: 24.9735, lng: 121.4442 },
-    { id: "EB002", name: "中和花園社區", district: "中和區", address: "新北市中和區OO路200號", regulated: true, regulatedTypes: ["水"], industry: "廢水及污水處理業", waterQualityItems: [{ name: "水溫", value: "20～25", unit: "攝氏" }, { name: "pH值", value: "6～9", unit: "" }, { name: "生化需氧量", value: "220", unit: "mg/L" }, { name: "化學需氧量", value: "450", unit: "mg/L" }, { name: "懸浮固體", value: "220", unit: "mg/L" }, { name: "大腸桿菌群", value: "10000000", unit: "CFU/100mL" }], lat: 25.0003, lng: 121.4930 },
-    { id: "EB003", name: "樹林畜牧場", district: "樹林區", address: "新北市樹林區OO街25號", regulated: true, regulatedTypes: ["水", "廢"], industry: "豬飼育業", waterQualityItems: [{ name: "水溫", value: "20～35", unit: "攝氏" }, { name: "pH值", value: "6～9", unit: "" }, { name: "生化需氧量", value: "5000", unit: "mg/L" }, { name: "化學需氧量", value: "12000", unit: "mg/L" }, { name: "懸浮固體", value: "9000", unit: "mg/L" }, { name: "銅", value: "3.0", unit: "mg/L" }, { name: "鋅", value: "5.0", unit: "mg/L" }], lat: 24.9898, lng: 121.4214 },
-    { id: "EB004", name: "板橋食品包裝行", district: "板橋區", address: "新北市板橋區OO路120號", regulated: false, regulatedTypes: [], industry: "烘焙炊蒸食品製造業", waterQualityItems: [], lat: 25.0132, lng: 121.4637 },
+    { id: "EB001", name: "土城金屬工業有限公司", district: "土城區", address: "新北市土城區OO路100號", regulated: true, regulatedTypes: ["水", "毒"], detailTypes: ["water", "toxic", "CEMS", "CWMS"], industry: "電鍍業", waterQualityItems: [{ name: "水溫", value: "15～35", unit: "攝氏" }, { name: "pH值", value: "6～9", unit: "" }, { name: "生化需氧量", value: "220", unit: "mg/L" }, { name: "化學需氧量", value: "450", unit: "mg/L" }, { name: "懸浮固體", value: "280", unit: "mg/L" }, { name: "大腸桿菌群", value: "50000000", unit: "CFU/100mL" }, { name: "銅", value: "3.0", unit: "mg/L" }, { name: "鉻", value: "2.0", unit: "mg/L" }, { name: "鎳", value: "1.0", unit: "mg/L" }], lat: 24.9735, lng: 121.4442 },
+    { id: "EB002", name: "中和花園社區", district: "中和區", address: "新北市中和區OO路200號", regulated: true, regulatedTypes: ["水"], detailTypes: ["water", "CWMS"], industry: "廢水及污水處理業", waterQualityItems: [{ name: "水溫", value: "20～25", unit: "攝氏" }, { name: "pH值", value: "6～9", unit: "" }, { name: "生化需氧量", value: "220", unit: "mg/L" }, { name: "化學需氧量", value: "450", unit: "mg/L" }, { name: "懸浮固體", value: "220", unit: "mg/L" }, { name: "大腸桿菌群", value: "10000000", unit: "CFU/100mL" }], lat: 25.0003, lng: 121.4930 },
+    { id: "EB003", name: "樹林畜牧場", district: "樹林區", address: "新北市樹林區OO街25號", regulated: true, regulatedTypes: ["水", "廢"], detailTypes: ["water"], industry: "豬飼育業", waterQualityItems: [{ name: "水溫", value: "20～35", unit: "攝氏" }, { name: "pH值", value: "6～9", unit: "" }, { name: "生化需氧量", value: "5000", unit: "mg/L" }, { name: "化學需氧量", value: "12000", unit: "mg/L" }, { name: "懸浮固體", value: "9000", unit: "mg/L" }, { name: "銅", value: "3.0", unit: "mg/L" }, { name: "鋅", value: "5.0", unit: "mg/L" }], lat: 24.9898, lng: 121.4214 },
+    { id: "EB004", name: "板橋食品包裝行", district: "板橋區", address: "新北市板橋區OO路120號", regulated: true, regulatedTypes: ["空"], industry: "烘焙炊蒸食品製造業", waterQualityItems: [], lat: 25.0132, lng: 121.4637 },
     { id: "EB005", name: "新莊精密加工廠", district: "新莊區", address: "新北市新莊區△△路66號", regulated: false, regulatedTypes: [], industry: "其他金屬加工處理業", waterQualityItems: [], lat: 25.0362, lng: 121.4549 },
-    { id: "EB006", name: "新店電子維修廠", district: "新店區", address: "新北市新店區OO街18號", regulated: false, regulatedTypes: [], industry: "其他電腦週邊設備製造業", waterQualityItems: [], lat: 24.9435, lng: 121.5580 },
+    { id: "EB006", name: "新店電子維修廠", district: "新店區", address: "新北市新店區OO街18號", regulated: true, regulatedTypes: ["空"], industry: "其他電腦週邊設備製造業", waterQualityItems: [], lat: 24.9435, lng: 121.5580 },
     { id: "EB007", name: "泰山塑膠射出廠", district: "泰山區", address: "新北市泰山區明志路附近", regulated: false, regulatedTypes: [], industry: "塑膠原料製造業", waterQualityItems: [], lat: 25.0450, lng: 121.4160 },
     { id: "EB008", name: "五股倉儲物流場", district: "五股區", address: "新北市五股區OO路88號", regulated: false, regulatedTypes: [], industry: "普通倉儲業", waterQualityItems: [], lat: 25.0841, lng: 121.4387 },
     { id: "EB009", name: "汐止機械保養廠", district: "汐止區", address: "新北市汐止區大同路附近", regulated: false, regulatedTypes: [], industry: "", waterQualityItems: [], lat: 25.0820, lng: 121.6400 },
@@ -49,12 +49,23 @@
   ];
   const WATER_ITEMS = Array.from(new Set(BUSINESSES.flatMap((business) => business.waterQualityItems.map((item) => item.name))));
   const ALL_WATER_ITEMS = "全部水質項目";
+  const BUSINESS_DETAIL_LABELS = {
+    water: "水許可證",
+    toxic: "毒化物許可證",
+    CEMS: "CEMS",
+    CWMS: "CWMS",
+  };
+  const BUSINESS_DETAIL_VALUES = Object.values(BUSINESS_DETAIL_LABELS);
+  const ALL_BUSINESS_DETAILS = "全部詳細資料";
 
   const state = {
+    queryMode: "name",
+    businessName: "",
     district: { enabled: false, values: new Set() },
-    regulated: { enabled: false, statuses: new Set(), types: new Set() },
+    regulated: { enabled: false, statuses: new Set(), types: new Set(), matchMode: "any" },
     industry: { enabled: false, values: new Set() },
     water: { enabled: false, values: new Set(WATER_ITEMS) },
+    detail: { enabled: false, values: new Set(), matchMode: "any" },
   };
   let currentModalKind = null;
   let modalWasEnabled = false;
@@ -209,17 +220,53 @@
 
   function renderBusinessFields(form) {
     form.replaceChildren();
-    const county = document.createElement("input");
-    county.id = "businessLocateCounty";
-    county.className = "quick-locate-input readonly-input";
-    county.value = "新北市";
-    county.readOnly = true;
-    form.append(makeRow("縣市", county));
-    form.append(makeToggleRow("district", "行政區"));
-    form.append(makeToggleRow("regulated", "是否列管"));
-    form.append(makeToggleRow("industry", "行業別"));
-    form.append(makeToggleRow("water", "水質項目"));
-    syncControls();
+    const queryMode = makeSelect("businessLocateQueryMode", [["name", "名稱查詢"], ["data", "資料查詢"]]);
+    queryMode.value = state.queryMode;
+    const fields = document.createElement("div");
+    fields.id = "businessLocateQueryFields";
+
+    const renderQueryFields = () => {
+      fields.replaceChildren();
+      if (state.queryMode === "name") {
+        const nameInput = document.createElement("input");
+        nameInput.id = "businessLocateName";
+        nameInput.className = "quick-locate-input";
+        nameInput.type = "search";
+        nameInput.autocomplete = "off";
+        nameInput.placeholder = "請輸入事業名稱";
+        nameInput.value = state.businessName;
+        nameInput.addEventListener("input", () => { state.businessName = nameInput.value; });
+        nameInput.addEventListener("keydown", (event) => {
+          if (event.key !== "Enter") return;
+          event.preventDefault();
+          document.getElementById("quickLocateGoBtn")?.click();
+        });
+        fields.append(makeRow("事業名稱", nameInput));
+        return;
+      }
+
+      const county = document.createElement("input");
+      county.id = "businessLocateCounty";
+      county.className = "quick-locate-input readonly-input";
+      county.value = "新北市";
+      county.readOnly = true;
+      fields.append(makeRow("縣市", county));
+      fields.append(makeToggleRow("district", "行政區"));
+      fields.append(makeToggleRow("regulated", "是否列管"));
+      fields.append(makeToggleRow("industry", "行業別"));
+      fields.append(makeToggleRow("water", "水質項目"));
+      fields.append(makeToggleRow("detail", "詳細資料"));
+      syncControls();
+    };
+
+    queryMode.addEventListener("change", () => {
+      state.queryMode = queryMode.value;
+      closeFilterModal();
+      closeResultsPanel();
+      renderQueryFields();
+    });
+    form.append(makeRow("查詢方式", queryMode), fields);
+    renderQueryFields();
   }
 
   function createOverlay(mapPanel) {
@@ -270,6 +317,34 @@
     return region;
   }
 
+  function makeMatchModeControl(name, selectedMode = "any") {
+    const fieldset = document.createElement("fieldset");
+    fieldset.className = "business-match-mode";
+    const legend = document.createElement("legend");
+    legend.textContent = "條件比對方式";
+    fieldset.appendChild(legend);
+    [
+      ["any", "符合任一（OR）", "符合其中一項即可"],
+      ["all", "符合全部（AND）", "必須同時具有所有勾選項目"],
+    ].forEach(([value, labelText, description]) => {
+      const label = document.createElement("label");
+      const input = document.createElement("input");
+      input.type = "radio";
+      input.name = name;
+      input.value = value;
+      input.checked = selectedMode === value;
+      const copy = document.createElement("span");
+      const title = document.createElement("strong");
+      title.textContent = labelText;
+      const help = document.createElement("small");
+      help.textContent = description;
+      copy.append(title, help);
+      label.append(input, copy);
+      fieldset.appendChild(label);
+    });
+    return fieldset;
+  }
+
   function makeFilterSearch(id, label) {
     const form = document.createElement("form");
     form.className = "business-filter-search-form";
@@ -295,7 +370,7 @@
     const dialog = overlay?.querySelector(".business-locate-dialog");
     if (!overlay || !title || !body) return;
     currentModalKind = kind;
-    dialog?.classList.toggle("is-fixed-filter-dialog", ["district", "industry", "water"].includes(kind));
+    dialog?.classList.toggle("is-fixed-filter-dialog", ["district", "industry", "water", "detail"].includes(kind));
     body.replaceChildren();
 
     const help = document.createElement("p");
@@ -348,14 +423,24 @@
       statuses.querySelectorAll("input").forEach((input) => {
         input.dataset.statusValue = input.value === "列管" ? "regulated" : "nonregulated";
       });
-      body.appendChild(statuses);
+      const statusTitle = document.createElement("h3");
+      statusTitle.className = "business-locate-subsection-title";
+      statusTitle.textContent = "列管狀態（可複選）";
+      body.append(
+        statusTitle,
+        statuses,
+      );
       const subsection = document.createElement("section");
       subsection.className = "business-locate-subsection";
       subsection.id = "businessRegulatedTypesSection";
       const subsectionTitle = document.createElement("h3");
       subsectionTitle.className = "business-locate-subsection-title";
       subsectionTitle.textContent = "列管種類（可複選）";
-      subsection.append(subsectionTitle, checkboxGrid("businessRegulatedType", REGULATED_TYPES, state.regulated.types, true));
+      subsection.append(
+        subsectionTitle,
+        makeMatchModeControl("businessRegulatedMatchMode", state.regulated.matchMode),
+        checkboxGrid("businessRegulatedType", REGULATED_TYPES, state.regulated.types, true),
+      );
       body.appendChild(subsection);
       const regulatedInput = body.querySelector('[data-status-value="regulated"]');
       const updateVisibility = () => { subsection.hidden = !regulatedInput.checked; };
@@ -363,39 +448,24 @@
       updateVisibility();
     } else if (kind === "industry") {
       title.textContent = "行業別設定";
-      help.textContent = "請勾選欲查詢事業行業別";
+      help.textContent = "請勾選欲查詢的事業行業別，可複選；第一項可快速全選或全部取消。";
       const { form: searchForm, input: search } = makeFilterSearch("businessIndustrySearch", "搜尋行業別");
-      const commonIndustryValues = [...PRIORITY_INDUSTRIES, EMPTY_INDUSTRY];
       const industrySelection = new Set(state.industry.values);
-      if (commonIndustryValues.every((industry) => industrySelection.has(industry))) {
-        industrySelection.add(ALL_PRIORITY_INDUSTRIES);
-      }
-
-      const makeIndustrySection = (heading, values) => {
-        const section = document.createElement("section");
-        section.className = "business-industry-section";
-        const sectionTitle = document.createElement("h3");
-        sectionTitle.className = "business-locate-subsection-title";
-        sectionTitle.textContent = heading;
-        const grid = checkboxGrid("businessIndustry", values, industrySelection, false);
-        section.append(sectionTitle, grid);
-        return section;
+      if (INDUSTRIES.every((industry) => industrySelection.has(industry))) industrySelection.add(ALL_INDUSTRIES);
+      const industryGrid = checkboxGrid("businessIndustry", [ALL_INDUSTRIES, ...INDUSTRIES], industrySelection, false);
+      const allIndustriesInput = industryGrid.querySelector(`input[value="${ALL_INDUSTRIES}"]`);
+      const industryInputs = Array.from(industryGrid.querySelectorAll("input")).filter((input) => input !== allIndustriesInput);
+      const syncAllIndustriesState = () => {
+        const checkedCount = industryInputs.filter((input) => input.checked).length;
+        allIndustriesInput.checked = checkedCount === industryInputs.length;
+        allIndustriesInput.indeterminate = checkedCount > 0 && checkedCount < industryInputs.length;
       };
-      const prioritySection = makeIndustrySection("常用行業別", [ALL_PRIORITY_INDUSTRIES, ...commonIndustryValues]);
-      const otherSection = makeIndustrySection("其他行業別", OTHER_INDUSTRIES);
-      const allPriorityInput = prioritySection.querySelector(`input[value="${ALL_PRIORITY_INDUSTRIES}"]`);
-      const priorityInputs = Array.from(prioritySection.querySelectorAll("input")).filter((input) => input !== allPriorityInput);
-      const syncAllPriorityState = () => {
-        const checkedCount = priorityInputs.filter((input) => input.checked).length;
-        allPriorityInput.checked = checkedCount === priorityInputs.length;
-        allPriorityInput.indeterminate = checkedCount > 0 && checkedCount < priorityInputs.length;
-      };
-      allPriorityInput.addEventListener("change", () => {
-        priorityInputs.forEach((input) => { input.checked = allPriorityInput.checked; });
-        allPriorityInput.indeterminate = false;
+      allIndustriesInput.addEventListener("change", () => {
+        industryInputs.forEach((input) => { input.checked = allIndustriesInput.checked; });
+        allIndustriesInput.indeterminate = false;
       });
-      priorityInputs.forEach((input) => input.addEventListener("change", syncAllPriorityState));
-      syncAllPriorityState();
+      industryInputs.forEach((input) => input.addEventListener("change", syncAllIndustriesState));
+      syncAllIndustriesState();
       const emptySearchResult = document.createElement("p");
       emptySearchResult.className = "business-industry-empty-search";
       emptySearchResult.textContent = "找不到符合的行業別。";
@@ -405,20 +475,15 @@
         event.preventDefault();
         const keyword = search.value.trim().toLocaleLowerCase("zh-Hant");
         let visibleCount = 0;
-        [prioritySection, otherSection].forEach((section) => {
-          let sectionVisibleCount = 0;
-          section.querySelectorAll(".business-locate-choice").forEach((choice) => {
-            const visible = !keyword || choice.textContent.toLocaleLowerCase("zh-Hant").includes(keyword);
-            choice.hidden = !visible;
-            if (visible) sectionVisibleCount += 1;
-          });
-          section.hidden = sectionVisibleCount === 0;
-          visibleCount += sectionVisibleCount;
+        industryGrid.querySelectorAll(".business-locate-choice").forEach((choice) => {
+          const visible = !keyword || choice.textContent.toLocaleLowerCase("zh-Hant").includes(keyword);
+          choice.hidden = !visible;
+          if (visible) visibleCount += 1;
         });
         emptySearchResult.hidden = visibleCount !== 0;
       });
-      body.append(help, searchForm, makeFilterScrollRegion(prioritySection, otherSection, emptySearchResult));
-    } else {
+      body.append(help, searchForm, makeFilterScrollRegion(industryGrid, emptySearchResult));
+    } else if (kind === "water") {
       title.textContent = "水質項目設定";
       help.textContent = "請勾選欲查詢事業水汙染許可證水質項目";
       const { form: searchForm, input: search } = makeFilterSearch("businessWaterSearch", "搜尋水質項目");
@@ -454,6 +519,30 @@
         emptySearchResult.hidden = visibleCount !== 0;
       });
       body.append(help, searchForm, makeFilterScrollRegion(waterGrid, emptySearchResult));
+    } else {
+      title.textContent = "詳細資料設定";
+      help.textContent = "請勾選欲查詢的事業詳細資料類型，可複選；第一項可快速全選或全部取消。";
+      const detailSelection = new Set(state.detail.values);
+      if (BUSINESS_DETAIL_VALUES.every((value) => detailSelection.has(value))) detailSelection.add(ALL_BUSINESS_DETAILS);
+      const detailGrid = checkboxGrid("businessDetailType", [ALL_BUSINESS_DETAILS, ...BUSINESS_DETAIL_VALUES], detailSelection, true);
+      const allDetailsInput = detailGrid.querySelector(`input[value="${ALL_BUSINESS_DETAILS}"]`);
+      const detailInputs = Array.from(detailGrid.querySelectorAll("input")).filter((input) => input !== allDetailsInput);
+      const syncAllDetailsState = () => {
+        const checkedCount = detailInputs.filter((input) => input.checked).length;
+        allDetailsInput.checked = checkedCount === detailInputs.length;
+        allDetailsInput.indeterminate = checkedCount > 0 && checkedCount < detailInputs.length;
+      };
+      allDetailsInput.addEventListener("change", () => {
+        detailInputs.forEach((input) => { input.checked = allDetailsInput.checked; });
+        allDetailsInput.indeterminate = false;
+      });
+      detailInputs.forEach((input) => input.addEventListener("change", syncAllDetailsState));
+      syncAllDetailsState();
+      body.append(
+        help,
+        makeMatchModeControl("businessDetailMatchMode", state.detail.matchMode),
+        makeFilterScrollRegion(detailGrid),
+      );
     }
     overlay.hidden = false;
     const initialFocus = kind === "district"
@@ -462,6 +551,8 @@
         ? body.querySelector("#businessIndustrySearch")
       : kind === "water"
         ? body.querySelector("#businessWaterSearch")
+        : kind === "detail"
+          ? body.querySelector('input[name="businessDetailType"]')
         : overlay.querySelector("#businessLocateCancel");
     initialFocus?.focus();
   }
@@ -478,15 +569,21 @@
     } else if (currentModalKind === "regulated") {
       state.regulated.statuses = selectedValues('input[name="businessRegulatedStatus"]', (input) => input.dataset.statusValue);
       state.regulated.types = selectedValues('input[name="businessRegulatedType"]', (input) => input.value);
+      state.regulated.matchMode = document.querySelector('input[name="businessRegulatedMatchMode"]:checked')?.value || "any";
       state.regulated.enabled = true;
     } else if (currentModalKind === "industry") {
       state.industry.values = selectedValues('input[name="businessIndustry"]', (input) => input.value);
-      state.industry.values.delete(ALL_PRIORITY_INDUSTRIES);
+      state.industry.values.delete(ALL_INDUSTRIES);
       state.industry.enabled = true;
     } else if (currentModalKind === "water") {
       state.water.values = selectedValues('input[name="businessWaterItem"]', (input) => input.value);
       state.water.values.delete(ALL_WATER_ITEMS);
       state.water.enabled = true;
+    } else if (currentModalKind === "detail") {
+      state.detail.values = selectedValues('input[name="businessDetailType"]', (input) => input.value);
+      state.detail.values.delete(ALL_BUSINESS_DETAILS);
+      state.detail.matchMode = document.querySelector('input[name="businessDetailMatchMode"]:checked')?.value || "any";
+      state.detail.enabled = true;
     }
     closeFilterModal();
     syncControls();
@@ -511,15 +608,19 @@
     } else if (kind === "regulated") {
       state.regulated.statuses.clear();
       state.regulated.types.clear();
+      state.regulated.matchMode = "any";
     } else if (kind === "water") {
       state.water.values = new Set(WATER_ITEMS);
+    } else if (kind === "detail") {
+      state.detail.values.clear();
+      state.detail.matchMode = "any";
     } else {
       state[kind].values.clear();
     }
   }
 
   function syncControls() {
-    ["district", "regulated", "industry", "water"].forEach((kind) => {
+    ["district", "regulated", "industry", "water", "detail"].forEach((kind) => {
       const select = document.getElementById(`businessLocate${kind}Toggle`);
       const setting = document.querySelector(`.business-locate-setting[data-filter-kind="${kind}"]`);
       if (!select) return;
@@ -532,18 +633,37 @@
     return selected.size === 0 || values.some((value) => selected.has(value));
   }
 
+  function matchesWithMode(values, selected, matchMode) {
+    if (selected.size === 0) return true;
+    return matchMode === "all"
+      ? Array.from(selected).every((value) => values.includes(value))
+      : values.some((value) => selected.has(value));
+  }
+
   function queryBusinesses() {
+    if (state.queryMode === "name") {
+      const keyword = state.businessName.trim().normalize("NFKC").toLocaleLowerCase("zh-Hant");
+      if (!keyword) return [];
+      return BUSINESSES.filter((business) => (
+        business.name.normalize("NFKC").toLocaleLowerCase("zh-Hant").includes(keyword)
+      ));
+    }
+    if (state.district.enabled && state.district.values.size === 0) return [];
+    if (state.industry.enabled && state.industry.values.size === 0) return [];
+    if (state.detail.enabled && state.detail.values.size === 0) return [];
     return BUSINESSES.filter((business) => {
       if (state.district.enabled && !state.district.values.has(business.district)) return false;
       if (state.regulated.enabled) {
         const status = business.regulated ? "regulated" : "nonregulated";
         if (!state.regulated.statuses.has(status)) return false;
-        if (business.regulated && state.regulated.types.size && !matchesSet(business.regulatedTypes, state.regulated.types)) return false;
+        if (business.regulated && !matchesWithMode(business.regulatedTypes, state.regulated.types, state.regulated.matchMode)) return false;
       }
       const businessIndustry = business.industry.trim() || EMPTY_INDUSTRY;
       if (state.industry.enabled && state.industry.values.size && !state.industry.values.has(businessIndustry)) return false;
       const businessWaterItems = business.waterQualityItems.map((item) => item.name);
       if (state.water.enabled && (state.water.values.size === 0 || !matchesSet(businessWaterItems, state.water.values))) return false;
+      const businessDetailItems = getBusinessDetailTypes(business).map((type) => BUSINESS_DETAIL_LABELS[type]);
+      if (state.detail.enabled && !matchesWithMode(businessDetailItems, state.detail.values, state.detail.matchMode)) return false;
       return true;
     });
   }
@@ -594,7 +714,7 @@
     } else {
       const table = document.createElement("table");
       table.className = "business-locate-table";
-      table.innerHTML = "<thead><tr><th>事業</th><th>列管項目</th><th>行業別</th><th>水質項目</th><th>操作</th></tr></thead>";
+      table.innerHTML = "<thead><tr><th>事業</th><th>列管項目</th><th>行業別</th><th>水質項目</th><th>事業詳細資料</th><th>操作</th></tr></thead>";
       const tbody = document.createElement("tbody");
       items.forEach((business) => {
         const row = document.createElement("tr");
@@ -612,6 +732,21 @@
         industryCell.textContent = business.industry || EMPTY_INDUSTRY;
         const waterCell = document.createElement("td");
         waterCell.textContent = business.waterQualityItems.map((item) => item.name).join("、") || "—";
+        const detailCell = document.createElement("td");
+        detailCell.className = "business-locate-detail-cell";
+        const detailTypes = getBusinessDetailTypes(business);
+        if (detailTypes.length) {
+          detailTypes.forEach((detailType) => {
+            const detailButton = document.createElement("button");
+            detailButton.type = "button";
+            detailButton.className = "business-locate-detail-button";
+            detailButton.textContent = BUSINESS_DETAIL_LABELS[detailType];
+            detailButton.addEventListener("click", () => locateBusiness(business, detailType));
+            detailCell.appendChild(detailButton);
+          });
+        } else {
+          detailCell.textContent = "—";
+        }
         const actionCell = document.createElement("td");
         const locateButton = document.createElement("button");
         locateButton.type = "button";
@@ -619,7 +754,7 @@
         locateButton.textContent = "定位";
         locateButton.addEventListener("click", () => locateBusiness(business));
         actionCell.appendChild(locateButton);
-        row.append(businessCell, regulatedCell, industryCell, waterCell, actionCell);
+        row.append(businessCell, regulatedCell, industryCell, waterCell, detailCell, actionCell);
         tbody.appendChild(row);
       });
       table.appendChild(tbody);
@@ -631,7 +766,15 @@
     panel.querySelector(".business-locate-results-close")?.focus();
   }
 
-  function locateBusiness(business) {
+  function getBusinessDetailTypes(business) {
+    if (Array.isArray(business?.detailTypes)) {
+      return business.detailTypes.filter((type) => BUSINESS_DETAIL_LABELS[type]);
+    }
+    const regulatedTypes = Array.isArray(business?.regulatedTypes) ? business.regulatedTypes : [];
+    return [regulatedTypes.includes("水") ? "water" : null, regulatedTypes.includes("毒") ? "toxic" : null].filter(Boolean);
+  }
+
+  function locateBusiness(business, detailType = null) {
     const map = window.EIMPMap;
     if (!map || !window.L) return;
     if (resultMarker) resultMarker.remove();
@@ -649,7 +792,8 @@
       highlightedMarker.remove();
       if (resultMarker === highlightedMarker) resultMarker = null;
     });
-    const popupItem = toBusinessPopupItem(business);
+    const locateItem = toBusinessPopupItem(business);
+    const popupItem = window.EIMPBusinessPopupBridge?.resolveItem?.(locateItem) || locateItem;
     const popupType = business.regulated ? "regBusiness" : "nonRegBusiness";
     const popup = window.EIMPBusinessPopupBridge?.buildPopupContent?.(popupItem, popupType) || business.name;
     map.setView([business.lat, business.lng], 17);
@@ -660,7 +804,10 @@
       closeButton: true,
       autoClose: false,
       closeOnClick: false,
-    }).openPopup();
+      keepBusinessDetailOpen: Boolean(detailType),
+    });
+    if (detailType) window.EIMPBusinessPopupBridge?.openDetail?.(popupItem, detailType);
+    highlightedMarker.openPopup();
     closeResultsPanel();
     document.getElementById("quickLocateWrapper")?.classList.remove("open");
   }
@@ -674,6 +821,8 @@
       industrialParkName: business.industrialParkName || "-",
       industryName: business.industry,
       regulatedType: business.regulated ? business.regulatedTypes.join("、") : "非列管",
+      regulatedTypes: business.regulatedTypes,
+      detailTypes: getBusinessDetailTypes(business),
       inspectManageNo: business.inspectManageNo || "-",
       tempManageNo: business.tempManageNo || "-",
       factoryLicenseNo: business.factoryLicenseNo || "-",
@@ -686,7 +835,10 @@
   }
 
   function clearBusinessQuery() {
-    ["district", "regulated", "industry", "water"].forEach(resetFilter);
+    state.businessName = "";
+    const nameInput = document.getElementById("businessLocateName");
+    if (nameInput) nameInput.value = "";
+    ["district", "regulated", "industry", "water", "detail"].forEach(resetFilter);
     syncControls();
     closeFilterModal();
     closeResultsPanel();
@@ -712,7 +864,11 @@
       wrapper.classList.toggle("business-locate-active", isBusiness);
       goButton.textContent = isBusiness ? "查詢" : "定位";
       clearButton.textContent = isBusiness ? "清除查詢" : "清除定位";
-      if (isBusiness) renderBusinessFields(form);
+      if (isBusiness) {
+        state.queryMode = "name";
+        state.businessName = "";
+        renderBusinessFields(form);
+      }
       else {
         closeFilterModal();
         closeResultsPanel();

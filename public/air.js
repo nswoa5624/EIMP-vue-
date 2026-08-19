@@ -401,8 +401,17 @@ document.addEventListener("DOMContentLoaded", () => {
   function configureBusinessPermitTypes(item) {
     const permits = getBusinessPermitAvailability(item);
     if (businessPermitTypeSelect) {
+      [["CEMS", "CEMS"], ["CWMS", "CWMS"]].forEach(([value, label]) => {
+        if (businessPermitTypeSelect.querySelector(`option[value="${value}"]`)) return;
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = label;
+        businessPermitTypeSelect.appendChild(option);
+      });
       const waterOption = businessPermitTypeSelect.querySelector('option[value="water"]');
       const toxicOption = businessPermitTypeSelect.querySelector('option[value="toxic"]');
+      const cemsOption = businessPermitTypeSelect.querySelector('option[value="CEMS"]');
+      const cwmsOption = businessPermitTypeSelect.querySelector('option[value="CWMS"]');
       if (waterOption) {
         waterOption.hidden = !permits.hasWater;
         waterOption.disabled = !permits.hasWater;
@@ -410,6 +419,14 @@ document.addEventListener("DOMContentLoaded", () => {
       if (toxicOption) {
         toxicOption.hidden = !permits.hasToxic;
         toxicOption.disabled = !permits.hasToxic;
+      }
+      if (cemsOption) {
+        cemsOption.hidden = !permits.hasCEMS;
+        cemsOption.disabled = !permits.hasCEMS;
+      }
+      if (cwmsOption) {
+        cwmsOption.hidden = !permits.hasCWMS;
+        cwmsOption.disabled = !permits.hasCWMS;
       }
     }
     return permits;
@@ -547,14 +564,20 @@ document.addEventListener("DOMContentLoaded", () => {
     setText("toxicIndustrialPark", item.industrialParkName || "-");
   }
 
-  function openBusinessDetailPanel(item) {
+  function openBusinessDetailPanel(item, requestedType = null) {
     if (!businessDetailPanel || !item) return;
     const permits = configureBusinessPermitTypes(item);
-    if (!permits.hasWater && !permits.hasToxic) return;
+    if (!permits.hasWater && !permits.hasToxic && !permits.hasCEMS && !permits.hasCWMS) return;
     currentBusinessDetailItem = item;
     if (permits.hasWater) renderWaterBusinessLayout(item);
     populateBusinessDetail(item);
-    const initialPermitType = permits.hasWater ? "water" : "toxic";
+    const availableTypes = [
+      permits.hasWater && "water",
+      permits.hasToxic && "toxic",
+      permits.hasCEMS && "CEMS",
+      permits.hasCWMS && "CWMS",
+    ].filter(Boolean);
+    const initialPermitType = availableTypes.includes(requestedType) ? requestedType : availableTypes[0];
     if (businessPermitTypeSelect) businessPermitTypeSelect.value = initialPermitType;
     switchBusinessAccordion(initialPermitType);
     businessDetailPanel.classList.add("is-open");
@@ -909,14 +932,46 @@ document.addEventListener("DOMContentLoaded", () => {
       areaId: "Zhonghe",
       businesslabel:"社區地下水",
     },
+    {
+      id: "RB0006",
+      controlNo: "F8034567",
+      businessName: "板橋食品包裝行",
+      unifiedNo: "80345678",
+      industrialParkName: "-",
+      industryName: "烘焙炊蒸食品製造業",
+      regulated: true,
+      regulatedType: "空",
+      regulatedTypes: ["空"],
+      address: "新北市板橋區OO路120號",
+      businesstype: "一般事業",
+      lat: 25.0132,
+      lng: 121.4637,
+      areaId: "Banqiao",
+      businesslabel: "一般事業",
+    },
+    {
+      id: "RB0007",
+      controlNo: "F8056789",
+      businessName: "新店電子維修廠",
+      unifiedNo: "80567890",
+      industrialParkName: "-",
+      industryName: "其他電腦週邊設備製造業",
+      regulated: true,
+      regulatedType: "空",
+      regulatedTypes: ["空"],
+      address: "新北市新店區OO街18號",
+      businesstype: "一般事業",
+      lat: 24.9435,
+      lng: 121.5580,
+      areaId: "Xindian",
+      businesslabel: "一般事業",
+    },
   ];
 
   const nonRegBusinessCases = [
   { id: "NB0001", controlNo: "NFB-0001", businessName: "新莊精密加工廠", unifiedNo: "80123456", industryName: "其他金屬加工處理業", address: "新北市新莊區△△路66號", lat: 25.0362, lng: 121.4549, areaId: "Xinzhuang" },
   { id: "NB0002", controlNo: "NFB-0002", businessName: "五股倉儲物流場", unifiedNo: "80234567", industryName: "普通倉儲業", address: "新北市五股區OO路88號", lat: 25.0841, lng: 121.4387, areaId: "Wugu" },
-  { id: "NB0003", controlNo: "NFB-0003", businessName: "板橋食品包裝行", unifiedNo: "80345678", industryName: "烘焙炊蒸食品製造業", address: "新北市板橋區OO路120號", lat: 25.0132, lng: 121.4637, areaId: "Banqiao" },
   { id: "NB0004", controlNo: "NFB-0004", businessName: "三重印刷材料行", unifiedNo: "80456789", industryName: "印刷業", address: "新北市三重區XX路35號", lat: 25.0615, lng: 121.4881, areaId: "Sanchong" },
-  { id: "NB0005", controlNo: "NFB-0005", businessName: "新店電子維修廠", unifiedNo: "80567890", industryName: "其他電腦週邊設備製造業", address: "新北市新店區OO街18號", lat: 24.9435, lng: 121.5580, areaId: "Xindian" },
   { id: "NB0006", controlNo: "NFB-0006", businessName: "淡水水產處理場", unifiedNo: "80678901", industryName: "未分類其他食品製造業", address: "新北市淡水區中正路旁", lat: 25.1950, lng: 121.4520, areaId: "Tamsui" },
   { id: "NB0007", controlNo: "NFB-0007", businessName: "林口材料倉儲中心", unifiedNo: "80789012", industryName: "", address: "新北市林口區文化北路旁", lat: 25.0920, lng: 121.3660, areaId: "Linkou" },
   { id: "NB0008", controlNo: "NFB-0008", businessName: "汐止機械保養廠", unifiedNo: "80890123", industryName: "", address: "新北市汐止區大同路附近", lat: 25.0820, lng: 121.6400, areaId: "Xizhi" },
@@ -1807,15 +1862,35 @@ document.addEventListener("DOMContentLoaded", () => {
     const regulatedTypes = Array.isArray(item?.regulatedTypes)
       ? item.regulatedTypes
       : String(item?.regulatedType || "").split(/[、,，/／\s]+/).filter(Boolean);
+    const detailTypes = Array.isArray(item?.detailTypes) ? item.detailTypes : [];
     return {
-      hasWater: regulatedTypes.includes("水"),
-      hasToxic: regulatedTypes.includes("毒"),
+      hasWater: detailTypes.includes("water") || regulatedTypes.includes("水") || Boolean(item?.waterPermitNo || item?.waterpermitNo),
+      hasToxic: detailTypes.includes("toxic") || regulatedTypes.includes("毒") || Boolean(item?.toxicPermitNo || item?.toxicpermitNo),
+      hasCEMS: detailTypes.includes("CEMS") || regulatedTypes.includes("CEMS") || item?.hasCEMS === true,
+      hasCWMS: detailTypes.includes("CWMS") || regulatedTypes.includes("CWMS") || item?.hasCWMS === true,
+    };
+  }
+
+  function resolveBusinessItem(item) {
+    if (!item) return item;
+    const sourceItem = [...regBusinessCases, ...nonRegBusinessCases].find((entry) => (
+      entry.businessName === item.businessName
+      || (entry.address && item.address && entry.address === item.address)
+      || (Number(entry.lat) === Number(item.lat) && Number(entry.lng) === Number(item.lng))
+    ));
+    if (!sourceItem) return item;
+    return {
+      ...item,
+      ...sourceItem,
+      detailTypes: item.detailTypes || sourceItem.detailTypes,
+      regulatedTypes: item.regulatedTypes || sourceItem.regulatedTypes,
+      waterQualityItems: item.waterQualityItems || sourceItem.waterQualityItems,
     };
   }
 
   function getBusinessDetailLinkHtml(item, itemType) {
     const permits = getBusinessPermitAvailability(item);
-    if (!permits.hasWater && !permits.hasToxic) return "";
+    if (!permits.hasWater && !permits.hasToxic && !permits.hasCEMS && !permits.hasCWMS) return "";
     return `<div class="case-popup__link-row"><button type="button" class="popup-plain-text-btn business-detail-trigger" data-item-type="${itemType}" data-item-id="${item.id}">事業詳細資料</button></div>`;
   }
 
@@ -1900,10 +1975,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.EIMPBusinessPopupBridge = {
     buildPopupContent(item, type) {
-      return getCasePopupContent(item, type);
+      return getCasePopupContent(resolveBusinessItem(item), type);
     },
-    openDetail(item) {
-      openBusinessDetailPanel(item);
+    resolveItem: resolveBusinessItem,
+    openDetail(item, detailType) {
+      openBusinessDetailPanel(resolveBusinessItem(item), detailType);
     },
   };
 
