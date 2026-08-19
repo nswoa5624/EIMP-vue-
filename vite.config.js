@@ -19,7 +19,10 @@ export default defineConfig(({ mode }) => {
   };
 
   return {
-    server: { proxy: { "/api/ntpc-fast-location": ntpcProxy } },
+    server: {
+      proxy: { "/api/ntpc-fast-location": ntpcProxy },
+      watch: { ignored: ["**/dist/**"] },
+    },
     preview: { proxy: { "/api/ntpc-fast-location": ntpcProxy } },
     build: {
       rollupOptions: {
