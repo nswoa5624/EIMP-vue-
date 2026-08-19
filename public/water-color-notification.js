@@ -96,7 +96,6 @@
       tag: NOTIFICATION_TAG,
       renotify: true,
       requireInteraction: true,
-      actions: [{ action: "view-map", title: "查看地圖", icon: "/images/監視器辨識異常.png" }],
       data: { eventId: eventData.eventId, url: `/water.html?waterAlert=${encodeURIComponent(eventData.eventId)}` },
     });
   }
