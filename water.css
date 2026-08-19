@@ -81,6 +81,107 @@
   }
 }
 
+/* 水色辨識通知：低調的測試入口與案件列警示。 */
+.topic-water .water-anomaly-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.topic-water .water-anomaly-header-actions > img {
+  width: clamp(38px, 4vw, 58px);
+  margin-right: 4px;
+}
+
+.topic-water .water-notification-test-btn {
+  min-height: 26px;
+  padding: 4px 9px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(148, 173, 190, 0.28);
+  border-radius: 999px;
+  background: rgba(24, 34, 48, 0.28);
+  color: rgba(218, 230, 239, 0.68);
+  font-size: 11px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.topic-water .water-notification-test-btn:hover,
+.topic-water .water-notification-test-btn:focus-visible {
+  border-color: rgba(112, 231, 211, 0.62);
+  background: rgba(42, 64, 76, 0.72);
+  color: #dffcf7;
+  outline: none;
+}
+
+.topic-water .water-notification-test-btn:disabled {
+  cursor: wait;
+  opacity: 0.82;
+}
+
+.topic-water .water-notification-test-dot {
+  width: 6px;
+  height: 6px;
+  flex: 0 0 6px;
+  border-radius: 50%;
+  background: #70e7d3;
+  box-shadow: 0 0 0 3px rgba(112, 231, 211, 0.09);
+}
+
+.topic-water .water-notification-test-btn.is-counting .water-notification-test-dot {
+  background: #f7c454;
+  box-shadow: 0 0 0 3px rgba(247, 196, 84, 0.12);
+}
+
+.topic-water .fire-panel .case-row.is-water-alert-flashing {
+  position: relative;
+  z-index: 1;
+  border-radius: 5px;
+  animation: water-case-alert-flash 1.05s ease-in-out infinite;
+}
+
+.topic-water .fire-panel .case-row.is-water-alert-flashing::after {
+  content: "新案件";
+  position: absolute;
+  top: 50%;
+  right: 7px;
+  transform: translateY(-50%);
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: #ff4d3d;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  pointer-events: none;
+}
+
+.topic-water .fire-panel .case-row.is-water-alert-flashing .panel-body-address-text {
+  padding-right: 58px;
+}
+
+@keyframes water-case-alert-flash {
+  0%, 100% {
+    background: rgba(255, 77, 61, 0.04);
+    box-shadow: inset 4px 0 #ff5b4b, 0 0 0 0 rgba(255, 91, 75, 0);
+  }
+  50% {
+    background: rgba(255, 77, 61, 0.28);
+    box-shadow: inset 4px 0 #ff7b67, 0 0 16px 2px rgba(255, 91, 75, 0.38);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .topic-water .fire-panel .case-row.is-water-alert-flashing {
+    animation: none;
+    background: rgba(255, 77, 61, 0.22);
+    box-shadow: inset 4px 0 #ff5b4b;
+  }
+}
+
 /* 水主題：修正列管/非列管事業 popup 跑版，版型改回與空主題一致的上下排列。 */
 
 .topic-water .custom-case-popup .case-popup {
