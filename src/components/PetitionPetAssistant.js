@@ -193,6 +193,7 @@ export default {
       "is-panel-left": position.value.x > window.innerWidth - 470,
       "is-panel-below": position.value.y < 300,
     }));
+    const isPetOnRightHalf = computed(() => position.value.x + PET_SIZE / 2 > window.innerWidth / 2);
     const contentMaxHeight = computed(() => {
       const space = panelPlacement.value["is-panel-below"]
         ? window.innerHeight - position.value.y - 190
@@ -573,7 +574,7 @@ export default {
       if (!urgentAlert.value || isOpen.value) return null;
       return h("button", {
         type: "button",
-        class: ["eimp-pet-urgent-hint", { "is-hint-right": panelPlacement.value["is-panel-left"] }],
+        class: ["eimp-pet-urgent-hint", { "is-hint-right": !isPetOnRightHalf.value }],
         onClick: focusUrgentAlert,
       }, [
         h("strong", "重要通知"),

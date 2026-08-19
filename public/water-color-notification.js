@@ -73,7 +73,7 @@
     button.disabled = state === "requesting" || state === "counting";
     if (state === "requesting") label.textContent = "開啟中…";
     else if (state === "counting") label.textContent = `${seconds} 秒後通知`;
-    else if (state === "denied") label.textContent = "僅測試頁籤";
+    else if (state === "denied") label.textContent = "通知未授權";
     else label.textContent = "測試通知";
   }
 
@@ -107,7 +107,7 @@
       if (!latest || latest.id !== eventData.id || latest.notifiedAt) return;
       latest.notifiedAt = Date.now();
       localStorage.setItem(SCHEDULE_KEY, JSON.stringify(latest));
-      if (document.hidden || !isWaterPage()) await showWindowsNotification(eventData);
+      if (eventData.isDemo || document.hidden || !isWaterPage()) await showWindowsNotification(eventData);
     };
 
     if (navigator.locks?.request) {
@@ -190,6 +190,7 @@
       address: "淡水河忠孝碼頭附近",
       triggerAt: Date.now() + DEMO_DELAY_MS,
       permission,
+      isDemo: true,
     };
     localStorage.removeItem(ACTIVE_KEY);
     clearAlertPresentation();
