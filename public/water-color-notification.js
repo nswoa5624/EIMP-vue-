@@ -80,6 +80,7 @@
   function applyActiveAlert(eventData) {
     if (!eventData?.eventId) return;
     getAlertRow(eventData.eventId)?.classList.add("is-water-alert-flashing");
+    window.dispatchEvent(new CustomEvent("eimp:pet-urgent-alert", { detail: eventData }));
     startTitleAlert(eventData);
   }
 
@@ -87,7 +88,7 @@
     if (!("Notification" in window) || Notification.permission !== "granted") return;
     const registration = await registerNotificationWorker();
     if (!registration) return;
-    await registration.showNotification("水色辨識異常｜新案件", {
+    await registration.showNotification("重要通知｜水色辨識異常", {
       body: `${eventData.time}\n${eventData.address}\n偵測到水色異常，請點擊查看地圖。`,
       icon: "/images/監視器辨識異常.png",
       badge: "/images/監視器辨識異常.png",
@@ -144,12 +145,18 @@
     scheduledTimer = window.setTimeout(() => fireScheduledAlert(eventData), remainingMs);
   }
 
+  function clearAlertPresentation(eventId) {
+    if (eventId) getAlertRow(eventId)?.classList.remove("is-water-alert-flashing");
+    else document.querySelectorAll(".case-row.is-water-alert-flashing").forEach((row) => row.classList.remove("is-water-alert-flashing"));
+    window.dispatchEvent(new CustomEvent("eimp:pet-urgent-alert-clear", { detail: { eventId } }));
+    restoreTitle();
+  }
+
   function acknowledgeAlert(eventId) {
     const active = parseStoredValue(ACTIVE_KEY);
     if (active?.eventId && active.eventId !== eventId) return;
     localStorage.removeItem(ACTIVE_KEY);
-    getAlertRow(eventId)?.classList.remove("is-water-alert-flashing");
-    restoreTitle();
+    clearAlertPresentation(eventId);
     navigator.serviceWorker?.getRegistration?.().then((registration) => {
       (navigator.serviceWorker.controller || registration?.active)?.postMessage({ type: "EIMP_CLOSE_WATER_ALERT" });
     });
@@ -185,6 +192,7 @@
       permission,
     };
     localStorage.removeItem(ACTIVE_KEY);
+    clearAlertPresentation();
     localStorage.setItem(SCHEDULE_KEY, JSON.stringify(eventData));
     setTestButtonState(permission === "denied" ? "denied" : "counting", 5);
     armStoredSchedule(eventData);
@@ -208,6 +216,15 @@
     if (eventIdFromUrl) focusAlertOnMap(eventIdFromUrl, { acknowledge: true });
   }
 
+  window.addEventListener("eimp:water-alert-focus", (event) => {
+    const eventId = event.detail?.eventId || "W-A001";
+    if (isWaterPage()) {
+      focusAlertOnMap(eventId, { acknowledge: true });
+      return;
+    }
+    location.href = `/water.html?waterAlert=${encodeURIComponent(eventId)}`;
+  });
+
   document.addEventListener("visibilitychange", () => {
     const active = parseStoredValue(ACTIVE_KEY);
     if (!active) return restoreTitle();
@@ -220,7 +237,7 @@
     if (event.key === ACTIVE_KEY) {
       const active = parseStoredValue(ACTIVE_KEY);
       if (active) applyActiveAlert(active);
-      else restoreTitle();
+      else clearAlertPresentation();
     }
   });
 

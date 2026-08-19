@@ -119,6 +119,7 @@ export default {
     const isHovered = ref(false);
     const isThinking = ref(false);
     const notificationWaveFrame = ref(false);
+    const urgentAlert = ref(null);
     const currentRouteKey = ref(getInitialRouteKey());
     const pushMessage = ref("");
     const fetchError = ref("");
@@ -160,6 +161,12 @@ export default {
       },
       notify(count = 1) {
         addNotification(count);
+      },
+      showUrgentAlert(payload) {
+        setUrgentAlert(payload);
+      },
+      clearUrgentAlert(eventId) {
+        dismissUrgentAlert(eventId);
       },
       open() {
         openPanel();
@@ -371,6 +378,29 @@ export default {
       unreadCount.value += count;
     }
 
+    function setUrgentAlert(payload) {
+      if (!payload?.eventId) return;
+      const isNewAlert = urgentAlert.value?.id !== payload.id || urgentAlert.value?.eventId !== payload.eventId;
+      urgentAlert.value = {
+        id: payload.id || payload.eventId,
+        eventId: payload.eventId,
+        time: payload.time || "--",
+        address: payload.address || "水色異常點位",
+      };
+      activeView.value = "prompt";
+      if (isNewAlert) addNotification(1);
+    }
+
+    function dismissUrgentAlert(eventId) {
+      if (eventId && urgentAlert.value?.eventId !== eventId) return;
+      urgentAlert.value = null;
+    }
+
+    function focusUrgentAlert() {
+      if (!urgentAlert.value) return;
+      window.dispatchEvent(new CustomEvent("eimp:water-alert-focus", { detail: urgentAlert.value }));
+    }
+
     function onPointerDown(event) {
       if (event.button !== undefined && event.button !== 0) return;
       clearTimeout(celebrationTimer);
@@ -443,6 +473,14 @@ export default {
       addNotification(event.detail?.count ?? event.detail ?? 1);
     }
 
+    function onUrgentAlert(event) {
+      setUrgentAlert(event.detail);
+    }
+
+    function onUrgentAlertClear(event) {
+      dismissUrgentAlert(event.detail?.eventId);
+    }
+
     function onAccountChange(event) {
       // 網址有明確指定時，以網址參數為準，方便本機測試及分享測試連結。
       if (getQueryRouteKey()) return;
@@ -467,6 +505,8 @@ export default {
       window.addEventListener("resize", keepInViewport);
       window.addEventListener("eimp:pet-thinking", onThinkingChange);
       window.addEventListener("eimp:pet-notification", onNotification);
+      window.addEventListener("eimp:pet-urgent-alert", onUrgentAlert);
+      window.addEventListener("eimp:pet-urgent-alert-clear", onUrgentAlertClear);
       window.addEventListener("eimp:account-changed", onAccountChange);
       window.addEventListener("pointermove", onPointerMove);
       window.addEventListener("pointerup", finishPointer);
@@ -492,6 +532,8 @@ export default {
       window.removeEventListener("resize", keepInViewport);
       window.removeEventListener("eimp:pet-thinking", onThinkingChange);
       window.removeEventListener("eimp:pet-notification", onNotification);
+      window.removeEventListener("eimp:pet-urgent-alert", onUrgentAlert);
+      window.removeEventListener("eimp:pet-urgent-alert-clear", onUrgentAlertClear);
       window.removeEventListener("eimp:account-changed", onAccountChange);
       window.removeEventListener("pointermove", onPointerMove);
       window.removeEventListener("pointerup", finishPointer);
@@ -524,6 +566,19 @@ export default {
           "aria-hidden": "true",
         }),
         hasUnread.value ? h("span", { class: "eimp-pet-badge", "aria-label": `${unreadCount.value} 則未讀動態` }, String(unreadCount.value)) : null,
+      ]);
+    }
+
+    function renderUrgentHint() {
+      if (!urgentAlert.value || isOpen.value) return null;
+      return h("button", {
+        type: "button",
+        class: ["eimp-pet-urgent-hint", { "is-hint-right": panelPlacement.value["is-panel-left"] }],
+        onClick: focusUrgentAlert,
+      }, [
+        h("strong", "重要通知"),
+        h("span", `水色異常 · ${urgentAlert.value.time}`),
+        h("small", "點擊查看地圖"),
       ]);
     }
 
@@ -647,6 +702,18 @@ export default {
             ]),
           ]
           : [
+            urgentAlert.value
+              ? h("button", {
+                type: "button",
+                class: "eimp-assistant-urgent-alert",
+                onClick: focusUrgentAlert,
+              }, [
+                h("span", "重要通知"),
+                h("strong", "偵測到水色異常案件"),
+                h("p", `${urgentAlert.value.time} · ${urgentAlert.value.address}`),
+                h("small", "查看案件地圖 →"),
+              ])
+              : null,
             isLoading.value && !pushMessage.value
               ? h("div", { class: "eimp-analysis-state", role: "status" }, [h("span", { class: "eimp-analysis-loader" }), "正在取得最新分析…"])
               : null,
@@ -691,6 +758,6 @@ export default {
     return () => h("div", {
       class: "eimp-pet-assistant",
       style: { left: `${position.value.x}px`, top: `${position.value.y}px` },
-    }, [renderPanel(), renderPet()]);
+    }, [renderPanel(), renderUrgentHint(), renderPet()]);
   },
 };
