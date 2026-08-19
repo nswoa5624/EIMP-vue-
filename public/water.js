@@ -628,6 +628,17 @@ function initWaterQualityTrendPanel(config) {
     return input.type === "datetime-local" ? formatDateTimeInput(date) : formatDateInput(date);
   }
 
+  function updateDateDisplays() {
+    [startDateInput, endDateInput].forEach((input) => {
+      const display = input.nextElementSibling;
+      const date = parseDateInput(input.value, 15);
+      if (!display || Number.isNaN(date.getTime())) return;
+      display.textContent = input.type === "datetime-local"
+        ? `${formatDateInput(date).replaceAll("-", "/")} ${pad2(date.getHours())}:${pad2(date.getMinutes())}`
+        : formatDateInput(date).replaceAll("-", "/");
+    });
+  }
+
   function applyIntervalInputMode() {
     const usesDateOnly = rangeSelect.value === "1d";
     const startDate = parseDateInput(startDateInput.value || "2026-08-06", 15);
@@ -646,6 +657,7 @@ function initWaterQualityTrendPanel(config) {
     endDateInput.value = formatInputValue(endDate, endDateInput);
     startDateInput.setAttribute("aria-label", usesDateOnly ? "查詢開始日期" : "查詢開始日期與時間");
     endDateInput.setAttribute("aria-label", usesDateOnly ? "查詢結束日期" : "查詢結束日期與時間");
+    updateDateDisplays();
   }
 
   function formatInspectorTime(date) {
@@ -891,6 +903,7 @@ function initWaterQualityTrendPanel(config) {
     startDateInput.min = formatInputValue(earliestStartDate, startDateInput);
     endDateInput.min = startDateInput.value;
     endDateInput.max = formatInputValue(latestEndDate, endDateInput);
+    updateDateDisplays();
     const isValid = validateQueryRange();
     if (selectedStation && isValid) renderChart();
   }
