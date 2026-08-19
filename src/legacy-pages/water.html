@@ -329,8 +329,8 @@
           </div>
         </article>
 
-        <!-- AQI -->
-        <article class="panel panel-large">
+        <!-- 河川水質監測 -->
+        <article class="panel panel-large water-quality-monitor-panel" id="waterQualityMonitorPanel">
           <div class="panel-header">
             <div class="panel-icon-left">
               <div class="panel-circle">
@@ -339,14 +339,123 @@
               <div class="panel-title-text">
                 <h2 class="panel-title">河川水質監測</h2>
               </div>
+              <span class="water-quality-station-name" id="waterQualityStationName" hidden></span>
             </div>
             <div class="panel-icon-right">
               <img src="/images/card-bar.png" alt="More" />
             </div>
           </div>
 
-          <div class="panel-body" style="text-align: center; font-size: 16px">
+          <div class="water-quality-empty" id="waterQualityEmpty">
             請選擇水質測站
+          </div>
+
+          <div class="water-quality-content" id="waterQualityContent" hidden>
+            <div class="water-quality-metrics" aria-label="選擇水質監測項目">
+              <button class="water-quality-metric is-active" type="button" data-water-metric="ph" aria-pressed="true">
+                <span class="water-quality-metric-copy">
+                  <span class="water-quality-metric-name">酸鹼度</span>
+                  <span class="water-quality-metric-code">pH</span>
+                </span>
+                <span class="water-quality-metric-value"><span data-water-value="ph">--</span><small>pH</small></span>
+              </button>
+
+              <button class="water-quality-metric" type="button" data-water-metric="temp" aria-pressed="false">
+                <span class="water-quality-metric-copy">
+                  <span class="water-quality-metric-name">水溫</span>
+                  <span class="water-quality-metric-code">WTEMP</span>
+                </span>
+                <span class="water-quality-metric-value"><span data-water-value="temp">--</span><small>°C</small></span>
+              </button>
+
+              <button class="water-quality-metric" type="button" data-water-metric="ec" aria-pressed="false">
+                <span class="water-quality-metric-copy">
+                  <span class="water-quality-metric-name">導電度</span>
+                  <span class="water-quality-metric-code">EC</span>
+                </span>
+                <span class="water-quality-metric-value"><span data-water-value="ec">--</span><small>μS</small></span>
+              </button>
+
+              <button class="water-quality-metric" type="button" data-water-metric="do" aria-pressed="false">
+                <span class="water-quality-metric-copy">
+                  <span class="water-quality-metric-name">水中溶氧</span>
+                  <span class="water-quality-metric-code">DO</span>
+                </span>
+                <span class="water-quality-metric-value"><span data-water-value="do">--</span><small>mg/L</small></span>
+              </button>
+            </div>
+
+            <div class="water-quality-chart-section">
+              <div class="water-quality-query-controls">
+                <div class="water-quality-date-control">
+                  <div class="water-quality-query-heading">
+                    <span class="water-quality-query-label">查詢區間</span>
+                    <span class="water-quality-range-error" id="waterQualityRangeError" role="alert" hidden></span>
+                  </div>
+                  <div class="water-quality-date-range" aria-label="查詢日期區間">
+                    <label class="water-quality-datetime-field">
+                      <input id="waterQualityStartDate" type="datetime-local" value="2026-08-06T15:00" aria-label="查詢開始日期與時間" />
+                      <span class="water-quality-datetime-display" aria-hidden="true">2026/08/06 15:00</span>
+                    </label>
+                    <span aria-hidden="true">～</span>
+                    <label class="water-quality-datetime-field">
+                      <input id="waterQualityEndDate" type="datetime-local" value="2026-08-07T15:00" aria-label="查詢結束日期與時間" />
+                      <span class="water-quality-datetime-display" aria-hidden="true">2026/08/07 15:00</span>
+                    </label>
+                  </div>
+                </div>
+
+                <label class="water-quality-range-control" for="waterQualityRangeSelect">
+                  <span class="water-quality-range-control-row">
+                    <span>統計頻率</span>
+                    <select class="water-quality-range-select" id="waterQualityRangeSelect" aria-label="統計頻率">
+                      <option value="10m">10 分鐘</option>
+                      <option value="1h" selected>小時</option>
+                      <option value="1d">天</option>
+                  </select>
+                  </span>
+                  <small id="waterQualityRangeHint">最大查詢時間：24 小時</small>
+                </label>
+              </div>
+
+              <svg class="water-quality-chart" id="waterQualityChart" viewBox="0 0 330 190" role="img" aria-label="水質監測趨勢圖" aria-describedby="waterQualityChartDesc" preserveAspectRatio="none">
+                <desc id="waterQualityChartDesc">所選水質監測項目的近二十四小時折線趨勢</desc>
+                <defs>
+                  <linearGradient id="waterQualityAreaGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#58eee3" stop-opacity=".28"></stop>
+                    <stop offset="100%" stop-color="#58eee3" stop-opacity="0"></stop>
+                  </linearGradient>
+                </defs>
+                <g class="water-quality-chart-grid" aria-hidden="true">
+                  <line x1="38" y1="14" x2="322" y2="14"></line>
+                  <line x1="38" y1="57" x2="322" y2="57"></line>
+                  <line x1="38" y1="100" x2="322" y2="100"></line>
+                  <line x1="38" y1="144" x2="322" y2="144"></line>
+                </g>
+                <line class="water-quality-y-axis" x1="38" y1="14" x2="38" y2="144" aria-hidden="true"></line>
+                <g class="water-quality-y-labels" id="waterQualityYLabels" aria-hidden="true"></g>
+                <g class="water-quality-x-labels" id="waterQualityXLabels" aria-hidden="true"></g>
+                <path class="water-quality-chart-area" id="waterQualityChartArea"></path>
+                <path class="water-quality-chart-line" id="waterQualityChartLine"></path>
+                <line class="water-quality-now-line" x1="322" y1="14" x2="322" y2="144"></line>
+                <g id="waterQualityChartPoints"></g>
+                <g class="water-quality-chart-inspector" id="waterQualityChartInspector" hidden aria-hidden="true">
+                  <line class="water-quality-inspector-line" id="waterQualityInspectorLine" x1="38" y1="14" x2="38" y2="144"></line>
+                  <line class="water-quality-inspector-line" id="waterQualityInspectorHorizontalLine" x1="38" y1="14" x2="322" y2="14"></line>
+                  <circle class="water-quality-inspector-point" id="waterQualityInspectorPoint" cx="38" cy="14" r="4"></circle>
+                  <g id="waterQualityInspectorTooltip">
+                    <rect class="water-quality-inspector-box" id="waterQualityInspectorBox" x="44" y="18" width="78" height="34" rx="4"></rect>
+                    <text class="water-quality-inspector-time" id="waterQualityInspectorTime" x="50" y="31">08/07 15:00</text>
+                    <text class="water-quality-inspector-value" id="waterQualityInspectorValue" x="50" y="44">--</text>
+                  </g>
+                </g>
+                <rect class="water-quality-chart-hit-area" id="waterQualityChartHitArea" x="38" y="14" width="284" height="130" rx="2"></rect>
+              </svg>
+            </div>
+          </div>
+
+          <div class="water-quality-footer" id="waterQualityFooter" hidden>
+            資料時間：2026/08/07 15:00
           </div>
         </article>
         <section aria-hidden="true" class="business-detail-panel" id="businessDetailPanel">
