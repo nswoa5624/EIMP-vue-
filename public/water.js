@@ -287,8 +287,8 @@ const EIMPWaterTopicConfig = {
           "time": "12/02 10:33",
           "anomalyTypes": ["色度汙染"],
           "address": "淡水河忠孝碼頭附近",
-          "lat": 25.0465,
-          "lng": 121.5061
+          "lat": 25.051144,
+          "lng": 121.500209
         },
         {
           "id": "W-A002",
@@ -390,12 +390,12 @@ const EIMPWaterTopicConfig = {
           "id": "W-A001",
           "setupUnit": "稽查科",
           "cameraCode": "21821-1",
-          "installAddress": "樹林區三龍街27號旁三龍二橋A",
+          "installAddress": "淡水河忠孝碼頭附近",
           "isAbnormal": "是",
           "time": "12/02 10:33",
-          "address": "樹林區三龍街27號旁三龍二橋A",
-          "lat": 25.0465,
-          "lng": 121.5061,
+          "address": "淡水河忠孝碼頭附近",
+          "lat": 25.051144,
+          "lng": 121.500209,
           "icon": "images/監視器辨識異常.png",
           "videoUrl": "https://example.com/live/W-A001",
           "resultImageUrl": "https://example.com/result/W-A001.jpg",

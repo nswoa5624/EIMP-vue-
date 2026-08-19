@@ -92,7 +92,7 @@
       body: `${eventData.time}\n${eventData.address}\n偵測到水色異常，請點擊查看地圖。`,
       icon: "/images/監視器辨識異常.png",
       badge: "/images/監視器辨識異常.png",
-      image: "/images/water-alert-map.svg",
+      image: "/images/water-alert-map.png",
       tag: NOTIFICATION_TAG,
       renotify: true,
       requireInteraction: true,
