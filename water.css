@@ -296,6 +296,15 @@
   pointer-events: none;
 }
 
+.topic-water .water-quality-datetime-display::after {
+  content: "";
+  flex: 0 0 10px;
+  width: 10px;
+  height: 10px;
+  margin-left: auto;
+  background: center / 10px 10px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Crect x='.75' y='1.75' width='8.5' height='7.5' rx='1' fill='none' stroke='%23dce7f0' stroke-width='1'/%3E%3Cpath d='M.75 4h8.5M3 1v2M7 1v2' fill='none' stroke='%23dce7f0' stroke-width='1'/%3E%3C/svg%3E");
+}
+
 .topic-water .water-quality-range-error {
   color: #ff7373;
   -webkit-text-fill-color: #ff7373;
