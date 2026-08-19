@@ -173,10 +173,10 @@
 
 .topic-water .water-quality-query-controls {
   display: grid;
-  grid-template-columns: 194px minmax(0, 1fr);
+  grid-template-columns: 212px minmax(0, 1fr);
   align-items: start;
   gap: 4px;
-  min-height: 42px;
+  min-height: 52px;
 }
 
 .topic-water .water-quality-date-control {
@@ -195,6 +195,7 @@
   color: #dce7f0;
   font-size: 11px;
   font-weight: 700;
+  line-height: 15px;
   white-space: nowrap;
 }
 
@@ -207,26 +208,35 @@
   font-size: 11px;
   white-space: nowrap;
   justify-self: end;
-  width: 107px;
+  width: 85px;
 }
 
 .topic-water .water-quality-range-control-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 3px;
+  display: grid;
+  grid-template-rows: 15px 23px;
+  justify-items: end;
+  gap: 1px;
+}
+
+.topic-water .water-quality-range-control-row > span {
+  color: #dce7f0;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 15px;
 }
 
 .topic-water .water-quality-range-control small {
+  align-self: end;
+  width: 115px;
   color: #ffffff;
   -webkit-text-fill-color: #ffffff;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 400;
   text-align: right;
 }
 
 .topic-water .water-quality-range-select {
-  width: 61px;
+  width: 85px;
   height: 23px;
   padding: 0 4px;
   border: 1px solid rgba(115, 140, 160, 0.56);
@@ -253,7 +263,7 @@
 
 .topic-water .water-quality-date-range input {
   min-width: 0;
-  width: 90px;
+  width: 99px;
   height: 22px;
   padding: 0 2px;
   border: 1px solid rgba(115, 140, 160, 0.48);
@@ -275,7 +285,7 @@
 
 .topic-water .water-quality-chart {
   width: 100%;
-  height: 155px;
+  height: 145px;
   display: block;
   overflow: visible;
   touch-action: pan-y;
