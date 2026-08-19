@@ -267,17 +267,25 @@ const EIMPWaterTopicConfig = {
       "containerId": "fireCasesContainer",
       "columns": [
         {
-          "key": "time"
+          "key": "time",
+          "className": "water-anomaly-time-text"
+        },
+        {
+          "key": "anomalyTypes",
+          "className": "water-anomaly-type-text",
+          "ellipsis": true
         },
         {
           "key": "address",
-          "address": true
+          "address": true,
+          "className": "water-anomaly-address-text"
         }
       ],
       "items": [
         {
           "id": "W-A001",
           "time": "12/02 10:33",
+          "anomalyTypes": ["色度汙染"],
           "address": "淡水河忠孝碼頭附近",
           "lat": 25.0465,
           "lng": 121.5061
@@ -285,6 +293,7 @@ const EIMPWaterTopicConfig = {
         {
           "id": "W-A002",
           "time": "12/01 17:42",
+          "anomalyTypes": ["泡泡", "懸浮物", "漂流物"],
           "address": "新店溪華江碼頭附近",
           "lat": 25.0343,
           "lng": 121.4935
@@ -292,6 +301,7 @@ const EIMPWaterTopicConfig = {
         {
           "id": "W-A003",
           "time": "12/01 09:18",
+          "anomalyTypes": ["油汙", "優養化"],
           "address": "大漢溪新海橋附近",
           "lat": 25.0289,
           "lng": 121.4578

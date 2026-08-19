@@ -25,12 +25,60 @@
   background: linear-gradient(135deg, #1d8fd1 0%, #82e6ff 100%);
 }
 
-.topic-water .water-anomaly-header-row .water-anomaly-time-title {
-  width: 30%;
+.topic-water .water-anomaly-header-row .water-anomaly-time-title,
+.topic-water .fire-panel .water-anomaly-time-text {
+  width: 25%;
+  flex: 0 0 25%;
 }
 
-.topic-water .water-anomaly-header-row .water-anomaly-address-title {
-  width: 69%;
+.topic-water .water-anomaly-header-row .water-anomaly-type-title,
+.topic-water .fire-panel .water-anomaly-type-text {
+  width: 25%;
+  flex: 0 0 25%;
+}
+
+.topic-water .water-anomaly-header-row .water-anomaly-address-title,
+.topic-water .fire-panel .water-anomaly-address-text {
+  width: 49%;
+  flex: 0 0 49%;
+  padding-left: 0;
+  text-align: center;
+}
+
+.topic-water .fire-panel .water-anomaly-type-text {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.topic-water .fire-panel .water-anomaly-type-text .case-cell-ellipsis-value {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (min-width: 641px) {
+  .topic-water .air-panel #airCasesContainer .case-row:not(:last-child),
+  .topic-water .fire-panel #fireCasesContainer .case-row:not(:last-child) {
+    border-bottom: 1px solid rgba(112, 231, 211, 0.65);
+  }
+}
+
+@media (max-width: 640px) {
+  .topic-water .fire-panel .case-row .water-anomaly-type-text::before {
+    content: "異常類型";
+  }
+
+  .topic-water .fire-panel .panel-body-row.case-row > .water-anomaly-type-text {
+    width: 100%;
+    height: auto;
+    min-height: 58px;
+    display: grid;
+    grid-template-columns: 104px minmax(0, 1fr);
+    align-items: center;
+    text-align: left;
+  }
 }
 
 /* 水主題：修正列管/非列管事業 popup 跑版，版型改回與空主題一致的上下排列。 */
