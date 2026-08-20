@@ -384,6 +384,30 @@
                 </span>
                 <span class="water-quality-metric-value"><span data-water-value="do">--</span><small>mg/L</small></span>
               </button>
+
+              <button class="water-quality-metric" type="button" data-water-metric="nh3n" data-water-station-scope="taipei" aria-pressed="false" hidden>
+                <span class="water-quality-metric-copy">
+                  <span class="water-quality-metric-name">氨氮</span>
+                  <span class="water-quality-metric-code">NH3-N</span>
+                </span>
+                <span class="water-quality-metric-value"><span data-water-value="nh3n">--</span><small>mg/L</small></span>
+              </button>
+
+              <button class="water-quality-metric" type="button" data-water-metric="ss" data-water-station-scope="taipei" aria-pressed="false" hidden>
+                <span class="water-quality-metric-copy">
+                  <span class="water-quality-metric-name">懸浮固體</span>
+                  <span class="water-quality-metric-code">SS</span>
+                </span>
+                <span class="water-quality-metric-value"><span data-water-value="ss">--</span><small>mg/L</small></span>
+              </button>
+
+              <button class="water-quality-metric" type="button" data-water-metric="orp" data-water-station-scope="taipei" aria-pressed="false" hidden>
+                <span class="water-quality-metric-copy">
+                  <span class="water-quality-metric-name">氧化還原電位</span>
+                  <span class="water-quality-metric-code">ORP</span>
+                </span>
+                <span class="water-quality-metric-value"><span data-water-value="orp">--</span><small>mV</small></span>
+              </button>
             </div>
 
             <div class="water-quality-chart-section">
@@ -391,12 +415,11 @@
                 <div class="water-quality-date-control">
                   <div class="water-quality-query-heading">
                     <span class="water-quality-query-label">查詢區間</span>
-                    <span class="water-quality-range-error" id="waterQualityRangeError" role="alert" hidden></span>
                   </div>
                   <div class="water-quality-date-range" aria-label="查詢日期區間">
                     <label class="water-quality-datetime-field">
-                      <input id="waterQualityStartDate" type="datetime-local" value="2026-08-06T15:00" aria-label="查詢開始日期與時間" />
-                      <span class="water-quality-datetime-display" aria-hidden="true">2026/08/06 15:00</span>
+                      <input id="waterQualityStartDate" type="datetime-local" value="2026-08-07T14:00" aria-label="查詢開始日期與時間" />
+                      <span class="water-quality-datetime-display" aria-hidden="true">2026/08/07 14:00</span>
                     </label>
                     <span aria-hidden="true">～</span>
                     <label class="water-quality-datetime-field">
@@ -410,16 +433,19 @@
                   <span class="water-quality-range-control-row">
                     <span>統計頻率</span>
                     <select class="water-quality-range-select" id="waterQualityRangeSelect" aria-label="統計頻率">
+                      <option value="5m" selected>5 分鐘</option>
                       <option value="10m">10 分鐘</option>
-                      <option value="1h" selected>小時</option>
+                      <option value="1h">小時</option>
                       <option value="1d">天</option>
                   </select>
                   </span>
-                  <small id="waterQualityRangeHint">最大查詢時間：24 小時</small>
+                  <small id="waterQualityRangeHint">最大查詢時間：1 小時</small>
                 </label>
               </div>
 
-              <svg class="water-quality-chart" id="waterQualityChart" viewBox="0 0 330 190" role="img" aria-label="水質監測趨勢圖" aria-describedby="waterQualityChartDesc" preserveAspectRatio="none">
+              <div class="water-quality-chart-display">
+                <div class="water-quality-range-error" id="waterQualityRangeError" role="alert" hidden></div>
+                <svg class="water-quality-chart" id="waterQualityChart" viewBox="0 0 330 190" role="img" aria-label="水質監測趨勢圖" aria-describedby="waterQualityChartDesc" preserveAspectRatio="none">
                 <desc id="waterQualityChartDesc">所選水質監測項目的近二十四小時折線趨勢</desc>
                 <defs>
                   <linearGradient id="waterQualityAreaGradient" x1="0" y1="0" x2="0" y2="1">
@@ -438,20 +464,20 @@
                 <g class="water-quality-x-labels" id="waterQualityXLabels" aria-hidden="true"></g>
                 <path class="water-quality-chart-area" id="waterQualityChartArea"></path>
                 <path class="water-quality-chart-line" id="waterQualityChartLine"></path>
-                <line class="water-quality-now-line" x1="322" y1="14" x2="322" y2="144"></line>
                 <g id="waterQualityChartPoints"></g>
                 <g class="water-quality-chart-inspector" id="waterQualityChartInspector" hidden aria-hidden="true">
                   <line class="water-quality-inspector-line" id="waterQualityInspectorLine" x1="38" y1="14" x2="38" y2="144"></line>
                   <line class="water-quality-inspector-line" id="waterQualityInspectorHorizontalLine" x1="38" y1="14" x2="322" y2="14"></line>
                   <circle class="water-quality-inspector-point" id="waterQualityInspectorPoint" cx="38" cy="14" r="4"></circle>
                   <g id="waterQualityInspectorTooltip">
-                    <rect class="water-quality-inspector-box" id="waterQualityInspectorBox" x="44" y="18" width="78" height="34" rx="4"></rect>
-                    <text class="water-quality-inspector-time" id="waterQualityInspectorTime" x="50" y="31">08/07 15:00</text>
-                    <text class="water-quality-inspector-value" id="waterQualityInspectorValue" x="50" y="44">--</text>
+                    <rect class="water-quality-inspector-box" id="waterQualityInspectorBox" x="44" y="18" width="78" height="44" rx="4"></rect>
+                    <text class="water-quality-inspector-time" id="waterQualityInspectorTime" x="50" y="33">08/07 15:00</text>
+                    <text class="water-quality-inspector-value" id="waterQualityInspectorValue" x="50" y="49">--</text>
                   </g>
                 </g>
                 <rect class="water-quality-chart-hit-area" id="waterQualityChartHitArea" x="38" y="14" width="284" height="130" rx="2"></rect>
-              </svg>
+                </svg>
+              </div>
             </div>
           </div>
 

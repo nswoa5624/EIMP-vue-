@@ -508,31 +508,46 @@ const EIMPWaterTopicConfig = {
       "ph": "7.2",
       "temp": "30.1",
       "ec": "318.75",
-      "do": "4.03"
+      "do": "4.03",
+      "nh3n": "0.72",
+      "ss": "18.4",
+      "orp": "126"
     },
     "北新橋": {
       "ph": "7.4",
       "temp": "28.9",
       "ec": "297.42",
-      "do": "4.38"
+      "do": "4.38",
+      "nh3n": "0.54",
+      "ss": "14.8",
+      "orp": "142"
     },
     "成美長壽橋": {
       "ph": "7.0",
       "temp": "30.2",
       "ec": "373.66",
-      "do": "3.72"
+      "do": "3.72",
+      "nh3n": "0.81",
+      "ss": "22.1",
+      "orp": "118"
     },
     "承德橋": {
       "ph": "7.2",
       "temp": "29.7",
       "ec": "325.18",
-      "do": "4.21"
+      "do": "4.21",
+      "nh3n": "0.63",
+      "ss": "16.7",
+      "orp": "135"
     },
     "臺北橋": {
       "ph": "7.5",
       "temp": "30.0",
       "ec": "349.83",
-      "do": "3.95"
+      "do": "3.95",
+      "nh3n": "0.69",
+      "ss": "19.3",
+      "orp": "129"
     }
   },
   "defaultStationData": {
@@ -574,20 +589,28 @@ function initWaterQualityTrendPanel(config) {
   const rangeError = document.getElementById("waterQualityRangeError");
   const startDateInput = document.getElementById("waterQualityStartDate");
   const endDateInput = document.getElementById("waterQualityEndDate");
+  const metrics = panel?.querySelector(".water-quality-metrics");
   const metricButtons = Array.from(document.querySelectorAll("[data-water-metric]"));
-  if (!panel || !content || !chartLine || !chartArea || !chartPoints || !yLabels || !xLabels || !chart || !chartHitArea || !chartInspector || !rangeSelect || !rangeHint || !rangeError || !startDateInput || !endDateInput) return;
+  if (!panel || !content || !chartLine || !chartArea || !chartPoints || !yLabels || !xLabels || !chart || !chartHitArea || !chartInspector || !rangeSelect || !rangeHint || !rangeError || !startDateInput || !endDateInput || !metrics) return;
 
   const metricConfig = {
     ph: { name: "酸鹼度（pH）", unit: " pH", decimals: 2, amplitude: 0.16 },
     temp: { name: "水溫（WTEMP）", unit: " °C", decimals: 1, amplitude: 2.4 },
     ec: { name: "導電度（EC）", unit: " μS", decimals: 2, amplitude: 14 },
     do: { name: "水中溶氧（DO）", unit: " mg/L", decimals: 2, amplitude: 0.6 },
+    nh3n: { name: "氨氮（NH3-N）", unit: " mg/L", decimals: 2, amplitude: 0.12 },
+    ss: { name: "懸浮固體（SS）", unit: " mg/L", decimals: 1, amplitude: 2.8 },
+    orp: { name: "氧化還原電位（ORP）", unit: " mV", decimals: 0, amplitude: 9 },
   };
 
+  const taipeiStations = new Set(["中正碼頭", "北新橋", "成美長壽橋", "承德橋", "臺北橋"]);
+  const taipeiIntervals = new Set(["1h", "1d"]);
+
   const intervalConfig = {
-    "10m": { pointCount: 13, stepMilliseconds: 10 * 60 * 1000, maxDurationMilliseconds: 2 * 60 * 60 * 1000, maxDurationLabel: "2 小時", axisFormat: "time" },
-    "1h": { pointCount: 25, stepMilliseconds: 60 * 60 * 1000, maxDurationMilliseconds: 24 * 60 * 60 * 1000, maxDurationLabel: "24 小時", axisFormat: "time" },
-    "1d": { pointCount: 8, stepMilliseconds: 24 * 60 * 60 * 1000, maxDurationMilliseconds: 7 * 24 * 60 * 60 * 1000, maxDurationLabel: "7 天", axisFormat: "date" },
+    "5m": { stepMilliseconds: 5 * 60 * 1000, maxDurationMilliseconds: 60 * 60 * 1000, maxDurationLabel: "1 小時", axisFormat: "time" },
+    "10m": { stepMilliseconds: 10 * 60 * 1000, maxDurationMilliseconds: 2 * 60 * 60 * 1000, maxDurationLabel: "2 小時", axisFormat: "time" },
+    "1h": { stepMilliseconds: 60 * 60 * 1000, maxDurationMilliseconds: 24 * 60 * 60 * 1000, maxDurationLabel: "24 小時", axisFormat: "time" },
+    "1d": { stepMilliseconds: 24 * 60 * 60 * 1000, maxDurationMilliseconds: 7 * 24 * 60 * 60 * 1000, maxDurationLabel: "7 天", axisFormat: "date" },
   };
 
   const svgNamespace = "http://www.w3.org/2000/svg";
@@ -634,6 +657,13 @@ function initWaterQualityTrendPanel(config) {
     return new Date(year, month - 1, day, hour, 0, 0, 0);
   }
 
+  function alignDateToFrequency(date, isStart) {
+    if (rangeSelect.value === "1d") return new Date(date);
+    const selectedInterval = intervalConfig[rangeSelect.value] || intervalConfig["1h"];
+    const align = isStart ? Math.ceil : Math.floor;
+    return new Date(align(date.getTime() / selectedInterval.stepMilliseconds) * selectedInterval.stepMilliseconds);
+  }
+
   function formatInputValue(date, input) {
     return input.type === "datetime-local" ? formatDateTimeInput(date) : formatDateInput(date);
   }
@@ -651,16 +681,26 @@ function initWaterQualityTrendPanel(config) {
 
   function applyIntervalInputMode() {
     const usesDateOnly = rangeSelect.value === "1d";
-    const startDate = parseDateInput(startDateInput.value || "2026-08-06", 15);
-    const endDate = parseDateInput(endDateInput.value || "2026-08-07", 15);
+    const selectedInterval = intervalConfig[rangeSelect.value] || intervalConfig["1h"];
+    let startDate = parseDateInput(startDateInput.value || "2026-08-06", 15);
+    let endDate = parseDateInput(endDateInput.value || "2026-08-07", 15);
     const inputType = usesDateOnly ? "date" : "datetime-local";
+
+    if (!usesDateOnly) {
+      startDate = alignDateToFrequency(startDate, true);
+      endDate = alignDateToFrequency(endDate, false);
+      if (startDate > endDate) endDate = new Date(startDate);
+    }
+    if (endDate - startDate > selectedInterval.maxDurationMilliseconds) {
+      startDate = new Date(endDate.getTime() - selectedInterval.maxDurationMilliseconds);
+    }
 
     [startDateInput, endDateInput].forEach((input) => {
       input.type = inputType;
       if (usesDateOnly) {
         input.removeAttribute("step");
       } else {
-        input.step = rangeSelect.value === "10m" ? "600" : "3600";
+        input.step = String(selectedInterval.stepMilliseconds / 1000);
       }
     });
     startDateInput.value = formatInputValue(startDate, startDateInput);
@@ -679,25 +719,39 @@ function initWaterQualityTrendPanel(config) {
     return `${pad2(date.getHours())}:${pad2(date.getMinutes())}`;
   }
 
-  function buildSeries(station, metric) {
+  function buildSeries(station, metric, pointCount) {
     const current = getMetricValue(station, metric);
     if (current === null) return [];
-    const selectedInterval = intervalConfig[rangeSelect.value] || intervalConfig["1h"];
     const metricOptions = metricConfig[metric];
-    const values = Array.from({ length: selectedInterval.pointCount }, (_, index) => {
+    const values = Array.from({ length: pointCount }, (_, index) => {
       const wave = Math.sin(index * 0.86) * 0.52 + Math.cos(index * 0.41) * 0.28;
       return Number((current + wave * metricOptions.amplitude).toFixed(metricOptions.decimals));
     });
-    values[values.length - 1] = current;
+    if (values.length) values[values.length - 1] = current;
     return values;
   }
 
   function buildTimes() {
     const selectedInterval = intervalConfig[rangeSelect.value] || intervalConfig["1h"];
+    const startDate = parseDateInput(startDateInput.value || "2026-08-06", rangeSelect.value === "1d" ? 0 : 15);
     const endDate = parseDateInput(endDateInput.value || "2026-08-07", rangeSelect.value === "1d" ? 0 : 15);
-    return Array.from({ length: selectedInterval.pointCount }, (_, index) => (
-      new Date(endDate.getTime() - (selectedInterval.pointCount - 1 - index) * selectedInterval.stepMilliseconds)
-    ));
+    if (startDate > endDate) return [];
+    const times = [startDate];
+    let nextTime = startDate.getTime() + selectedInterval.stepMilliseconds;
+
+    while (nextTime < endDate.getTime()) {
+      times.push(new Date(nextTime));
+      nextTime += selectedInterval.stepMilliseconds;
+    }
+    if (endDate > startDate) times.push(endDate);
+    return times;
+  }
+
+  function getTimePosition(time, times, left = 38, right = 322) {
+    const firstTime = times[0]?.getTime();
+    const lastTime = times[times.length - 1]?.getTime();
+    if (!Number.isFinite(firstTime) || !Number.isFinite(lastTime) || lastTime <= firstTime) return right;
+    return left + ((time.getTime() - firstTime) / (lastTime - firstTime)) * (right - left);
   }
 
   function renderXAxis(times) {
@@ -707,7 +761,7 @@ function initWaterQualityTrendPanel(config) {
     xLabels.replaceChildren();
     tickIndexes.forEach((index, tickPosition) => {
       const text = document.createElementNS(svgNamespace, "text");
-      const x = 38 + (index * (322 - 38)) / lastIndex;
+      const x = getTimePosition(times[index], times);
       text.setAttribute("x", x.toFixed(1));
       text.setAttribute("y", "171");
       text.setAttribute("text-anchor", tickPosition === 0 ? "start" : tickPosition === tickIndexes.length - 1 ? "end" : "middle");
@@ -726,20 +780,45 @@ function initWaterQualityTrendPanel(config) {
     rangeError.textContent = isValid ? "" : "超過最大查詢區間";
     if (isValid) {
       rangeError.setAttribute("hidden", "");
+      chart.removeAttribute("hidden");
+      chart.removeAttribute("aria-hidden");
     } else {
       rangeError.removeAttribute("hidden");
+      chart.setAttribute("hidden", "");
+      chart.setAttribute("aria-hidden", "true");
     }
     startDateInput.setAttribute("aria-invalid", String(!isValid));
     endDateInput.setAttribute("aria-invalid", String(!isValid));
     return isValid;
   }
 
+  function clearChartData() {
+    chartLine.removeAttribute("d");
+    chartArea.removeAttribute("d");
+    chartPoints.replaceChildren();
+    yLabels.replaceChildren();
+    xLabels.replaceChildren();
+    renderedCoordinates = [];
+    renderedValues = [];
+    renderedTimes = [];
+    inspectorActive = false;
+    pointerStart = null;
+    clearLongPress();
+    setInspectorVisible(false);
+  }
+
   function renderChart() {
-    if (!validateQueryRange()) return;
+    if (!validateQueryRange()) {
+      clearChartData();
+      return;
+    }
     const metric = metricConfig[selectedMetric];
-    const values = buildSeries(selectedStation, selectedMetric);
     const times = buildTimes();
-    if (!metric || !values.length) return;
+    const values = buildSeries(selectedStation, selectedMetric, times.length);
+    if (!metric || !values.length) {
+      clearChartData();
+      return;
+    }
 
     const min = Math.min(...values);
     const max = Math.max(...values);
@@ -752,13 +831,17 @@ function initWaterQualityTrendPanel(config) {
     const bottom = 144;
     const coordinates = values.map((value, index) => ({
       value,
-      x: left + (index * (right - left)) / (values.length - 1),
+      x: getTimePosition(times[index], times, left, right),
       y: bottom - ((value - low) / (high - low)) * (bottom - top),
     }));
     const path = coordinates.map((point, index) => `${index ? "L" : "M"} ${point.x.toFixed(1)} ${point.y.toFixed(1)}`).join(" ");
 
     chartLine.setAttribute("d", path);
-    chartArea.setAttribute("d", `${path} L ${right} ${bottom} L ${left} ${bottom} Z`);
+    if (coordinates.length > 1) {
+      chartArea.setAttribute("d", `${path} L ${right} ${bottom} L ${left} ${bottom} Z`);
+    } else {
+      chartArea.removeAttribute("d");
+    }
     renderedCoordinates = coordinates;
     renderedValues = values;
     renderedTimes = times;
@@ -796,7 +879,9 @@ function initWaterQualityTrendPanel(config) {
     const rect = chart.getBoundingClientRect();
     const svgX = ((event.clientX - rect.left) / rect.width) * 330;
     const clampedX = Math.max(38, Math.min(322, svgX));
-    const index = Math.max(0, Math.min(renderedCoordinates.length - 1, Math.round(((clampedX - 38) / (322 - 38)) * (renderedCoordinates.length - 1))));
+    const index = renderedCoordinates.reduce((closestIndex, point, pointIndex) => (
+      Math.abs(point.x - clampedX) < Math.abs(renderedCoordinates[closestIndex].x - clampedX) ? pointIndex : closestIndex
+    ), 0);
     return { index, point: renderedCoordinates[index] };
   }
 
@@ -818,9 +903,9 @@ function initWaterQualityTrendPanel(config) {
     inspectorBox.setAttribute("x", "44");
     inspectorBox.setAttribute("y", "18");
     inspectorTime.setAttribute("x", "50");
-    inspectorTime.setAttribute("y", "31");
+    inspectorTime.setAttribute("y", "33");
     inspectorValue.setAttribute("x", "50");
-    inspectorValue.setAttribute("y", "44");
+    inspectorValue.setAttribute("y", "49");
     inspectorTime.textContent = formatInspectorTime(renderedTimes[index]);
     inspectorValue.textContent = `${renderedValues[index]}${metric.unit}`;
     setInspectorVisible(true);
@@ -887,6 +972,13 @@ function initWaterQualityTrendPanel(config) {
     let startDate = parseDateInput(startDateInput.value || "2026-08-06", 0);
     let endDate = parseDateInput(endDateInput.value || "2026-08-07", 0);
 
+    if (rangeSelect.value !== "1d") {
+      startDate = alignDateToFrequency(startDate, true);
+      endDate = alignDateToFrequency(endDate, false);
+      startDateInput.value = formatInputValue(startDate, startDateInput);
+      endDateInput.value = formatInputValue(endDate, endDateInput);
+    }
+
     if (startDate > endDate) {
       if (changedInput === startDateInput) {
         endDate = new Date(startDate);
@@ -915,7 +1007,11 @@ function initWaterQualityTrendPanel(config) {
     endDateInput.max = formatInputValue(latestEndDate, endDateInput);
     updateDateDisplays();
     const isValid = validateQueryRange();
-    if (selectedStation && isValid) renderChart();
+    if (selectedStation && isValid) {
+      renderChart();
+    } else if (!isValid) {
+      clearChartData();
+    }
   }
 
   rangeSelect.addEventListener("change", () => {
@@ -925,11 +1021,24 @@ function initWaterQualityTrendPanel(config) {
   });
   startDateInput.addEventListener("change", () => syncDateLimits(startDateInput));
   endDateInput.addEventListener("change", () => syncDateLimits(endDateInput));
-  applyIntervalInputMode();
-  syncDateLimits();
+
+  function updateIntervalOptions(isTaipeiStation) {
+    Array.from(rangeSelect.options).forEach((option) => {
+      const isAvailable = !isTaipeiStation || taipeiIntervals.has(option.value);
+      option.hidden = !isAvailable;
+      option.disabled = !isAvailable;
+    });
+
+    if (isTaipeiStation && !taipeiIntervals.has(rangeSelect.value)) {
+      rangeSelect.value = "1h";
+    }
+    applyIntervalInputMode();
+    syncDateLimits();
+  }
 
   function showStation(station) {
     if (!config.stationData?.[station]) return;
+    const isTaipeiStation = taipeiStations.has(station);
     selectedStation = station;
     panel.classList.add("has-data");
     content.hidden = false;
@@ -938,11 +1047,22 @@ function initWaterQualityTrendPanel(config) {
     footer.hidden = false;
     stationName.textContent = station;
 
+    document.querySelectorAll(".waqi-station-btn").forEach((button) => {
+      button.classList.toggle("active", (button.dataset.station || button.textContent.trim()) === station);
+    });
+    document.querySelector(config.stationSelectionPanelSelector)?.classList.add("has-station-selection");
+
+    metricButtons.forEach((button) => {
+      if (button.dataset.waterStationScope === "taipei") button.hidden = !isTaipeiStation;
+    });
+    metrics.scrollTop = 0;
+    updateIntervalOptions(isTaipeiStation);
+
     Object.keys(metricConfig).forEach((metric) => {
       const valueElement = panel.querySelector(`[data-water-value="${metric}"]`);
       if (valueElement) valueElement.textContent = config.stationData[station][metric] ?? "--";
     });
-    selectMetric(selectedMetric);
+    selectMetric(!isTaipeiStation && metricButtons.find((button) => button.dataset.waterMetric === selectedMetric)?.dataset.waterStationScope === "taipei" ? "ph" : selectedMetric);
   }
 
   function resetPanel() {
@@ -954,9 +1074,11 @@ function initWaterQualityTrendPanel(config) {
     empty.hidden = false;
     stationName.hidden = true;
     footer.hidden = true;
+    metrics.scrollTop = 0;
     document.querySelectorAll(".waqi-station-btn").forEach((button) => button.classList.remove("active"));
     document.querySelector(config.stationSelectionPanelSelector)?.classList.remove("has-station-selection");
     metricButtons.forEach((button) => {
+      if (button.dataset.waterStationScope === "taipei") button.hidden = true;
       const isDefault = button.dataset.waterMetric === "ph";
       button.classList.toggle("is-active", isDefault);
       button.setAttribute("aria-pressed", String(isDefault));
@@ -978,7 +1100,13 @@ function initWaterQualityTrendPanel(config) {
 
   document.addEventListener("click", (event) => {
     const target = event.target instanceof Element ? event.target : event.target?.parentElement;
-    if (!selectedStation || !target) return;
+    if (!target) return;
+    const stationButton = target.closest(".waqi-station-btn");
+    if (stationButton) {
+      showStation(stationButton.dataset.station || stationButton.textContent.trim());
+      return;
+    }
+    if (!selectedStation) return;
     if (target.closest(".case-row")) {
       resetPanel();
       return;
@@ -998,6 +1126,9 @@ function initWaterQualityTrendPanel(config) {
       showStation(station);
     };
   }
+
+  applyIntervalInputMode();
+  syncDateLimits();
 }
 
 document.addEventListener("DOMContentLoaded", () => initWaterQualityTrendPanel(EIMPWaterTopicConfig));
