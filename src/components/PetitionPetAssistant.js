@@ -374,26 +374,31 @@ export default {
       const count = Math.max(1, Number(value) || 1);
       if (isOpen.value) {
         markNotificationsRead();
-        return;
+        return 0;
       }
       unreadCount.value += count;
+      return count;
     }
 
     function setUrgentAlert(payload) {
       if (!payload?.eventId) return;
       const isNewAlert = urgentAlert.value?.id !== payload.id || urgentAlert.value?.eventId !== payload.eventId;
+      const unreadContribution = isNewAlert
+        ? addNotification(1)
+        : urgentAlert.value?.unreadContribution || 0;
       urgentAlert.value = {
         id: payload.id || payload.eventId,
         eventId: payload.eventId,
         time: payload.time || "--",
         address: payload.address || "水色異常點位",
+        unreadContribution,
       };
       activeView.value = "prompt";
-      if (isNewAlert) addNotification(1);
     }
 
     function dismissUrgentAlert(eventId) {
       if (eventId && urgentAlert.value?.eventId !== eventId) return;
+      unreadCount.value = Math.max(0, unreadCount.value - (urgentAlert.value?.unreadContribution || 0));
       urgentAlert.value = null;
     }
 
