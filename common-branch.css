@@ -3280,6 +3280,17 @@ body.profile-open .leaflet-pane, body.profile-open .leaflet-top, body.profile-op
   display: none !important;
 }
 
+/* 帳號列表與帳號設定整體下移，標題中心對齊左側兩個管理選項之間。 */
+.profile-drawer-page.account-manage-page {
+  margin-top: 44px;
+}
+
+@media (min-width: 821px) and (max-width: 1280px) {
+  .profile-drawer-page.account-manage-page {
+    margin-top: 50px;
+  }
+}
+
 .account-manage-toolbar {
   display: flex;
   justify-content: space-between;
@@ -3355,9 +3366,10 @@ body.profile-open .leaflet-pane, body.profile-open .leaflet-top, body.profile-op
 .account-manage-table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
   color: #2d3748;
   font-size: 14px;
-  min-width: 720px;
+  min-width: 950px;
 }
 
 .account-manage-table th, .account-manage-table td {
@@ -3384,8 +3396,87 @@ body.profile-open .leaflet-pane, body.profile-open .leaflet-top, body.profile-op
   width: 70px;
 }
 
+.account-manage-table th:nth-child(2), .account-manage-table td:nth-child(2) {
+  width: 200px;
+}
+
+.account-manage-table td:nth-child(2) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.account-manage-table th:nth-child(3), .account-manage-table td:nth-child(3) {
+  width: 260px;
+}
+
+.account-manage-table th:nth-child(4), .account-manage-table td:nth-child(4) {
+  width: 200px;
+}
+
 .account-manage-table th:nth-last-child(2), .account-manage-table td:nth-last-child(2), .account-manage-table th:last-child, .account-manage-table td:last-child {
   width: 110px;
+}
+
+.account-manage-table.is-management-column-hidden th:first-child,
+.account-manage-table.is-management-column-hidden td:first-child {
+  width: 7%;
+}
+
+.account-manage-table.is-management-column-hidden th:nth-child(2),
+.account-manage-table.is-management-column-hidden td:nth-child(2),
+.account-manage-table.is-management-column-hidden th:nth-child(4),
+.account-manage-table.is-management-column-hidden td:nth-child(4) {
+  width: 24%;
+}
+
+.account-manage-table.is-management-column-hidden th:nth-child(3),
+.account-manage-table.is-management-column-hidden td:nth-child(3) {
+  width: 31%;
+}
+
+.account-manage-table.is-management-column-hidden th:nth-child(5),
+.account-manage-table.is-management-column-hidden td:nth-child(5) {
+  width: 14%;
+}
+
+.account-manage-table.is-log-column-hidden:not(.is-management-column-hidden) th:first-child,
+.account-manage-table.is-log-column-hidden:not(.is-management-column-hidden) td:first-child {
+  width: 7%;
+}
+
+.account-manage-table.is-log-column-hidden:not(.is-management-column-hidden) th:nth-child(2),
+.account-manage-table.is-log-column-hidden:not(.is-management-column-hidden) td:nth-child(2),
+.account-manage-table.is-log-column-hidden:not(.is-management-column-hidden) th:nth-child(4),
+.account-manage-table.is-log-column-hidden:not(.is-management-column-hidden) td:nth-child(4) {
+  width: 25%;
+}
+
+.account-manage-table.is-log-column-hidden:not(.is-management-column-hidden) th:nth-child(3),
+.account-manage-table.is-log-column-hidden:not(.is-management-column-hidden) td:nth-child(3) {
+  width: 32%;
+}
+
+.account-manage-table.is-log-column-hidden:not(.is-management-column-hidden) th:last-child,
+.account-manage-table.is-log-column-hidden:not(.is-management-column-hidden) td:last-child {
+  width: 11%;
+}
+
+.account-manage-table.is-log-column-hidden.is-management-column-hidden th:first-child,
+.account-manage-table.is-log-column-hidden.is-management-column-hidden td:first-child {
+  width: 7%;
+}
+
+.account-manage-table.is-log-column-hidden.is-management-column-hidden th:nth-child(2),
+.account-manage-table.is-log-column-hidden.is-management-column-hidden td:nth-child(2),
+.account-manage-table.is-log-column-hidden.is-management-column-hidden th:nth-child(4),
+.account-manage-table.is-log-column-hidden.is-management-column-hidden td:nth-child(4) {
+  width: 27%;
+}
+
+.account-manage-table.is-log-column-hidden.is-management-column-hidden th:nth-child(3),
+.account-manage-table.is-log-column-hidden.is-management-column-hidden td:nth-child(3) {
+  width: 39%;
 }
 
 .account-manage-log-btn, .account-manage-row-btn {
@@ -3416,13 +3507,18 @@ body.profile-open .leaflet-pane, body.profile-open .leaflet-top, body.profile-op
 .account-manage-page-arrow {
   border: none;
   background: transparent;
-  color: #c1c7d0;
+  color: #4c5f7d;
   font-size: 18px;
+  cursor: pointer;
+}
+
+.account-manage-page-arrow:disabled {
+  color: #c1c7d0;
   cursor: default;
 }
 
 .account-manage-page-index {
-  min-width: 24px;
+  min-width: 54px;
   height: 24px;
   display: inline-flex;
   align-items: center;
@@ -3434,15 +3530,26 @@ body.profile-open .leaflet-pane, body.profile-open .leaflet-top, body.profile-op
 }
 
 .account-detail-card {
+  position: relative;
+  isolation: isolate;
   background: #ececec;
   border-radius: 10px;
-  padding: 28px 34px;
+  padding: 28px 14px;
+}
+
+.account-detail-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 -88px 0 0;
+  z-index: -1;
+  border-radius: 10px;
+  background: #ececec;
 }
 
 .account-detail-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
-  gap: 28px;
+  grid-template-columns: minmax(0, 1fr) 620px;
+  gap: 12px;
   align-items: start;
 }
 
@@ -3474,7 +3581,7 @@ body.profile-open .leaflet-pane, body.profile-open .leaflet-top, body.profile-op
 }
 
 .account-detail-input {
-  width: 80%;
+  width: 90%;
   height: 40px;
   border: 1px solid #aeb5c1;
   border-radius: 6px;
@@ -3529,6 +3636,7 @@ body.profile-open .leaflet-pane, body.profile-open .leaflet-top, body.profile-op
 .account-detail-check-label {
   min-width: 84px;
   text-align: right;
+  font-weight: 700;
 }
 
 .account-detail-check-control {
@@ -3540,6 +3648,85 @@ body.profile-open .leaflet-pane, body.profile-open .leaflet-top, body.profile-op
 .account-detail-check-control input[type="checkbox"] {
   width: 16px;
   height: 16px;
+  margin: 0;
+  cursor: pointer;
+  accent-color: #4c5f7d;
+}
+
+.account-detail-setting-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 32px;
+  padding-left: 20px;
+  color: #1f2937;
+}
+
+.account-detail-setting-row .account-detail-check-label {
+  color: #1f2937;
+}
+
+.account-detail-setting-btn {
+  min-width: 76px;
+  height: 34px;
+  padding: 0 18px;
+  border: 1px solid #aeb5c1;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #1f2937;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.account-detail-setting-btn:hover,
+.account-detail-setting-btn:focus-visible {
+  background: #f3f4f6;
+  border-color: #8791a1;
+}
+
+.account-detail-permission-enabled {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #1f2937;
+  font-size: 16px;
+}
+
+.account-detail-permission-enabled input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: #4c5f7d;
+}
+
+.account-detail-permission-enabled input:disabled {
+  cursor: not-allowed;
+}
+
+.account-detail-feature-select {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 34px;
+  padding: 0 30px 0 10px;
+  border: 1px solid #aeb5c1;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #1f2937;
+  font-size: 14px;
+}
+
+.account-detail-setting-row .account-detail-feature-select {
+  display: none !important;
+}
+
+.account-detail-setting-btn:disabled,
+.account-detail-feature-select:disabled {
+  border-color: #c8ced7;
+  background: #e7e9ed;
+  color: #8a93a1;
+  cursor: not-allowed;
+  opacity: 1;
 }
 
 .account-detail-action-row {
@@ -3560,6 +3747,377 @@ body.profile-open .leaflet-pane, body.profile-open .leaflet-top, body.profile-op
 
 .account-detail-save-btn {
   background: #4c5f7d;
+}
+
+/* ===== 帳號／閱覽功能設定視窗（兩個獨立視窗） ===== */
+
+.permission-setting-modal[hidden] {
+  display: none !important;
+}
+
+.permission-setting-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.permission-setting-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.48);
+}
+
+.permission-setting-dialog {
+  position: relative;
+  width: min(680px, calc(100vw - 48px));
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 22px 60px rgba(15, 23, 42, 0.28);
+  overflow: hidden;
+  max-height: calc(100vh - 48px);
+}
+
+.permission-setting-header {
+  min-height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 22px 0 28px;
+}
+
+.permission-setting-header h2 {
+  margin: 0;
+  color: #283549;
+  font-size: 22px;
+}
+
+.permission-setting-close {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  color: #526078;
+  font-size: 34px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.permission-setting-content {
+  flex: 1;
+  min-height: 270px;
+  padding: 28px;
+  overflow-y: auto;
+}
+
+.account-permission-list-view[hidden],
+.account-permission-editor[hidden],
+.account-permission-empty[hidden] {
+  display: none !important;
+}
+
+.account-permission-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+.account-permission-add-btn {
+  min-width: 92px;
+  height: 36px;
+  border: none;
+  border-radius: 8px;
+  background: #4c5f7d;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.account-permission-empty {
+  min-height: 150px;
+  display: grid;
+  place-items: center;
+  border: 1px dashed #b8c0cc;
+  border-radius: 8px;
+  color: #7a8494;
+}
+
+.account-permission-list {
+  display: grid;
+  gap: 10px;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.account-permission-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 64px;
+  padding: 10px 14px;
+  border: 1px solid #d4d9e1;
+  border-radius: 8px;
+  background: #f7f8fa;
+}
+
+.account-permission-list-info {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+  color: #1f2937;
+}
+
+.account-permission-list-info strong {
+  font-size: 15px;
+}
+
+.account-permission-list-info span {
+  color: #687386;
+  font-size: 13px;
+}
+
+.account-permission-list-actions,
+.account-permission-editor-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.account-permission-edit-btn,
+.account-permission-delete-btn,
+.account-permission-editor-cancel,
+.account-permission-editor-complete {
+  min-width: 68px;
+  height: 32px;
+  border: 1px solid #aeb5c1;
+  border-radius: 7px;
+  background: #ffffff;
+  color: #1f2937;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.account-permission-delete-btn {
+  border-color: #d7a2a2;
+  color: #b42318;
+}
+
+.account-permission-editor {
+  display: grid;
+  gap: 24px;
+}
+
+.account-permission-field {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+}
+
+.account-permission-field label,
+.account-permission-options legend {
+  color: #1f2937;
+  font-weight: 700;
+}
+
+.account-permission-field input {
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid #aeb5c1;
+  border-radius: 7px;
+  color: #1f2937;
+  font-size: 14px;
+}
+
+.account-permission-options {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+}
+
+.account-permission-options legend {
+  padding: 0 8px;
+}
+
+.account-permission-options label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #1f2937;
+}
+
+.account-permission-options input {
+  width: 17px;
+  height: 17px;
+  accent-color: #4c5f7d;
+}
+
+.account-permission-unit-group {
+  display: grid;
+  gap: 10px;
+  padding: 12px 14px;
+  margin-top: 4px;
+  border-left: 3px solid #d8dee8;
+  background: #f7f8fa;
+}
+
+.account-permission-unit-group > span {
+  color: #1f2937;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.account-permission-unit-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px 16px;
+}
+
+.account-permission-unit-options label {
+  min-width: 0;
+  font-size: 14px;
+}
+
+.view-permission-options {
+  gap: 18px;
+}
+
+.view-permission-group {
+  display: grid;
+  gap: 10px;
+}
+
+.view-permission-group > strong {
+  color: #1f2937;
+  font-size: 14px;
+}
+
+.view-permission-checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 16px;
+  max-height: 190px;
+  padding: 12px;
+  overflow-y: auto;
+  border: 1px solid #d9dee7;
+  border-radius: 7px;
+  background: #f7f8fa;
+}
+
+.view-permission-layer-groups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.view-permission-topic {
+  min-width: 0;
+}
+
+.view-permission-topic > strong {
+  display: block;
+  margin-bottom: 7px;
+  color: #1f2937;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.view-permission-topic .view-permission-checkbox-grid {
+  grid-template-columns: 1fr;
+  max-height: none;
+  height: calc(100% - 24px);
+}
+
+.view-permission-hidden {
+  display: none !important;
+}
+
+#accountFeatureDialog .account-permission-field,
+#accountFeatureDialog .account-permission-editor-actions,
+#viewFeatureDialog .account-permission-field,
+#viewFeatureDialog .account-permission-editor-actions {
+  display: none !important;
+}
+
+.permission-select-all {
+  grid-column: 1 / -1;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #d9dee7;
+  font-weight: 700;
+}
+
+.account-permission-editor-complete {
+  border-color: #4c5f7d;
+  background: #4c5f7d;
+  color: #ffffff;
+}
+
+.permission-setting-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
+  padding: 18px 24px;
+}
+
+.permission-setting-cancel,
+.permission-setting-confirm {
+  min-width: 96px;
+  height: 38px;
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.permission-setting-cancel {
+  background: #9aa4b5;
+}
+
+.permission-setting-confirm {
+  background: #4c5f7d;
+}
+
+body.permission-dialog-open {
+  overflow: hidden;
+}
+
+@media (max-width: 600px) {
+  .view-permission-layer-groups {
+    grid-template-columns: 1fr;
+  }
+
+  .permission-setting-modal {
+    padding: 12px;
+  }
+
+  .permission-setting-dialog {
+    width: 100%;
+    min-height: 360px;
+  }
+
+  .permission-setting-actions {
+    justify-content: stretch;
+  }
+
+  .permission-setting-cancel,
+  .permission-setting-confirm {
+    flex: 1;
+  }
 }
 
 /* ======== 2026-03-24 左側選單與白底面板互相可操作修正 ======== */
@@ -3606,6 +4164,10 @@ html, body {
   overflow: hidden;
 }
 
+.account-detail-card {
+  overflow: visible;
+}
+
 /* 一般桌機縮窄，但仍維持左右排列 */
 
 @media (max-width: 1366px) {
@@ -3628,7 +4190,7 @@ html, body {
   }
 
   .account-detail-grid {
-    grid-template-columns: minmax(0, 1fr) 360px;
+    grid-template-columns: minmax(0, 1fr) 520px;
   }
 }
 
@@ -4208,6 +4770,10 @@ a.hex-btn {
   }
 
   .account-manage-table tbody td:nth-child(6)::before {
+    content: "管理";
+  }
+
+  .account-manage-table.is-log-column-hidden:not(.is-management-column-hidden) tbody td:nth-child(5)::before {
     content: "管理";
   }
 
@@ -5557,4 +6123,9 @@ body.decision-unauthorized .decision-access-denied {
 .file-unavailable {
   color: #7a8493;
   font-size: 0.9em;
+}
+
+.account-detail-permission-card,
+.account-detail-action-row {
+  transform: translateX(50px);
 }

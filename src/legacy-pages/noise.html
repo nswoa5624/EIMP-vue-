@@ -48,8 +48,6 @@
         <button type="button" class="side-menu-item" id="profileMenuBtn" style="font-size: 20px;">變更基本資料</button>
         <button type="button" class="side-menu-item" id="accountManageMenuBtn"
           style="font-size: 20px; display: none;">帳號管理</button>
-        <button type="button" class="side-menu-item decision-menu-item" id="decisionMenuBtn"
-          style="font-size: 20px; display: none;" onclick="location.href='decision.html'">決策</button>
         <button type="button" class="side-menu-item" id="logoutMenuBtn" style="font-size: 20px;">登出</button>
       </nav>
 
@@ -75,7 +73,7 @@
           <div class="profile-drawer-page">
             <div class="profile-title-row">
               <h1 class="profile-page-title">變更基本資料</h1>
-              <button type="button" id="switchAccountBtn" class="profile-switch-link">切換帳號身分</button>
+              <select id="switchAccountSelect" aria-label="切換帳號身分"></select>
             </div>
 
             <div class="profile-card">
@@ -83,7 +81,7 @@
                 <div class="profile-form-left">
                   <div class="profile-field-row">
                     <label class="profile-label profile-required" for="accountInput">帳號</label>
-                    <input id="accountInput" class="profile-input profile-input-readonly" type="text" value="EIMPtest"
+                    <input id="accountInput" class="profile-input profile-input-readonly" type="text" value="HQhost"
                       readonly />
                   </div>
 
@@ -217,27 +215,27 @@
 
                   <div class="account-detail-field-row">
                     <label class="account-detail-label account-detail-required" for="manageCompanyInput">申請單位</label>
-                    <input id="manageCompanyInput" class="account-detail-input" type="text" readonly />
+                    <input id="manageCompanyInput" class="account-detail-input" type="text" />
                   </div>
 
                   <div class="account-detail-field-row">
                     <label class="account-detail-label account-detail-required" for="manageNameInput">申請人姓名</label>
-                    <input id="manageNameInput" class="account-detail-input" type="text" readonly />
+                    <input id="manageNameInput" class="account-detail-input" type="text" />
                   </div>
 
                   <div class="account-detail-field-row">
                     <label class="account-detail-label account-detail-required" for="manageJobInput">職稱</label>
-                    <input id="manageJobInput" class="account-detail-input" type="text" readonly />
+                    <input id="manageJobInput" class="account-detail-input" type="text" />
                   </div>
 
                   <div class="account-detail-field-row">
                     <label class="account-detail-label account-detail-required" for="managePhoneInput">連絡電話</label>
-                    <input id="managePhoneInput" class="account-detail-input" type="text" readonly />
+                    <input id="managePhoneInput" class="account-detail-input" type="text" />
                   </div>
 
                   <div class="account-detail-field-row">
                     <label class="account-detail-label account-detail-required" for="manageEmailInput">E-mail</label>
-                    <input id="manageEmailInput" class="account-detail-input" type="email" readonly />
+                    <input id="manageEmailInput" class="account-detail-input" type="email" />
                   </div>
                 </div>
 
@@ -245,18 +243,26 @@
                   <div class="account-detail-permission-card">
                     <div class="account-detail-permission-title">權限設定</div>
 
-                    <label class="account-detail-check-row">
+                    <div class="account-detail-setting-row">
                       <span class="account-detail-check-label">帳號權限</span>
-                      <span class="account-detail-check-control">
-                        <input id="manageAdminCheckbox" type="checkbox" disabled />
-                        <span>管理者</span>
-                      </span>
-                    </label>
+                      <select class="account-detail-feature-select" id="accountFeatureSelect" aria-label="帳號權限選單">
+                        <option value="">尚未設定</option>
+                      </select>
+                      <button type="button" class="account-detail-setting-btn" id="accountFeatureSettingBtn">設定</button>
+                    </div>
+
+                    <div class="account-detail-setting-row">
+                      <span class="account-detail-check-label">閱覽權限</span>
+                      <select class="account-detail-feature-select" id="viewFeatureSelect" aria-label="閱覽權限選單">
+                        <option value="">尚未設定</option>
+                      </select>
+                      <button type="button" class="account-detail-setting-btn" id="viewFeatureSettingBtn">設定</button>
+                    </div>
 
                     <label class="account-detail-check-row">
                       <span class="account-detail-check-label">帳號狀態</span>
                       <span class="account-detail-check-control">
-                        <input id="manageEnabledCheckbox" type="checkbox" disabled />
+                        <input id="manageEnabledCheckbox" type="checkbox" />
                         <span>啟用</span>
                       </span>
                     </label>

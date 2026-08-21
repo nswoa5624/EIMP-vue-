@@ -4,5 +4,5 @@ import "../business-location.css";
 
 createLegacyPage({
   bodyHtml,
-  scripts: ["/ui-common.js", "/ntpc-address-location.js", "/location-tools.js", "/air.js", "/business-location.js", "/water-color-notification.js"],
+  scripts: ["/ui-common.js", "/side-menu-common.js", "/ntpc-address-location.js", "/location-tools.js", "/air.js", "/business-location.js", "/water-color-notification.js"],
 });

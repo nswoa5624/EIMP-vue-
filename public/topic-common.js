@@ -370,7 +370,7 @@
   const sharedAccounts = {
     default: {
       key: "default",
-      account: "EIMPtest",
+      account: "HQhost",
       company: "第一稽查分隊",
       name: "林OO",
       jobTitle: "分隊長",
@@ -382,7 +382,7 @@
     },
     zhongheCleaner: {
       key: "zhongheCleaner",
-      account: "ZhongheCleaner",
+      account: "Cleaner",
       company: "中和清潔隊",
       name: "王XX",
       jobTitle: "清潔隊員",
@@ -420,7 +420,7 @@
   let sharedCurrentAccountKey = "default";
 
   function getSharedCurrentAccount() {
-    return sharedAccounts[sharedCurrentAccountKey] || sharedAccounts.default;
+    return window.EIMPSideMenu?.getCurrentAccount() || sharedAccounts[sharedCurrentAccountKey] || sharedAccounts.default;
   }
 
   function applySharedAccountView() {
@@ -1905,10 +1905,7 @@
     document.addEventListener("DOMContentLoaded", () => {
       bindSharedBusinessFavoriteHandler();
       initFixedClock();
-      initDrawer();
-      initProfileDrawer();
       initDecisionMenuAccess();
-      initSharedAccountManagement();
       guardDecisionPage();
       initAccordionHeaders();
       initSlidePanels();

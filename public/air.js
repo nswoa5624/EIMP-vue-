@@ -1027,7 +1027,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const accounts = {
     default: {
       key: "default",
-      account: "EIMPtest",
+      account: "HQhost",
       company: "第一稽查分隊",
       name: "林OO",
       jobTitle: "分隊長",
@@ -1042,7 +1042,7 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     zhongheCleaner: {
       key: "zhongheCleaner",
-      account: "ZhongheCleaner",
+      account: "Cleaner",
       company: "第一稽查分隊",
       name: "王XX",
       jobTitle: "隊員",
@@ -2809,14 +2809,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function applyAccountView() {
     const accountConfig = getCurrentAccountConfig();
 
-    if (accountInput) accountInput.value = accountConfig.account;
-    if (companyInput) companyInput.value = accountConfig.company;
-    if (nameInput) nameInput.value = accountConfig.name;
-    if (jobTitleInput) jobTitleInput.value = accountConfig.jobTitle;
-    if (phoneInput) phoneInput.value = accountConfig.phone;
-    if (emailInput) emailInput.value = accountConfig.email;
-    if (sideMenuUserName) sideMenuUserName.textContent = accountConfig.name;
-
     selectedAreas.clear();
     activeId = null;
     updateSelectedList();
@@ -2826,10 +2818,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (districtFilterSection) {
       districtFilterSection.style.display = accountConfig.hideDistrictFilter ? "none" : "";
-    }
-
-    if (accountManageMenuBtn) {
-      accountManageMenuBtn.style.display = accountConfig.canManageAccounts ? "block" : "none";
     }
 
     if (decisionMenuBtn) {
@@ -2859,8 +2847,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  switchAccountBtn?.addEventListener("click", () => {
-    currentAccountKey = currentAccountKey === "default" ? "zhongheCleaner" : "default";
+  window.addEventListener("eimp:account-changed", (event) => {
+    currentAccountKey = event.detail?.account?.key || "default";
     applyAccountView();
   });
 
@@ -3533,225 +3521,14 @@ document.addEventListener("DOMContentLoaded", () => {
   updateNowTimeText();
   setInterval(updateNowTimeText, 1000);
 
-  // ====== 漢堡選單 / 左側滑入選單 ======
+  // 漢堡選單與帳號抽屜統一由 side-menu-common.js 管理。
   const body = document.body;
-  const hamburgerBtn = document.getElementById("hamburgerBtn");
-  const sideMenuDrawer = document.getElementById("sideMenuDrawer");
-  const sideMenuOverlay = document.getElementById("sideMenuOverlay");
-  const sideMenuItems = document.querySelectorAll(".side-menu-item");
-
-  function openSideMenu() {
-    body.classList.add("menu-open");
-    hamburgerBtn?.setAttribute("aria-expanded", "true");
-    sideMenuDrawer?.setAttribute("aria-hidden", "false");
-    sideMenuOverlay?.setAttribute("aria-hidden", "false");
-  }
-
-  function closeSideMenu() {
-    body.classList.remove("menu-open");
-    hamburgerBtn?.setAttribute("aria-expanded", "false");
-    sideMenuDrawer?.setAttribute("aria-hidden", "true");
-    sideMenuOverlay?.setAttribute("aria-hidden", "true");
-  }
-
-  function shouldAutoCloseSideMenu() {
-    return window.innerWidth <= 900;
-  }
-
-  function closeSideMenuKeepHamburger() {
-    closeSideMenu();
-    hamburgerBtn?.setAttribute("aria-expanded", "false");
-    hamburgerBtn?.style.removeProperty("display");
-    hamburgerBtn?.style.removeProperty("visibility");
-    hamburgerBtn?.style.removeProperty("opacity");
-    hamburgerBtn?.style.removeProperty("pointer-events");
-  }
-
-  function closeSideMenuIfMobile() {
-    if (shouldAutoCloseSideMenu()) {
-      closeSideMenuKeepHamburger();
-    }
-  }
-
-  function toggleSideMenu() {
-    if (body.classList.contains("menu-open")) {
-      closeSideMenu();
-    } else {
-      openSideMenu();
-    }
-  }
-
-  hamburgerBtn?.addEventListener("click", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    toggleSideMenu();
-  });
-
-  hamburgerBtn?.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      toggleSideMenu();
-    }
-  });
-
-  sideMenuOverlay?.addEventListener("click", () => {
-    closeProfilePanel();
-    closeSideMenu();
-  });
-
-  // ====== 基本資料抽屜 ======
+  const sideMenu = window.EIMPSideMenu;
   const profileMenuBtn = document.getElementById("profileMenuBtn");
-  const logoutMenuBtn = document.getElementById("logoutMenuBtn");
   const profileDrawerPanel = document.getElementById("profileDrawerPanel");
-  const profileCloseMask = document.getElementById("profileCloseMask");
-  const profileCloseBtn = document.getElementById("profileCloseBtn");
-  const passwordToggleBtns = document.querySelectorAll(".password-toggle-btn");
 
   function setMenuActiveButton(targetBtn) {
-    sideMenuItems.forEach((item) => {
-      item.classList.toggle("is-active", item === targetBtn);
-    });
+    sideMenu?.setActive(targetBtn);
   }
-
-  function openProfilePanel() {
-    showAccountPage("profile");
-    body.classList.add("profile-open");
-    profileDrawerPanel?.setAttribute("aria-hidden", "false");
-    setMenuActiveButton(profileMenuBtn);
-  }
-
-  function closeProfilePanel() {
-    body.classList.remove("profile-open");
-    profileDrawerPanel?.setAttribute("aria-hidden", "true");
-    setMenuActiveButton(null);
-  }
-
-  profileMenuBtn?.addEventListener("click", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    openProfilePanel();
-    closeSideMenuIfMobile();
-  });
-
-  decisionMenuBtn?.addEventListener("click", (e) => {
-    if (!canCurrentAccountUseDecision()) {
-      e.preventDefault();
-      e.stopPropagation();
-      alert("此功能限主管職林OO使用。");
-      return;
-    }
-    setMenuActiveButton(decisionMenuBtn);
-  });
-
-  accountManageMenuBtn?.addEventListener("click", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    openAccountManagementPanel();
-    closeSideMenuIfMobile();
-  });
-
-  logoutMenuBtn?.addEventListener("click", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setMenuActiveButton(null);
-    closeProfilePanel();
-  });
-
-  profileCloseBtn?.addEventListener("click", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    closeProfilePanel();
-  });
-
-  profileCloseMask?.addEventListener("click", () => {
-    closeProfilePanel();
-    closeSideMenu();
-  });
-
-  passwordToggleBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const targetId = btn.getAttribute("data-target");
-      const input = targetId ? document.getElementById(targetId) : null;
-      if (!input) return;
-      input.type = input.type === "password" ? "text" : "password";
-    });
-  });
-
-  accountManageSearchBtn?.addEventListener("click", () => {
-    renderAccountManageTable(accountManageSearchInput?.value || "");
-  });
-
-  accountManageSearchInput?.addEventListener("keydown", (e) => {
-    if (e.key !== "Enter") return;
-    e.preventDefault();
-    renderAccountManageTable(accountManageSearchInput?.value || "");
-  });
-
-  accountManageAddBtn?.addEventListener("click", () => {
-    alert("目前先提供第一稽查分隊帳號檢視功能，新增帳號功能尚未串接。");
-  });
-
-  accountManageTableBody?.addEventListener("click", (e) => {
-    const logBtn = e.target.closest(".account-manage-log-btn");
-    if (logBtn) {
-      downloadAccountLoginLog(logBtn.dataset.accountId);
-      return;
-    }
-
-    const manageBtn = e.target.closest(".account-manage-row-btn");
-    if (!manageBtn) return;
-    openAccountDetail(manageBtn.dataset.accountId);
-  });
-
-  accountDetailBackBtn?.addEventListener("click", () => {
-    showAccountPage("accountList");
-    setMenuActiveButton(accountManageMenuBtn);
-  });
-
-  accountDetailSaveBtn?.addEventListener("click", () => {
-    alert("目前為示意畫面，帳號資料尚未串接實際儲存。已保留版面與流程供你後續接後端使用。");
-  });
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key !== "Escape") return;
-
-    if (body.classList.contains("profile-open")) {
-      closeProfilePanel();
-      return;
-    }
-
-    if (body.classList.contains("menu-open")) {
-      closeSideMenu();
-    }
-  });
-
-  
-
-
-
-/* ======== 2026-03-20 基本資料右上角叉叉關閉修正 ======== */
-(function () {
-  function safeCloseProfilePanel() {
-    try {
-      body.classList.remove("profile-open");
-      profileDrawerPanel?.setAttribute("aria-hidden", "true");
-      setMenuActiveButton(null);
-    } catch (err) {}
-  }
-
-  profileCloseBtn?.addEventListener("pointerdown", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    safeCloseProfilePanel();
-  });
-
-  profileDrawerPanel?.addEventListener("click", (e) => {
-    const closeBtn = e.target.closest("#profileCloseBtn");
-    if (!closeBtn) return;
-    e.preventDefault();
-    e.stopPropagation();
-    safeCloseProfilePanel();
-  });
-})();
 
 });
