@@ -607,7 +607,50 @@
 
 @media (max-width: 800px) {
   .quick-locate-wrapper.business-locate-active .quick-locate-panel {
-    width: min(260px, calc(100vw - 54px));
+    width: min(260px, calc(100vw - 56px));
+    max-height: min(620px, calc(80dvh - 32px));
+    overflow: hidden;
+  }
+
+  .quick-locate-wrapper.business-locate-active .quick-locate-inner {
+    min-height: 0;
+    max-height: inherit;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .quick-locate-wrapper.business-locate-active .quick-locate-form-container {
+    min-height: 0;
+  }
+
+  .quick-locate-wrapper.business-locate-active .quick-locate-footer {
+    position: sticky;
+    bottom: -12px;
+    z-index: 2;
+    margin: 8px -12px -12px;
+    padding: 8px 12px 12px;
+    background: rgba(10, 12, 18, 0.96);
+  }
+
+  .quick-locate-wrapper.business-locate-active .quick-locate-select,
+  .quick-locate-wrapper.business-locate-active .quick-locate-input {
+    width: auto;
+    max-width: none;
+    min-width: 0;
+  }
+
+  .quick-locate-wrapper.business-locate-active
+    .quick-locate-row:not(.business-locate-setting-row)
+    .quick-locate-select,
+  .quick-locate-wrapper.business-locate-active
+    .quick-locate-row:not(.business-locate-setting-row)
+    .quick-locate-input {
+    flex: 0 1 calc(80% - 50px);
+    width: calc(80% - 50px) !important;
+    min-width: 90px;
+    max-width: calc(80% - 50px) !important;
   }
 
   .business-locate-choice-grid,
@@ -621,5 +664,56 @@
 
   .business-locate-results {
     width: calc(100% - 24px);
+  }
+}
+
+@media (max-width: 640px) {
+  .business-locate-overlay {
+    align-items: stretch;
+    padding: 10px;
+  }
+
+  .business-locate-dialog,
+  .business-locate-dialog.is-fixed-filter-dialog {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+  }
+
+  .business-locate-dialog-header,
+  .business-locate-results-header {
+    padding: 10px 12px 6px;
+  }
+
+  .business-locate-dialog-body {
+    padding-inline: 12px;
+  }
+
+  .business-locate-dialog-footer {
+    padding: 10px 12px 12px;
+  }
+
+  .business-locate-choice-grid,
+  .business-locate-choice-grid.is-wide {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 7px;
+  }
+
+  .business-filter-search-form {
+    margin-bottom: 10px;
+  }
+
+  .business-locate-results {
+    top: 10px;
+    left: 10px;
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+    max-height: none;
+    transform: none;
+  }
+
+  .business-locate-results-body {
+    max-height: calc(100% - 54px);
   }
 }

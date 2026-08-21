@@ -6129,3 +6129,656 @@ body.decision-unauthorized .decision-access-denied {
 .account-detail-action-row {
   transform: translateX(50px);
 }
+
+/* ===== 2026-08 全站 RWD 收斂層 =====
+   集中覆蓋舊版散落的固定寬度，避免手機產生水平捲軸或元件被裁切。 */
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body,
+#app,
+.vue-page-shell,
+.vue-page-host,
+.page-container {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+img,
+canvas,
+video,
+svg {
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  max-width: 100%;
+}
+
+.main-layout > *,
+.right-top-row > *,
+.panel-header > *,
+.panel-body-row > *,
+.profile-form-grid > *,
+.account-detail-grid > * {
+  min-width: 0;
+}
+
+.modal,
+.permit-modal,
+.profile-card,
+.account-detail-card,
+.business-detail-panel,
+.environment-analysis-results {
+  max-width: calc(100vw - 24px);
+}
+
+@media (max-width: 900px) {
+  .main-layout {
+    width: 100%;
+    max-width: 100%;
+    padding-inline: 8px;
+  }
+
+  .left-column,
+  .right-column {
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding-inline: 0;
+  }
+
+  .panel,
+  .panel.panel-large,
+  .air-panel,
+  .fire-panel,
+  .aqi-panel,
+  .wind-panel {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .map-panel {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .map-options-panel,
+  .quick-locate-panel,
+  .topic-waste .quick-locate-panel {
+    width: min(260px, calc(100vw - 64px)) !important;
+    max-width: calc(100vw - 64px);
+  }
+
+  .topic-waste .camera-layer-subpanel {
+    right: 0 !important;
+    left: auto;
+    width: min(280px, calc(100vw - 64px));
+    max-width: calc(100vw - 64px);
+  }
+
+  .profile-drawer-content,
+  .profile-drawer-close-mask {
+    left: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .profile-drawer-page,
+  .profile-drawer-page.account-manage-page {
+    width: 100%;
+    max-width: 100%;
+    margin-top: 52px;
+  }
+
+  .account-detail-permission-card,
+  .account-detail-action-row {
+    transform: none;
+  }
+
+  .account-manage-table-card,
+  .permit-body,
+  .business-detail-panel .permit-body {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .business-detail-panel .form-row,
+  .business-detail-panel .permit-select,
+  .business-detail-panel .btn-group,
+  .business-detail-panel .cems-legend,
+  .business-detail-panel .check-line {
+    flex-wrap: wrap;
+  }
+}
+
+/* ===== 2026-08 手機儀表板與地圖控制項一致化 ===== */
+@media (max-width: 900px) {
+  /* AQI 佔滿第一列，風向／風速（或氣溫）固定並排在第二列。 */
+  .right-top-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .right-top-row > .aqi-panel {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .right-top-row > .wind-panel {
+    width: 100%;
+    min-height: 76px;
+    padding: 10px 8px;
+  }
+
+  .wind-panel-title,
+  .wind-panel-value {
+    padding-left: 0;
+    text-align: center;
+  }
+
+  .wind-panel-title {
+    margin-bottom: 4px;
+    font-size: 18px;
+  }
+
+  .wind-panel-value,
+  .wind-unit {
+    font-size: 18px;
+  }
+
+  /* AQI 測站固定每列三站，站名平均分配，不再擠成一團。 */
+  .mobile-station-grid-air {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .mobile-station-grid-air .aqi-station-btn {
+    width: 100%;
+    padding: 7px 3px;
+    border-radius: 6px;
+    font-size: clamp(16px, 4vw, 20px);
+    line-height: 1.2;
+    text-align: center;
+    white-space: normal;
+  }
+
+  /* 所有案件型儀表板共用同一套緊湊卡片，不只限定陳情與火災。 */
+  .left-column .panel .panel-body > .panel-body-row:first-child,
+  .left-column .panel .panel-body > hr:first-of-type {
+    display: none;
+  }
+
+  .left-column .panel #airCasesContainer,
+  .left-column .panel #fireCasesContainer {
+    gap: 8px;
+    max-height: 230px;
+    padding: 2px;
+  }
+
+  .left-column .panel .panel-body-row.case-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    margin: 0;
+    padding: 8px 9px;
+    border: 1px solid #63d8d2;
+    border-radius: 8px;
+    background: rgba(58, 71, 94, 0.92);
+    box-shadow: none;
+  }
+
+  .left-column .panel .panel-body-row.case-row > .panel-body-text,
+  .left-column .panel .panel-body-row.case-row > .panel-body-address-text {
+    width: 100%;
+    min-height: 32px;
+    display: grid;
+    grid-template-columns: 92px minmax(0, 1fr);
+    align-items: center;
+    padding: 0;
+    font-size: 13px;
+    line-height: 1.35;
+    text-align: left;
+  }
+
+  .left-column .panel .panel-body-row.case-row > .panel-body-text::before,
+  .left-column .panel .panel-body-row.case-row > .panel-body-address-text::before {
+    min-height: 26px;
+    justify-content: center;
+    margin-right: 8px;
+    padding: 5px 6px;
+    font-size: 12px;
+    line-height: 1.2;
+    letter-spacing: 0;
+  }
+
+  .topic-water .fire-panel .panel-body-row.case-row {
+    gap: 0;
+  }
+
+  .topic-water .fire-panel .panel-body-row.case-row > .water-anomaly-time-text,
+  .topic-water .fire-panel .panel-body-row.case-row > .water-anomaly-address-text {
+    grid-template-columns: 92px minmax(0, 1fr);
+  }
+
+  .topic-water .fire-panel .panel-body-row.case-row > .water-anomaly-time-text::before,
+  .topic-water .fire-panel .panel-body-row.case-row > .water-anomaly-address-text::before {
+    margin-right: 8px;
+  }
+
+  /* 地圖右側兩組選單各自貼齊上下邊界，展開時不改變頁面寬度。 */
+  .map-options-wrapper,
+  .quick-locate-wrapper {
+    right: 8px;
+    width: max-content;
+    max-width: none;
+  }
+
+  .map-options-wrapper {
+    top: 8px;
+  }
+
+  .quick-locate-wrapper {
+    top: auto;
+    bottom: 8px;
+  }
+
+  .map-options-tab,
+  .quick-locate-tab {
+    flex: 0 0 40px;
+    width: 40px;
+    height: 112px;
+    min-height: 0;
+    padding: 9px 6px;
+  }
+
+  .map-options-wrapper,
+  .quick-locate-wrapper {
+    transform: translateX(calc(100% - 40px));
+  }
+
+  .map-options-wrapper.open,
+  .quick-locate-wrapper.open {
+    transform: translateX(0);
+  }
+
+  .map-options-panel,
+  .quick-locate-panel,
+  .topic-waste .quick-locate-panel {
+    width: min(240px, calc(100vw - 56px)) !important;
+    max-width: calc(100vw - 56px);
+    max-height: min(520px, calc(64dvh - 32px));
+    overflow: hidden;
+  }
+
+  .map-panel-inner,
+  .quick-locate-inner {
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .map-option-footer,
+  .quick-locate-footer {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    width: 100%;
+  }
+
+  .map-option-footer .btn,
+  .quick-locate-footer .btn {
+    width: 100%;
+    min-width: 0;
+    min-height: 34px;
+    padding: 6px 8px;
+  }
+
+  .quick-locate-row {
+    align-items: center;
+    gap: 6px;
+  }
+
+  .quick-locate-label {
+    flex: 0 0 58px;
+    width: 58px;
+  }
+
+  .quick-locate-row .quick-locate-input,
+  .quick-locate-row .quick-locate-select {
+    flex: 1 1 auto;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .account-manage-table-card,
+  .account-manage-table,
+  .account-manage-table tbody,
+  .account-manage-table tbody tr {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .account-manage-table tbody tr {
+    margin-inline: 0;
+  }
+
+  .account-manage-table tbody td {
+    min-width: 0;
+    gap: 10px;
+    padding-right: 10px !important;
+  }
+
+  .account-manage-table tbody td::before {
+    flex: 0 0 clamp(76px, 27vw, 104px);
+  }
+
+  .account-manage-table tbody td > * {
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .account-detail-action-row {
+    width: 100%;
+    padding-inline: 0;
+  }
+
+  .decision-access-denied {
+    margin-inline: 8px;
+    padding: 22px 18px;
+  }
+}
+
+@media (max-width: 640px) {
+  .top-banner-content {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .banner-main-row,
+  .banner-brand-stack,
+  .banner-topic-nav {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .banner-topic-nav {
+    flex-wrap: wrap;
+  }
+
+  .mobile-station-grid-air,
+  .mobile-station-grid-water {
+    gap: 8px 12px;
+  }
+
+  .mobile-station-grid-air {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .mobile-station-grid-water {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .modal-backdrop {
+    padding: 10px;
+  }
+
+  .modal,
+  .permit-modal,
+  .profile-card,
+  .account-detail-card,
+  .business-detail-panel,
+  .environment-analysis-results {
+    width: 100%;
+    max-width: calc(100vw - 20px);
+  }
+
+  .param-grid,
+  .form-grid,
+  .account-detail-grid,
+  .profile-form-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: auto;
+    min-width: 84px;
+    height: auto;
+    min-height: 38px;
+  }
+
+  .basemap-row,
+  .quick-locate-row,
+  .map-option-footer,
+  .quick-locate-footer {
+    min-width: 0;
+  }
+
+  .basemap-select,
+  .quick-locate-input,
+  .quick-locate-select {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .quick-locate-row .quick-locate-input,
+  .quick-locate-row .quick-locate-select {
+    flex: 1 1 auto;
+    width: auto;
+  }
+
+  .custom-overlap-popup .overlap-picker {
+    min-width: 0;
+    width: min(220px, calc(100vw - 72px));
+  }
+
+  .business-detail-panel .permit-title {
+    font-size: 17px;
+    overflow-wrap: anywhere;
+  }
+
+  .business-detail-panel .permit-select select {
+    width: 100%;
+  }
+
+  .business-detail-panel .permit-select::after {
+    right: 12px;
+  }
+
+  .business-detail-panel .form-cell.label,
+  .business-detail-panel .form-cell.label2,
+  .business-detail-panel .form-cell.label-spacer {
+    flex: 0 0 100%;
+  }
+
+  .business-detail-panel .cems-legend {
+    justify-content: flex-start;
+    gap: 8px 14px;
+    margin-left: 0;
+  }
+
+  .business-detail-panel .cems-stack-info {
+    margin-left: 0;
+    padding-top: 34px;
+  }
+
+  .business-detail-panel .check-item {
+    width: 100%;
+  }
+
+  .sim-now-time.fixed-now-time {
+    max-width: calc(100vw - 20px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (max-width: 360px) {
+  .main-layout {
+    padding-inline: 4px;
+  }
+
+  .panel {
+    padding-inline: 8px;
+  }
+
+  .banner-logo {
+    max-width: calc(100vw - 64px);
+  }
+
+  .banner-topic-nav .hex-btn {
+    --size: 34px;
+    font-size: 18px;
+  }
+
+  .mobile-station-grid .aqi-station-btn,
+  .mobile-station-grid .waqi-station-btn {
+    font-size: 16px;
+    white-space: normal;
+  }
+
+  .air-panel .panel-body-row.case-row > .panel-body-text,
+  .air-panel .panel-body-row.case-row > .panel-body-address-text,
+  .fire-panel .panel-body-row.case-row > .panel-body-text,
+  .fire-panel .panel-body-row.case-row > .panel-body-address-text {
+    grid-template-columns: 82px minmax(0, 1fr);
+  }
+
+  .topic-water .fire-panel .panel-body-row.case-row > .water-anomaly-time-text,
+  .topic-water .fire-panel .panel-body-row.case-row > .water-anomaly-address-text {
+    grid-template-columns: 82px minmax(0, 1fr);
+  }
+}
+
+/* ===== 2026-08 手機地圖高度與 AQI 三欄修正 ===== */
+@media (max-width: 900px) {
+  .topic-page .map-panel {
+    height: 80dvh !important;
+    min-height: 560px !important;
+    max-height: none !important;
+  }
+
+  .mobile-station-grid-air {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: clamp(12px, 6vw, 30px);
+    row-gap: 0;
+  }
+
+  .mobile-station-grid-air .aqi-station-btn {
+    width: 100%;
+    min-width: 0;
+    padding: 5px 0;
+    font-size: clamp(18px, 5.5vw, 22px);
+    line-height: 1.2;
+    text-align: left;
+    white-space: nowrap;
+    overflow-wrap: normal;
+  }
+
+  .map-options-panel,
+  .quick-locate-panel,
+  .topic-waste .quick-locate-panel {
+    max-height: min(620px, calc(80dvh - 32px));
+  }
+}
+
+@media (max-width: 360px) {
+  .mobile-station-grid-air {
+    column-gap: 12px;
+  }
+
+  .mobile-station-grid-air .aqi-station-btn {
+    padding-inline: 0;
+    font-size: 18px;
+  }
+}
+
+/* ===== 2026-08 GIS 右側選單定位修正 ===== */
+@media (max-width: 900px) {
+  /* 基礎樣式宣告在舊 RWD 規則之後，需在最終層明確切換手機版測站。 */
+  .air-station-panel .desktop-station-layout,
+  .water-station-panel .desktop-station-layout {
+    display: none !important;
+  }
+
+  .air-station-panel .mobile-station-layout,
+  .water-station-panel .mobile-station-layout {
+    display: block !important;
+  }
+
+  /* right: 0 讓展開面板右緣貼齊 GIS；收合時面板完整藏到裁切區外。 */
+  .map-options-wrapper,
+  .quick-locate-wrapper {
+    right: 0;
+  }
+
+  .map-options-wrapper {
+    transform: translateX(calc(100% - 40px));
+  }
+
+  .map-options-wrapper.open {
+    transform: translateX(0);
+  }
+
+  /* 快速定位永遠以 GIS 垂直中線為基準，展開前後不會上下跳動。 */
+  .quick-locate-wrapper {
+    top: 50%;
+    bottom: auto;
+    transform: translate(calc(100% - 40px), -50%);
+  }
+
+  .quick-locate-wrapper.open {
+    transform: translate(0, -50%);
+  }
+
+  /* 最長的事業定位面板仍保留上下各 16px，確保完整位於 GIS 內。 */
+  .quick-locate-panel,
+  .quick-locate-wrapper.business-locate-active .quick-locate-panel {
+    max-height: min(620px, calc(80dvh - 32px));
+  }
+
+  /* 快速定位輸入元件縮為原可用寬度約 80%。 */
+  .quick-locate-row:not(.business-locate-setting-row) .quick-locate-input,
+  .quick-locate-row:not(.business-locate-setting-row) .quick-locate-select {
+    flex: 0 1 calc(80% - 50px);
+    width: calc(80% - 50px) !important;
+    min-width: 90px;
+    max-width: calc(80% - 50px) !important;
+  }
+
+  /* 圖層頁尾只有一顆清除按鈕，避免套用雙欄後被壓扁或受 inline vw 影響。 */
+  .map-option-footer #clearLayersBtn {
+    grid-column: 1 / -1;
+    width: 100% !important;
+    min-width: 0;
+    min-height: 36px;
+    margin: 0 !important;
+    padding: 7px 10px;
+    border: 1px solid rgba(112, 231, 211, 0.42);
+    border-radius: 6px;
+    background: #3d5a61;
+    color: #ffffff;
+    font-size: 13px;
+    line-height: 1.2;
+    white-space: normal;
+  }
+}

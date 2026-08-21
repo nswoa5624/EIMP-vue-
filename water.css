@@ -597,3 +597,61 @@
   }
 
 }
+
+@media (max-width: 640px) {
+  .topic-water .water-quality-monitor-panel.has-data {
+    min-height: 560px;
+  }
+
+  .topic-water .water-quality-metrics {
+    grid-template-columns: minmax(0, 1fr);
+    max-height: 210px;
+  }
+
+  .topic-water .water-quality-chart-section {
+    padding-inline: 4px;
+  }
+
+  .topic-water .water-quality-query-controls {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .topic-water .water-quality-range-control {
+    width: 100%;
+    justify-self: stretch;
+  }
+
+  .topic-water .water-quality-range-control-row {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: auto;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .topic-water .water-quality-range-select {
+    width: 100%;
+  }
+
+  .topic-water .water-quality-range-control small {
+    align-self: auto;
+    width: 100%;
+    text-align: left;
+    white-space: normal;
+  }
+
+  .topic-water .water-quality-date-range {
+    height: auto;
+    flex-wrap: wrap;
+  }
+
+  .topic-water .water-quality-datetime-field {
+    flex: 1 1 calc(50% - 12px);
+    min-width: 116px;
+  }
+
+  .topic-water .water-quality-chart-display,
+  .topic-water .water-quality-chart {
+    height: 180px;
+  }
+}

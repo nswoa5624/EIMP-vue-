@@ -3006,6 +3006,24 @@
 @media (max-width: 520px) {
   .eimp-assistant-mode-button { padding-inline: 7px; }
   .eimp-assistant-content.is-chat-content { min-height: 320px; }
+
+  .eimp-assistant-panel {
+    width: calc(100vw - 20px);
+    max-width: calc(100vw - 20px);
+    max-height: calc(100dvh - 24px);
+  }
+
+  .eimp-assistant-content {
+    max-height: calc(100dvh - 150px);
+  }
+
+  .eimp-chat-composer {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .eimp-chat-composer button {
+    min-height: 38px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
