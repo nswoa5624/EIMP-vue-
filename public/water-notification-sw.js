@@ -1,11 +1,41 @@
 const WATER_NOTIFICATION_TAG = "eimp-water-color-alert";
 
+function normalizePushPayload(event) {
+  const fallback = {
+    title: "重要通知｜水色辨識異常",
+    body: "偵測到水色異常，請點擊查看地圖。",
+    eventId: "W-A001",
+    url: "/water.html?waterAlert=W-A001",
+  };
+  if (!event.data) return fallback;
+  try { return { ...fallback, ...event.data.json() }; } catch (error) {
+    return { ...fallback, body: event.data.text() || fallback.body };
+  }
+}
+
+self.addEventListener("push", (event) => {
+  const payload = normalizePushPayload(event);
+  event.waitUntil(Promise.all([
+    self.registration.showNotification(payload.title, {
+      body: payload.body,
+      icon: payload.icon || "/images/監視器辨識異常.png",
+      badge: payload.badge || "/images/監視器辨識異常.png",
+      tag: WATER_NOTIFICATION_TAG,
+      renotify: true,
+      timestamp: payload.timestamp || Date.now(),
+      data: { eventId: payload.eventId, url: payload.url },
+    }),
+    self.registration.setAppBadge?.(payload.badgeCount || 1),
+  ]));
+});
+
 self.addEventListener("notificationclick", (event) => {
   const targetUrl = new URL(event.notification.data?.url || "/water.html", self.location.origin).href;
   const eventId = event.notification.data?.eventId || "W-A001";
   event.notification.close();
 
   event.waitUntil((async () => {
+    await self.registration.clearAppBadge?.();
     const windowClients = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
     const waterClient = windowClients.find((client) => {
       try { return new URL(client.url).pathname.endsWith("/water.html"); } catch (error) { return false; }

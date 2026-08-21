@@ -11,6 +11,16 @@
   let titleTimer = 0;
   let titleFrame = 0;
 
+  function isIos() {
+    return /iPad|iPhone|iPod/.test(navigator.userAgent)
+      || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  }
+
+  function isStandaloneWebApp() {
+    return window.matchMedia?.("(display-mode: standalone)").matches
+      || window.navigator.standalone === true;
+  }
+
   function parseStoredValue(key) {
     try { return JSON.parse(localStorage.getItem(key) || "null"); } catch (error) { return null; }
   }
@@ -51,7 +61,8 @@
   async function registerNotificationWorker() {
     if (!("serviceWorker" in navigator)) return null;
     try {
-      return await navigator.serviceWorker.register("/water-notification-sw.js", { scope: "/" });
+      await navigator.serviceWorker.register("/water-notification-sw.js", { scope: "/" });
+      return await navigator.serviceWorker.ready;
     } catch (error) {
       console.warn("水色辨識通知 Service Worker 註冊失敗", error);
       return null;
@@ -73,6 +84,8 @@
     button.disabled = state === "requesting" || state === "counting";
     if (state === "requesting") label.textContent = "開啟中…";
     else if (state === "counting") label.textContent = `${seconds} 秒後通知`;
+    else if (state === "install-required") label.textContent = "請先加入主畫面";
+    else if (state === "unsupported") label.textContent = "不支援系統通知";
     else if (state === "denied") label.textContent = "通知未授權";
     else label.textContent = "測試通知";
   }
@@ -85,19 +98,27 @@
   }
 
   async function showWindowsNotification(eventData) {
-    if (!("Notification" in window) || Notification.permission !== "granted") return;
+    if (!("Notification" in window) || Notification.permission !== "granted") return false;
     const registration = await registerNotificationWorker();
-    if (!registration) return;
-    await registration.showNotification("重要通知｜水色辨識異常", {
-      body: `${eventData.time}\n${eventData.address}\n偵測到水色異常，請點擊查看地圖。`,
-      icon: "/images/監視器辨識異常.png",
-      badge: "/images/監視器辨識異常.png",
-      image: "/images/water-alert-map.png",
-      tag: NOTIFICATION_TAG,
-      renotify: true,
-      requireInteraction: true,
-      data: { eventId: eventData.eventId, url: `/water.html?waterAlert=${encodeURIComponent(eventData.eventId)}` },
-    });
+    if (!registration) return false;
+    try {
+      await registration.showNotification("重要通知｜水色辨識異常", {
+        body: `${eventData.time} · ${eventData.address}\n偵測到水色異常，請點擊查看地圖。`,
+        icon: "/images/監視器辨識異常.png",
+        badge: "/images/監視器辨識異常.png",
+        image: "/images/water-alert-map.png",
+        tag: NOTIFICATION_TAG,
+        renotify: true,
+        requireInteraction: true,
+        timestamp: Date.now(),
+        data: { eventId: eventData.eventId, url: `/water.html?waterAlert=${encodeURIComponent(eventData.eventId)}` },
+      });
+      await navigator.setAppBadge?.(1);
+      return true;
+    } catch (error) {
+      console.warn("水色辨識系統通知顯示失敗", error);
+      return false;
+    }
   }
 
   async function claimAndShowNotification(eventData) {
@@ -159,6 +180,7 @@
     navigator.serviceWorker?.getRegistration?.().then((registration) => {
       (navigator.serviceWorker.controller || registration?.active)?.postMessage({ type: "EIMP_CLOSE_WATER_ALERT" });
     });
+    navigator.clearAppBadge?.();
   }
 
   function focusAlertOnMap(eventId, { acknowledge = false } = {}) {
@@ -179,9 +201,20 @@
   }
 
   async function scheduleDemoAlert() {
+    if (isIos() && !isStandaloneWebApp()) {
+      setTestButtonState("install-required");
+      return;
+    }
+
     setTestButtonState("requesting");
+    // iOS requires the permission request to happen directly inside the tap gesture.
+    const permissionRequest = requestNotificationPermission();
+    const permission = await permissionRequest;
+    if (permission !== "granted") {
+      setTestButtonState(permission === "unsupported" ? "unsupported" : "denied");
+      return;
+    }
     await registerNotificationWorker();
-    const permission = await requestNotificationPermission();
     const eventData = {
       id: `water-demo-${Date.now()}`,
       eventId: "W-A001",
@@ -194,7 +227,7 @@
     localStorage.removeItem(ACTIVE_KEY);
     clearAlertPresentation();
     localStorage.setItem(SCHEDULE_KEY, JSON.stringify(eventData));
-    setTestButtonState(permission === "denied" ? "denied" : "counting", 5);
+    setTestButtonState("counting", 5);
     armStoredSchedule(eventData);
   }
 
