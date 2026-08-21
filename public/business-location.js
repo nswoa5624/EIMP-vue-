@@ -1,6 +1,9 @@
 (function () {
   "use strict";
 
+  const APP_BASE_URL = new URL("./", document.currentScript?.src || document.baseURI);
+  const appUrl = (path) => new URL(String(path).replace(/^\/+/, ""), APP_BASE_URL).href;
+
   const DISTRICTS = [
     "板橋區", "中和區", "永和區", "新店區", "土城區", "新莊區", "三重區", "蘆洲區", "汐止區",
     "林口區", "泰山區", "五股區", "淡水區", "三芝區", "石門區", "八里區", "三峽區", "鶯歌區",
@@ -778,7 +781,7 @@
     const map = window.EIMPMap;
     if (!map || !window.L) return;
     if (resultMarker) resultMarker.remove();
-    const iconUrl = business.regulated ? "/images/工廠許可(列管).png" : "/images/工廠許可.png";
+    const iconUrl = appUrl(business.regulated ? "images/工廠許可(列管).png" : "images/工廠許可.png");
     const businessIcon = L.divIcon({
       className: "business-locate-marker-icon",
       html: `<span class="business-locate-marker-ring"><img src="${iconUrl}" alt="" /></span>`,

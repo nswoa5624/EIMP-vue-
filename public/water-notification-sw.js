@@ -1,11 +1,13 @@
 const WATER_NOTIFICATION_TAG = "eimp-water-color-alert";
+const APP_BASE_URL = new URL("./", self.location.href);
+const appUrl = (path) => new URL(String(path).replace(/^\/+/, ""), APP_BASE_URL).href;
 
 function normalizePushPayload(event) {
   const fallback = {
     title: "重要通知｜水色辨識異常",
     body: "偵測到水色異常，請點擊查看地圖。",
     eventId: "W-A001",
-    url: "/water.html?waterAlert=W-A001",
+    url: appUrl("water.html?waterAlert=W-A001"),
   };
   if (!event.data) return fallback;
   try { return { ...fallback, ...event.data.json() }; } catch (error) {
@@ -18,8 +20,8 @@ self.addEventListener("push", (event) => {
   event.waitUntil(Promise.all([
     self.registration.showNotification(payload.title, {
       body: payload.body,
-      icon: payload.icon || "/images/監視器辨識異常.png",
-      badge: payload.badge || "/images/監視器辨識異常.png",
+      icon: payload.icon || appUrl("images/監視器辨識異常.png"),
+      badge: payload.badge || appUrl("images/監視器辨識異常.png"),
       tag: WATER_NOTIFICATION_TAG,
       renotify: true,
       timestamp: payload.timestamp || Date.now(),
@@ -30,7 +32,7 @@ self.addEventListener("push", (event) => {
 });
 
 self.addEventListener("notificationclick", (event) => {
-  const targetUrl = new URL(event.notification.data?.url || "/water.html", self.location.origin).href;
+  const targetUrl = new URL(event.notification.data?.url || "water.html", APP_BASE_URL).href;
   const eventId = event.notification.data?.eventId || "W-A001";
   event.notification.close();
 

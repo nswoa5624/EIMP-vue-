@@ -2,10 +2,22 @@ import { createApp, h, nextTick } from "vue";
 import PetitionPetAssistant from "../components/PetitionPetAssistant.js";
 import "../components/petition-pet-assistant.css";
 
+const appBaseUrl = new URL(import.meta.env.BASE_URL, document.baseURI);
+
+function resolveAppPath(path) {
+  return new URL(String(path).replace(/^\/+/, ""), appBaseUrl).href;
+}
+
+function resolveLegacyAssetPaths(html) {
+  return html.replace(/\b(src|href)=(['"])\/(?!\/)/g, (match, attribute, quote) => (
+    `${attribute}=${quote}${appBaseUrl.href}`
+  ));
+}
+
 function loadScript(src) {
   return new Promise((resolve, reject) => {
     const script = document.createElement("script");
-    script.src = src;
+    script.src = resolveAppPath(src);
     script.onload = resolve;
     script.onerror = () => reject(new Error(`無法載入既有功能模組：${src}`));
     document.body.appendChild(script);
@@ -19,7 +31,7 @@ export function createLegacyPage({ bodyHtml, scripts = [] }) {
       return h("div", { class: "vue-page-shell" }, [
         h("div", {
           class: "vue-page-host",
-          innerHTML: bodyHtml,
+          innerHTML: resolveLegacyAssetPaths(bodyHtml),
         }),
         h(PetitionPetAssistant),
       ]);

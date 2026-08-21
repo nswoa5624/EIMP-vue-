@@ -1,17 +1,17 @@
 {
-  "id": "/water.html",
+  "id": "./water.html",
   "name": "EIMP 水色異常監控",
   "short_name": "EIMP 水色",
   "description": "新北市環境資訊監控平台水色異常通知",
   "lang": "zh-Hant",
-  "start_url": "/water.html",
-  "scope": "/",
+  "start_url": "./water.html",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#071827",
   "theme_color": "#0b6f80",
   "icons": [
     {
-      "src": "/images/eimp-water-app-icon.svg",
+      "src": "./images/eimp-water-app-icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"

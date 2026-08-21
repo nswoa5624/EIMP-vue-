@@ -19,6 +19,7 @@ export default defineConfig(({ mode }) => {
   };
 
   return {
+    base: env.VITE_BASE_PATH || "/",
     server: {
       proxy: { "/api/ntpc-fast-location": ntpcProxy },
       watch: { ignored: ["**/dist/**"] },

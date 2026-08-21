@@ -5,6 +5,8 @@
   const ACTIVE_KEY = "eimp:water-color-notification:active";
   const NOTIFICATION_TAG = "eimp-water-color-alert";
   const DEMO_DELAY_MS = 5000;
+  const APP_BASE_URL = new URL("./", document.currentScript?.src || document.baseURI);
+  const appUrl = (path) => new URL(String(path).replace(/^\/+/, ""), APP_BASE_URL).href;
   const originalTitle = document.title;
   let scheduledTimer = 0;
   let countdownTimer = 0;
@@ -61,7 +63,7 @@
   async function registerNotificationWorker() {
     if (!("serviceWorker" in navigator)) return null;
     try {
-      await navigator.serviceWorker.register("/water-notification-sw.js", { scope: "/" });
+      await navigator.serviceWorker.register(appUrl("water-notification-sw.js"), { scope: APP_BASE_URL.pathname });
       return await navigator.serviceWorker.ready;
     } catch (error) {
       console.warn("水色辨識通知 Service Worker 註冊失敗", error);
@@ -104,14 +106,14 @@
     try {
       await registration.showNotification("重要通知｜水色辨識異常", {
         body: `${eventData.time} · ${eventData.address}\n偵測到水色異常，請點擊查看地圖。`,
-        icon: "/images/監視器辨識異常.png",
-        badge: "/images/監視器辨識異常.png",
-        image: "/images/water-alert-map.png",
+        icon: appUrl("images/監視器辨識異常.png"),
+        badge: appUrl("images/監視器辨識異常.png"),
+        image: appUrl("images/water-alert-map.png"),
         tag: NOTIFICATION_TAG,
         renotify: true,
         requireInteraction: true,
         timestamp: Date.now(),
-        data: { eventId: eventData.eventId, url: `/water.html?waterAlert=${encodeURIComponent(eventData.eventId)}` },
+        data: { eventId: eventData.eventId, url: appUrl(`water.html?waterAlert=${encodeURIComponent(eventData.eventId)}`) },
       });
       await navigator.setAppBadge?.(1);
       return true;
@@ -255,7 +257,7 @@
       focusAlertOnMap(eventId, { acknowledge: true });
       return;
     }
-    location.href = `/water.html?waterAlert=${encodeURIComponent(eventId)}`;
+    location.href = appUrl(`water.html?waterAlert=${encodeURIComponent(eventId)}`);
   });
 
   document.addEventListener("visibilitychange", () => {

@@ -15,13 +15,15 @@ const ROUTE_BY_UNIT = new Map(ROUTE_OPTIONS.filter((route) => route.key !== "HQ"
 
 const PET_SIZE = 88;
 const EDGE_GAP = 16;
+const appBaseUrl = new URL(import.meta.env.BASE_URL, document.baseURI);
+const appAsset = (path) => new URL(path, appBaseUrl).href;
 const PET_IMAGES = {
-  idle: "/images/pet-2d-idle.webp",
-  hover: "/images/pet-2d-hover.webp",
-  "drag-left": "/images/pet-2d-drag-left.webp",
-  "drag-right": "/images/pet-2d-drag-right.webp",
-  "hands-up": "/images/pet-2d-hands-up.webp",
-  thinking: "/images/pet-2d-thinking.webp",
+  idle: appAsset("images/pet-2d-idle.webp"),
+  hover: appAsset("images/pet-2d-hover.webp"),
+  "drag-left": appAsset("images/pet-2d-drag-left.webp"),
+  "drag-right": appAsset("images/pet-2d-drag-right.webp"),
+  "hands-up": appAsset("images/pet-2d-hands-up.webp"),
+  thinking: appAsset("images/pet-2d-thinking.webp"),
 };
 
 function clamp(value, min, max) {
